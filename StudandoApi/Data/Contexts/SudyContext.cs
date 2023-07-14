@@ -3,10 +3,10 @@ using StudandoApi.Models.User;
 
 namespace StudandoApi.Data.Contexts
 {
-    public class StudyContext : DbContext
+    public class SudyContext : DbContext
     {
 
-        public StudyContext(DbContextOptions<StudyContext> options) : base(options) { }
+        public SudyContext(DbContextOptions<SudyContext> options) : base(options) { }
 
         public DbSet<UserModel> Users { get; set; }
 
