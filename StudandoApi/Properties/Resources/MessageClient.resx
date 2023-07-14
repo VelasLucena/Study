@@ -118,6 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MC0001" xml:space="preserve">
+    <value>O nome enviado não é válido!</value>
+  </data>
+  <data name="MC0002" xml:space="preserve">
     <value>È necessário enviar o nome!</value>
+  </data>
+  <data name="MC0003" xml:space="preserve">
+    <value>O email enviado não é válido!</value>
+  </data>
+  <data name="MC0004" xml:space="preserve">
+    <value>È necessário enviar um email!</value>
   </data>
 </root>
