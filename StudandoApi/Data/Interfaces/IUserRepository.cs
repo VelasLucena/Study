@@ -37,11 +37,9 @@ namespace SudyApi.Data.Interfaces
 
         #region GetUserByName
 
-        Task<List<UserModel>> GetUserByName(string name);
+        Task<UserModel> GetUserByName(string name);
 
-        Task<List<UserModel>> GetUserByNameNoTracking(string name);
-
-        Task<List<UserModel>> GetUserByNameSql(string name);
+        Task<UserModel> GetUserByNameNoTracking(string name);
 
         #endregion 
     }

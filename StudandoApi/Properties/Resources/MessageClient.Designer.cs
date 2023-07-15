@@ -95,5 +95,131 @@ namespace SudyApi.Properties.Resources {
                 return ResourceManager.GetString("MC0004", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O telefone enviado não é válido!.
+        /// </summary>
+        public static string MC0005 {
+            get {
+                return ResourceManager.GetString("MC0005", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar uma senha!.
+        /// </summary>
+        public static string MC0006 {
+            get {
+                return ResourceManager.GetString("MC0006", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar a idade!.
+        /// </summary>
+        public static string MC0007 {
+            get {
+                return ResourceManager.GetString("MC0007", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar o CPF.
+        /// </summary>
+        public static string MC0008 {
+            get {
+                return ResourceManager.GetString("MC0008", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O CPF enviado não é válido!.
+        /// </summary>
+        public static string MC0009 {
+            get {
+                return ResourceManager.GetString("MC0009", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar o RG.
+        /// </summary>
+        public static string MC0010 {
+            get {
+                return ResourceManager.GetString("MC0010", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar a data de aniversário!.
+        /// </summary>
+        public static string MC0011 {
+            get {
+                return ResourceManager.GetString("MC0011", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar uma data de aniversário válida!.
+        /// </summary>
+        public static string MC0012 {
+            get {
+                return ResourceManager.GetString("MC0012", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar o endereço!.
+        /// </summary>
+        public static string MC0013 {
+            get {
+                return ResourceManager.GetString("MC0013", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar um CEP válido!.
+        /// </summary>
+        public static string MC0014 {
+            get {
+                return ResourceManager.GetString("MC0014", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar um CEP!.
+        /// </summary>
+        public static string MC0015 {
+            get {
+                return ResourceManager.GetString("MC0015", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar o tipo de acesso!.
+        /// </summary>
+        public static string MC0016 {
+            get {
+                return ResourceManager.GetString("MC0016", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar o gênero!.
+        /// </summary>
+        public static string MC0017 {
+            get {
+                return ResourceManager.GetString("MC0017", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to È necessário enviar uma senha válida!.
+        /// </summary>
+        public static string MC0018 {
+            get {
+                return ResourceManager.GetString("MC0018", resourceCulture);
+            }
+        }
     }
 }

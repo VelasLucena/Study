@@ -129,4 +129,46 @@
   <data name="MC0004" xml:space="preserve">
     <value>È necessário enviar um email!</value>
   </data>
+  <data name="MC0005" xml:space="preserve">
+    <value>O telefone enviado não é válido!</value>
+  </data>
+  <data name="MC0006" xml:space="preserve">
+    <value>È necessário enviar uma senha!</value>
+  </data>
+  <data name="MC0007" xml:space="preserve">
+    <value>È necessário enviar a idade!</value>
+  </data>
+  <data name="MC0008" xml:space="preserve">
+    <value>È necessário enviar o CPF</value>
+  </data>
+  <data name="MC0009" xml:space="preserve">
+    <value>O CPF enviado não é válido!</value>
+  </data>
+  <data name="MC0010" xml:space="preserve">
+    <value>È necessário enviar o RG</value>
+  </data>
+  <data name="MC0011" xml:space="preserve">
+    <value>È necessário enviar a data de aniversário!</value>
+  </data>
+  <data name="MC0012" xml:space="preserve">
+    <value>È necessário enviar uma data de aniversário válida!</value>
+  </data>
+  <data name="MC0013" xml:space="preserve">
+    <value>È necessário enviar o endereço!</value>
+  </data>
+  <data name="MC0014" xml:space="preserve">
+    <value>È necessário enviar um CEP válido!</value>
+  </data>
+  <data name="MC0015" xml:space="preserve">
+    <value>È necessário enviar um CEP!</value>
+  </data>
+  <data name="MC0016" xml:space="preserve">
+    <value>È necessário enviar o tipo de acesso!</value>
+  </data>
+  <data name="MC0017" xml:space="preserve">
+    <value>È necessário enviar o gênero!</value>
+  </data>
+  <data name="MC0018" xml:space="preserve">
+    <value>È necessário enviar uma senha válida!</value>
+  </data>
 </root>

@@ -1,4 +1,6 @@
 ﻿using StudandoApi.Properties.Enuns;
+using SudyApi.Models.User;
+using SudyApi.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
@@ -32,5 +34,36 @@ namespace StudandoApi.Models.User
         public DateTime? UpdateDate { get; set; }
 
         public int? UpdateUser { get; set; }
+
+        public UserInformation() { }
+
+        public UserInformation(RegisterUserViewModel viewModel)
+        {
+            PhoneNumber = viewModel.PhoneNumber;
+            Age = viewModel.Age;
+            Cpf = viewModel.Cpf;
+            Rg = viewModel.Rg;
+            Gender = viewModel.Gender;
+            Birthday = viewModel.Birthday;
+            Address = viewModel.Address;
+            Cep = viewModel.Cep;
+            CreationDate = DateTime.Now;
+            CreationUser = UserLogged.UserId;
+        }
+
+        public UserInformation(EditUserViewModel viewModel)
+        {
+            UserInformationId = viewModel.UserInformationId;
+            PhoneNumber = viewModel.PhoneNumber;
+            Age = viewModel.Age;
+            Cpf = viewModel.Cpf;
+            Rg = viewModel.Rg;
+            Gender = viewModel.Gender;
+            Birthday = viewModel.Birthday;
+            Address = viewModel.Address;
+            Cep = viewModel.Cep;
+            UpdateDate = DateTime.Now;
+            UpdateUser = UserLogged.UserId;
+        }
     }
 }

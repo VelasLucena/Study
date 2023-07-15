@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using SudyApi.Data.Interfaces;
 
 namespace SudyApi.Data.Services
 {
-    public class CacheService
+    public class CacheService : ICacheService
     {
         #region Field
 

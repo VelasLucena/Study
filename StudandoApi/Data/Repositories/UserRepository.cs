@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using StudandoApi.Data.Contexts;
 using StudandoApi.Models.User;
 using SudyApi.Data.Interfaces;
 using SudyApi.Properties.Enuns;
+using SudyApi.Utility;
 
 namespace SudyApi.Data.Repositories
 {
@@ -17,7 +19,7 @@ namespace SudyApi.Data.Repositories
 
         #region Constructor
 
-        public UsersRepository(SudyContext sudyContext, ICacheService cacheService)
+        public UserRepository(SudyContext sudyContext, ICacheService cacheService)
         {
             _sudyContext = sudyContext;
             _cachingService = cacheService;
@@ -71,7 +73,7 @@ namespace SudyApi.Data.Repositories
 
         public async Task<UserModel> GetUserByIdNoTracking(int userId)
         {
-            if (!bool.Parse(ConfigurationManagerApp.GetKey(ConfigKeys.RedisCache)))
+            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
                 return await _sudyContext.Users.Include(x => x.UserInformation).AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userId);
 
             string resultCache = await _cachingService.Get(nameof(UserModel) + userId);
@@ -115,19 +117,14 @@ namespace SudyApi.Data.Repositories
 
         #region GetUserByName
 
-        public async Task<List<UserModel>> GetUserByName(string name)
+        public async Task<UserModel> GetUserByName(string name)
         {
-            return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).ToListAsync();
+            return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).FirstOrDefaultAsync();
         }
 
-        public async Task<List<UserModel>> GetUserByNameNoTracking(string name)
+        public async Task<UserModel> GetUserByNameNoTracking(string name)
         {
-            return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).AsNoTracking().ToListAsync();
-        }
-
-        public async Task<List<UserModel>> GetUserByNameSql(string name)
-        {
-            throw new NotImplementedException();
+            return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).AsNoTracking().FirstOrDefaultAsync();
         }
 
         #endregion

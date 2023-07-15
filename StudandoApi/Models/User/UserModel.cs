@@ -1,6 +1,10 @@
 ﻿using StudandoApi.Properties.Enuns;
+using SudyApi.Models.User;
+using SudyApi.Security;
+using SudyApi.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.Security.AccessControl;
+using System.Security.Claims;
 
 namespace StudandoApi.Models.User
 {
@@ -33,5 +37,39 @@ namespace StudandoApi.Models.User
         public DateTime? UpdateDate { get; set; }
 
         public int? UpdateUser { get; set; }
+
+        public UserModel() { }
+
+        public UserModel(RegisterUserViewModel viewModel)
+        {
+            Name = viewModel.Name;
+            Email = viewModel.Email;
+            PasswordHash = EncryptPassord.Hash(viewModel.Password);
+            CreationDate = DateTime.Now;
+            CreationUser = UserLogged.UserId;
+
+            UserInformation = new UserInformation(viewModel);
+        }
+
+        public UserModel(EditUserViewModel viewModel)
+        {
+            UserId = viewModel.UserId;
+            Name = viewModel.Name;
+            Email = viewModel.Email;
+            PasswordHash = EncryptPassord.Hash(viewModel.Password);
+            UpdateDate = DateTime.Now;
+            UpdateUser = UserLogged.UserId;
+
+            UserInformation = new UserInformation(viewModel);
+        }
+
+        public static IEnumerable<Claim> GetClaims(UserModel user)
+        {
+            var result = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, user.UserId.ToString())
+            };
+            return result;
+        }
     }
 }

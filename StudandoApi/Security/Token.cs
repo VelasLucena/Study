@@ -22,10 +22,7 @@ namespace SudyApi.Security
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-
-            //Gerando o token
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            //Retornando tudo como uma string
             return tokenHandler.WriteToken(token);
         }
 

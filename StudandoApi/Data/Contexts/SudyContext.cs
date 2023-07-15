@@ -16,14 +16,7 @@ namespace StudandoApi.Data.Contexts
         {
             modelBuilder.Entity<UserModel>().HasIndex(x => x.Email).IsUnique();
             modelBuilder.Entity<UserInformation>().HasIndex(x => x.Cpf).IsUnique();
-        }
-
-        public bool UserIsLogged(int user)
-        {
-            if (Users.FirstOrDefaultAsync(x => x.UserId == user) != null)
-                return true;
-
-            return false;
+            modelBuilder.Entity<UserInformation>().ToTable("User_Information");
         }
     }
 }

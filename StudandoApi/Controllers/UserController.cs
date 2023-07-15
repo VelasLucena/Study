@@ -4,9 +4,12 @@ using StudandoApi.Data.Interfaces;
 using StudandoApi.Models.User;
 using StudandoApi.Properties.Enuns;
 using SudyApi.Properties.Enuns;
+using SudyApi.ViewModels;
 
 namespace StudandoApi.Controllers
 {
+    [ApiController]
+    [Route("{controller}/{action}")]
     public class UserController : Controller
     {
         private readonly ISudyService _sudyService;
@@ -37,38 +40,23 @@ namespace StudandoApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetUserById))]
+        [ActionName(nameof(GetUser))]
         [Authorize]
-        public async Task<IActionResult> GetUserById(int userId)
+        public async Task<IActionResult> GetUser(int? userId, string? name)
         {
             try
             {
-                UserModel user = await _sudyService.UserRepository.GetUserByIdNoTracking(userId);
+                UserModel user = new UserModel();
+
+                if (userId != null)
+                    user = await _sudyService.UserRepository.GetUserByIdNoTracking(Convert.ToInt32(userId));
+                else if(name != null)
+                    user = await _sudyService.UserRepository.GetUserByNameNoTracking(name);
 
                 if (user == null)
                     return NotFound();
 
                 return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Error = ex.Message });
-            }
-        }
-
-        [HttpGet]
-        [ActionName(nameof(GetUserByName))]
-        [Authorize]
-        public async Task<IActionResult> GetUserByName(string name)
-        {
-            try
-            {
-                List<UserModel> users = await _sudyService.UserRepository.GetUserByNameNoTracking(name);
-
-                if (users == null || users.Count == 0)
-                    return NotFound();
-
-                return Ok(users);
             }
             catch (Exception ex)
             {
@@ -83,49 +71,21 @@ namespace StudandoApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest();
-
-                ClassroomModel classroom = new ClassroomModel();
-
-                if (user.ClassId != null)
-                {
-                    if (user.AcessType == AcessType.Student)
-                        classroom = await _schoolService.ClassroomRepository.GetClassroomById(Convert.ToInt32(user.ClassId));
-
-                    if (classroom == null)
-                        return NotFound(new { Message = MessageClient.MC0039 });
-                }
+                    return BadRequest(new { Error = ModelState } );
 
                 UserModel newUser = new UserModel(user);
 
-                await _schoolService.Create(newUser);
-
-                switch (newUser.AcessType)
-                {
-                    case AcessType.Professor:
-                        await _schoolService.Create(new TeacherModel(newUser, user));
-                        break;
-
-                    case AcessType.Student:
-                        if (user.ClassId != null)
-                        {
-                            await _schoolService.Create(new StudentModel(classroom, newUser));
-                        }
-                        else
-                            await _schoolService.Create(new StudentModel(newUser));
-                        break;
-                }
+                await _sudyService.Create(newUser);
 
                 return Ok(newUser);
             }
             catch (Exception ex)
             {
-                LoggerSystem.Error(ex);
                 return BadRequest(new { Error = ex.Message });
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [ActionName(nameof(EditUser))]
         [Authorize]
         public async Task<IActionResult> EditUser(EditUserViewModel userEdit)
@@ -135,72 +95,20 @@ namespace StudandoApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                if (!await ExistUser(userEdit.UserId))
+
+                UserModel userOld = await _sudyService.UserRepository.GetUserByIdNoTracking(userEdit.UserId);
+
+                if(userOld == null) 
                     return NotFound();
-
-                UserModel userOld = await _schoolService.UsersRepository.GetUserByIdNoTracking(userEdit.UserId);
-
-                if (userOld.AcessType != userEdit.AcessType)
-                {
-                    switch (userOld.AcessType)
-                    {
-                        case AcessType.Student:
-                            StudentModel student = await _schoolService.StudentRepository.GetStudentByUserIdNoForeign(userEdit.UserId);
-                            if (student != null)
-                                await _schoolService.Delete(student);
-                            break;
-
-                        case AcessType.Professor:
-                            TeacherModel teacher = await _schoolService.TeacherRepository.GetTeacherByUserIdNoForeign(userEdit.UserId);
-                            if (teacher != null)
-                                await _schoolService.Delete(teacher);
-                            break;
-                    }
-                }
-
 
                 UserModel userNew = new UserModel(userEdit);
 
-                await _schoolService.Update(userNew);
-
-                switch (userEdit.AcessType)
-                {
-                    case AcessType.Professor:
-                        TeacherModel teacher = await _schoolService.TeacherRepository.GetTeacherByUserIdNoForeign(userEdit.UserId);
-                        if (teacher != null)
-                        {
-                            teacher.Update(userEdit, userNew);
-                            await _schoolService.Update(teacher);
-                        }
-                        else
-                            await _schoolService.Create(new TeacherModel(userNew));
-                        break;
-
-                    case AcessType.Student:
-                        StudentModel student = await _schoolService.StudentRepository.GetStudentByUserIdNoForeign(userEdit.UserId);
-                        if (student != null)
-                        {
-                            if (userEdit.classroomId != null && userEdit.AcessType == Acess.AcessType.Student)
-                                student.Class = await _schoolService.ClassroomRepository.GetClassroomById(Convert.ToInt32(userEdit.classroomId));
-
-                            student.Update(student.Class, userNew);
-                            await _schoolService.Update(student);
-                        }
-                        else
-                        {
-                            ClassroomModel classroom = new ClassroomModel();
-                            if (userEdit.classroomId != null && userEdit.AcessType == Acess.AcessType.Student)
-                                classroom = await _schoolService.ClassroomRepository.GetClassroomById(Convert.ToInt32(userEdit.classroomId));
-                            await _schoolService.Create(new StudentModel(classroom, userNew));
-                        }
-                        break;
-                }
+                await _sudyService.Update(userNew);
 
                 return Ok(userNew);
             }
             catch (Exception ex)
             {
-                LoggerSystem.Error(ex);
                 return BadRequest(new { Error = ex.Message });
             }
         }
@@ -212,38 +120,18 @@ namespace StudandoApi.Controllers
         {
             try
             {
-                UserModel user = await _schoolService.UsersRepository.GetUserById(userId);
+                UserModel user = await _sudyService.UserRepository.GetUserById(userId);
 
                 if (user == null)
                     return NotFound();
 
-                switch (user.AcessType)
-                {
-                    case AcessType.Professor:
-                        TeacherModel teacher = await _schoolService.TeacherRepository.GetTeacherByUserId(userId);
-                        if (teacher != null)
-                            await _schoolService.Delete(teacher);
-                        else
-                            return NotFound();
-                        break;
-
-                    case AcessType.Student:
-                        StudentModel student = await _schoolService.StudentRepository.GetStudentByUserId(userId);
-                        if (student != null)
-                            await _schoolService.Delete(student);
-                        else
-                            return NotFound();
-                        break;
-                }
-
-                await _schoolService.Delete(user.UserInformation);
-                await _schoolService.Delete(user);
+                await _sudyService.Delete(user.UserInformation);
+                await _sudyService.Delete(user);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                LoggerSystem.Error(ex);
                 return BadRequest(new { Error = ex.Message });
             }
         }
