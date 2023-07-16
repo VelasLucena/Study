@@ -14,9 +14,5 @@ namespace SudyApi.Models.Subject
         public DateTime? CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
-
-        public int? CreationUserId { get; set; }
-
-        public int? UpdateUserId { get; set; }
     }
 }
