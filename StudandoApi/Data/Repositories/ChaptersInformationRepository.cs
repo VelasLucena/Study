@@ -34,9 +34,9 @@ namespace SudyApi.Data.Repositories
         public async Task<ChapterInformationModel> ChaptersInformationById(int chaptersInformationId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.ChaptersInformation.FirstOrDefaultAsync(x => x.SubjectId == subjectId);
+                return await _sudyContext.ChaptersInformation.FirstOrDefaultAsync(x => x.ChaptersInformationId == chaptersInformationId);
 
-            string resultCache = await _cachingService.Get(nameof(ChapterInformationModel) + subjectId);
+            string resultCache = await _cachingService.Get(nameof(ChapterInformationModel) + chaptersInformationId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<ChapterInformationModel>(resultCache);
