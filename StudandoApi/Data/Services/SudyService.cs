@@ -40,6 +40,30 @@ namespace SudyApi.Data.Services
             }
         }
 
+        public IChapterRepository ChapterRepository
+        {
+            get
+            {
+                return new ChapterRepository(_sudyContext, _cacheService);
+            }
+        }
+
+        public ISubjectRepository SubjectRepository
+        {
+            get
+            {
+                return new SubjectRepository(_sudyContext, _cacheService);
+            }
+        }
+
+        public IUserInformationRepository UserInformationRepository
+        {
+            get
+            {
+                return new UserInformationRepository(_sudyContext, _cacheService);
+            }
+        }
+
         #endregion
 
         #region Methods

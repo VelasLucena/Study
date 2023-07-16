@@ -20,13 +20,13 @@ namespace StudandoApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetUsers))]
+        [ActionName(nameof(GetAllUsers))]
         [Authorize]
-        public async Task<IActionResult> GetUsers(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(UserModel.UserId))
+        public async Task<IActionResult> GetAllUsers(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(UserModel.UserId))
         {
             try
             {
-                List<UserModel> users = await _sudyService.UserRepository.GetUsersNoTracking(limit, ordering, attributeName);
+                List<UserModel> users = await _sudyService.UserRepository.GetAllUsersNoTracking(limit, ordering, attributeName);
 
                 if (users.Count == 0)
                     return NotFound();
@@ -51,7 +51,7 @@ namespace StudandoApi.Controllers
                 if (userId != null)
                     user = await _sudyService.UserRepository.GetUserByIdNoTracking(Convert.ToInt32(userId));
                 else if(name != null)
-                    user = await _sudyService.UserRepository.GetUserByNameNoTracking(name);
+                    user = await _sudyService.UserRepository.GetUserByNameFirstNoTracking(name);
 
                 if (user == null)
                     return NotFound();

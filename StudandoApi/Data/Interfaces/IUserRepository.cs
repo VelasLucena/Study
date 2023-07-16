@@ -7,11 +7,9 @@ namespace SudyApi.Data.Interfaces
     {
         #region GetUsers
 
-        Task<List<UserModel>> GetUsers(int limit, Ordering ordering, string order);
+        Task<List<UserModel>> GetAllUsers(int limit, Ordering ordering, string order);
 
-        Task<List<UserModel>> GetUsersNoTracking(int limit, Ordering ordering, string order);
-
-        Task<List<UserModel>> GetUsersSql(int limit, string order, string ordering);
+        Task<List<UserModel>> GetAllUsersNoTracking(int limit, Ordering ordering, string order);
 
         #endregion
 
@@ -37,9 +35,9 @@ namespace SudyApi.Data.Interfaces
 
         #region GetUserByName
 
-        Task<UserModel> GetUserByName(string name);
+        Task<UserModel> GetUserByNameFirst(string name);
 
-        Task<UserModel> GetUserByNameNoTracking(string name);
+        Task<UserModel> GetUserByNameFirstNoTracking(string name);
 
         #endregion 
     }

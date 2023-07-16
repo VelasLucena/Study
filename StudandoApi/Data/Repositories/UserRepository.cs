@@ -31,7 +31,7 @@ namespace SudyApi.Data.Repositories
 
         #region GetUsers
 
-        public async Task<List<UserModel>> GetUsers(int limit, Ordering ordering, string attributeName)
+        public async Task<List<UserModel>> GetAllUsers(int limit, Ordering ordering, string attributeName)
         {
             switch (ordering)
             {
@@ -44,7 +44,7 @@ namespace SudyApi.Data.Repositories
             return null;
         }
 
-        public async Task<List<UserModel>> GetUsersNoTracking(int limit, Ordering ordering, string attributeName)
+        public async Task<List<UserModel>> GetAllUsersNoTracking(int limit, Ordering ordering, string attributeName)
         {
             switch (ordering)
             {
@@ -55,11 +55,6 @@ namespace SudyApi.Data.Repositories
             }
 
             return null;
-        }
-
-        public async Task<List<UserModel>> GetUsersSql(int limit, string order, string ordering)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -117,12 +112,12 @@ namespace SudyApi.Data.Repositories
 
         #region GetUserByName
 
-        public async Task<UserModel> GetUserByName(string name)
+        public async Task<UserModel> GetUserByNameFirst(string name)
         {
             return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).FirstOrDefaultAsync();
         }
 
-        public async Task<UserModel> GetUserByNameNoTracking(string name)
+        public async Task<UserModel> GetUserByNameFirstNoTracking(string name)
         {
             return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).AsNoTracking().FirstOrDefaultAsync();
         }

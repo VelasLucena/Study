@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using StudandoApi.Models.User;
+using System.ComponentModel.DataAnnotations;
 
 namespace SudyApi.Models.Subject
 {
@@ -6,6 +7,8 @@ namespace SudyApi.Models.Subject
     {
         [Key]
         public int SubjectId { get; set; }
+
+        public UserModel? User { get; set; }
 
         public string? Name { get; set; }
 
