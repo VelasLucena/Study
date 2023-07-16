@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SudyApi.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace SudyApi.Models.Subject
 {
@@ -14,5 +15,14 @@ namespace SudyApi.Models.Subject
         public DateTime? CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
+
+        public ChapterModel() { }
+
+        public ChapterModel(RegisterChapterViewModel viewModel)
+        {
+            Name = viewModel.Name;
+            ModulesCount = viewModel.ModulesCount;
+            CreationDate = DateTime.Now;
+        }
     }
 }

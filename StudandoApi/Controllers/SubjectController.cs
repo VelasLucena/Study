@@ -65,18 +65,23 @@ namespace SudyApi.Controllers
 
         [HttpPost]
         [ActionName(nameof(CreateSubject))]
-        public async Task<IActionResult> CreateSubject(RegisterChapterViewModel chapter)
+        public async Task<IActionResult> CreateSubject(RegisterSubjectViewModel subject)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState });
 
-                SubjectModel newUser = new UserModel(user);
+                UserModel user = await _sudyService.UserRepository.GetUserByIdNoTracking(subject.UserId);
 
-                await _sudyService.Create(newUser);
+                if(user == null)
+                    return NotFound();
 
-                return Ok(newUser);
+                SubjectModel newSubject = new SubjectModel(subject, user);
+
+                await _sudyService.Create(newSubject);
+
+                return Ok(newSubject);
             }
             catch (Exception ex)
             {
@@ -87,24 +92,23 @@ namespace SudyApi.Controllers
         [HttpPut]
         [ActionName(nameof(EditSubject))]
         [Authorize]
-        public async Task<IActionResult> EditSubject(EditUserViewModel userEdit)
+        public async Task<IActionResult> EditSubject(EditSubjectViewModel subject)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
+                UserModel user = await _sudyService.UserRepository.GetUserByIdNoTracking(subject.UserId);
 
-                UserModel userOld = await _sudyService.UserRepository.GetUserByIdNoTracking(userEdit.UserId);
-
-                if (userOld == null)
+                if (user == null)
                     return NotFound();
 
-                UserModel userNew = new UserModel(userEdit);
+                SubjectModel editSubject = new SubjectModel(subject, user);
 
-                await _sudyService.Update(userNew);
+                await _sudyService.Update(editSubject);
 
-                return Ok(userNew);
+                return Ok(editSubject);
             }
             catch (Exception ex)
             {
@@ -115,11 +119,11 @@ namespace SudyApi.Controllers
         [HttpDelete]
         [ActionName(nameof(DeleteSubject))]
         [Authorize]
-        public async Task<IActionResult> DeleteSubject(int userId)
+        public async Task<IActionResult> DeleteSubject(int subjectId)
         {
             try
             {
-                UserModel user = await _sudyService.UserRepository.GetUserById(userId);
+                ChapterInformationModel subjectChapterModel = await _sudyService.ChapterRepository
 
                 if (user == null)
                     return NotFound();

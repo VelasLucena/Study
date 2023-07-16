@@ -17,6 +17,8 @@ namespace StudandoApi.Data.Contexts
 
         public DbSet<ChapterModel> Chapters { get; set; }
 
+        public DbSet<ChapterInformationModel> ChaptersInformation { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserModel>().HasIndex(x => x.Email).IsUnique();
