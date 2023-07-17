@@ -12,17 +12,17 @@ namespace StudandoApi.Data.Interfaces
 
         public IUserInformationRepository UserInformationRepository { get; }
 
-        Task Create<T>(T user);
+        Task Create<T>(T user, bool manualDesactiveCache = false);
 
-        Task CreateMany<T>(List<T> user);
+        Task CreateMany<T>(List<T> user, bool manualDesactiveCache = false);
 
-        Task Update<T>(T obj);
+        Task Update<T>(T obj, bool manualDesactiveCache = false);
 
-        Task UpdateMany<T>(List<T> obj);
+        Task UpdateMany<T>(List<T> obj, bool manualDesactiveCache = false);
 
-        Task Delete<T>(T obj);
+        Task Delete<T>(T obj, bool manualDesactiveCache = false);
 
-        Task DeleteMany<T>(List<T> obj);
+        Task DeleteMany<T>(List<T> obj, bool manualDesactiveCache = false);
 
     }
 }

@@ -23,8 +23,8 @@ namespace StudandoApi.Data.Contexts
             modelBuilder.Entity<UserInformation>().HasIndex(x => x.Cpf).IsUnique();
             modelBuilder.Entity<UserInformation>().ToTable("Users_Information");
 
-            //modelBuilder.Entity<SubjectModel>().HasMany(x => x.Chapters).WithOne(x => x.Subject).HasForeignKey(x => x.SubjectId);
-            //modelBuilder.Entity<UserModel>().HasMany(x => x.Subjects).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<SubjectModel>().HasMany(x => x.Chapters).WithOne(x => x.Subject).HasForeignKey(x => x.SubjectId);
+            modelBuilder.Entity<UserModel>().HasMany(x => x.Subjects).WithOne(x => x.User).HasForeignKey(x => x.UserId);
         }
     }
 }

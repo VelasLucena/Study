@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StudandoApi.Data.Interfaces;
 using StudandoApi.Models.User;
 using SudyApi.Models.Subject;
 using SudyApi.Properties.Enuns;
 using SudyApi.ViewModels;
-using SudyApi.ViewModels.Result;
 
 namespace SudyApi.Controllers
 {
@@ -32,14 +32,7 @@ namespace SudyApi.Controllers
                 if (subjects.Count == 0)
                     return NotFound();
 
-                List<SubjectViewModel> result = new List<SubjectViewModel>();
-
-                foreach (SubjectModel subject in subjects)
-                {
-                    result.Add(new SubjectViewModel(subject));
-                }
-
-                return Ok(result);
+                return Ok(JsonConvert.SerializeObject(subjects));
             }
             catch (Exception ex)
             {
@@ -63,7 +56,7 @@ namespace SudyApi.Controllers
                 else
                     return BadRequest();
 
-                return Ok(subject);
+                return Ok(JsonConvert.SerializeObject(subject));
             }
             catch (Exception ex)
             {
@@ -85,9 +78,9 @@ namespace SudyApi.Controllers
                 if(user == null)
                     return NotFound();
 
-                SubjectModel newSubject = new SubjectModel(subject);
+                SubjectModel newSubject = new SubjectModel(subject, user);
 
-                await _sudyService.Create(newSubject);
+                await _sudyService.Create(newSubject, true);
 
                 List<ChapterModel> chapters = new List<ChapterModel>();
 
@@ -98,7 +91,7 @@ namespace SudyApi.Controllers
 
                 await _sudyService.CreateMany(chapters);
 
-                return Ok(newSubject);
+                return Ok(JsonConvert.SerializeObject(newSubject));
             }
             catch (Exception ex)
             {
@@ -123,9 +116,16 @@ namespace SudyApi.Controllers
 
                 SubjectModel editSubject = new SubjectModel(subject, user);
 
+                List<ChapterModel> chapters = new List<ChapterModel>();
+
+                foreach(EditChapterViewModel item in subject.Chapters)
+                {
+                    chapters.Add(new ChapterModel(item, editSubject));
+                }
+
                 await _sudyService.Update(editSubject);
 
-                return Ok(editSubject);
+                return Ok(JsonConvert.SerializeObject(editSubject));
             }
             catch (Exception ex)
             {

@@ -68,7 +68,7 @@ namespace SudyApi.Data.Services
 
         #region Methods
 
-        public async Task Update<T>(T obj)
+        public async Task Update<T>(T obj, bool manualDesactiveCache = false)
         {
             bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
@@ -102,9 +102,9 @@ namespace SudyApi.Data.Services
             await _sudyContext.SaveChangesAsync();
         }
 
-        public async Task UpdateMany<T>(List<T> obj)
+        public async Task UpdateMany<T>(List<T> obj, bool manualDesactiveCache = false)
         {
-            bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             foreach (T objItem in obj)
             {
@@ -140,9 +140,9 @@ namespace SudyApi.Data.Services
             await _sudyContext.SaveChangesAsync();
         }
 
-        public async Task Create<T>(T obj)
+        public async Task Create<T>(T obj, bool manualDesactiveCache = false)
         {
-            bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             _sudyContext.Add(obj);
 
@@ -170,11 +170,11 @@ namespace SudyApi.Data.Services
             }
         }
 
-        public async Task CreateMany<T>(List<T> obj)
+        public async Task CreateMany<T>(List<T> obj, bool manualDesactiveCache = false)
         {
-            bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
-            foreach(T objItem in obj)
+            foreach (T objItem in obj)
             {
                 _sudyContext.Add(objItem);
 
@@ -203,9 +203,9 @@ namespace SudyApi.Data.Services
             }
         }
 
-        public async Task Delete<T>(T obj)
+        public async Task Delete<T>(T obj, bool manualDesactiveCache = false)
         {
-            bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             foreach (PropertyInfo item in obj.GetType().GetProperties())
             {
@@ -239,9 +239,9 @@ namespace SudyApi.Data.Services
 
         }
 
-        public async Task DeleteMany<T>(List<T> objList)
+        public async Task DeleteMany<T>(List<T> objList, bool manualDesactiveCache = false)
         {
-            bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             foreach (T objItem in objList)
             {
@@ -277,6 +277,7 @@ namespace SudyApi.Data.Services
             await _sudyContext.SaveChangesAsync();
 
         }
+
 
         #endregion
     }

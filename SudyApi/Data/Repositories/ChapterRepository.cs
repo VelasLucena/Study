@@ -84,6 +84,20 @@ namespace SudyApi.Data.Repositories
 
         #endregion
 
+        #region GetChaptersByIds
+
+        public async Task<List<ChapterModel>> GetChaptersByIds(int?[] chapterIds)
+        {
+            return await _sudyContext.Chapters.Where(x => chapterIds.Contains(x.ChapterId)).ToListAsync();
+        }
+
+        public async Task<List<ChapterModel>> GetChaptersByIdsNoTracking(int?[] chapterIds)
+        {
+            return await _sudyContext.Chapters.AsNoTracking().Where(x => chapterIds.Contains(x.ChapterId)).ToListAsync();
+        }
+
+        #endregion
+
         #endregion
     }
 }

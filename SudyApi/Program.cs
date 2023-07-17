@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using StudandoApi.Data.Contexts;
 using StudandoApi.Data.Interfaces;
 using SudyApi.Data.Interfaces;
@@ -54,6 +55,11 @@ builder.Services.AddAuthentication(x =>
 #endregion
 
 builder.Services.AddControllers();
+
+JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+{
+    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+};
 
 var app = builder.Build();
 

@@ -40,11 +40,7 @@ namespace StudandoApi.Models.User
 
         public int? UpdateUser { get; set; }
 
-        #region Collections Forgeing Keys
-
         public ICollection<SubjectModel> Subjects { get; set; }
-
-        #endregion
 
         public UserModel() { }
 
