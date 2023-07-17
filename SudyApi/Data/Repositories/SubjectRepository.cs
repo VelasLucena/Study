@@ -50,9 +50,9 @@ namespace SudyApi.Data.Repositories
             switch (ordering)
             {
                 case Ordering.Asc:
-                    return await _sudyContext.Subjects.Include(x => x.User).AsNoTracking().OrderBy(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
+                    return await _sudyContext.Subjects.Include(x => x.Chapters).AsNoTracking().OrderBy(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
                 case Ordering.Desc:
-                    return await _sudyContext.Subjects.Include(x => x.User).AsNoTracking().OrderByDescending(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
+                    return await _sudyContext.Subjects.Include(x => x.Chapters).AsNoTracking().OrderByDescending(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
             }
 
             return null;

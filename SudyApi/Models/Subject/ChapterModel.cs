@@ -1,4 +1,5 @@
-﻿using SudyApi.ViewModels;
+﻿using Newtonsoft.Json;
+using SudyApi.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,8 +9,6 @@ namespace SudyApi.Models.Subject
     {
         [Key]
         public int ChapterId { get; set; }
-
-        public SubjectModel? Subject { get; set; }
 
         public string? Name { get; set; }
 

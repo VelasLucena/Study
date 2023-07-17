@@ -170,6 +170,39 @@ namespace SudyApi.Data.Services
             }
         }
 
+        public async Task CreateMany<T>(List<T> obj)
+        {
+            bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+
+            foreach(T objItem in obj)
+            {
+                _sudyContext.Add(objItem);
+
+                await _sudyContext.SaveChangesAsync();
+
+                if (cacheIsActivated)
+                {
+                    foreach (PropertyInfo item in objItem.GetType().GetProperties())
+                    {
+                        if (item.PropertyType.IsClass)
+                            continue;
+
+                        KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+
+                        if (attribute != null)
+                        {
+                            var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
+
+                            _cacheService.Remove(item.ReflectedType.Name + p);
+
+                            _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(objItem));
+                        }
+
+                    }
+                }
+            }
+        }
+
         public async Task Delete<T>(T obj)
         {
             bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));

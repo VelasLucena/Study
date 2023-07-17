@@ -14,6 +14,8 @@ namespace StudandoApi.Data.Interfaces
 
         Task Create<T>(T user);
 
+        Task CreateMany<T>(List<T> user);
+
         Task Update<T>(T obj);
 
         Task UpdateMany<T>(List<T> obj);

@@ -5,6 +5,7 @@ using StudandoApi.Models.User;
 using SudyApi.Models.Subject;
 using SudyApi.Properties.Enuns;
 using SudyApi.ViewModels;
+using SudyApi.ViewModels.Result;
 
 namespace SudyApi.Controllers
 {
@@ -22,7 +23,7 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetAllSubjects))]
         [Authorize]
-        public async Task<IActionResult> GetAllSubjects(int limit = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(SubjectModel.SubjectId))
+        public async Task<IActionResult> GetAllSubjects(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(SubjectModel.SubjectId))
         {
             try
             {
@@ -31,7 +32,14 @@ namespace SudyApi.Controllers
                 if (subjects.Count == 0)
                     return NotFound();
 
-                return Ok(subjects);
+                List<SubjectViewModel> result = new List<SubjectViewModel>();
+
+                foreach (SubjectModel subject in subjects)
+                {
+                    result.Add(new SubjectViewModel(subject));
+                }
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -72,14 +80,23 @@ namespace SudyApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState });
 
-                UserModel user = await _sudyService.UserRepository.GetUserByIdNoTracking(subject.UserId);
+                UserModel user = await _sudyService.UserRepository.GetUserById(subject.UserId);
 
                 if(user == null)
                     return NotFound();
 
-                SubjectModel newSubject = new SubjectModel(subject, user);
+                SubjectModel newSubject = new SubjectModel(subject);
 
                 await _sudyService.Create(newSubject);
+
+                List<ChapterModel> chapters = new List<ChapterModel>();
+
+                foreach(RegisterChapterViewModel item in subject.Chapters)
+                {
+                    chapters.Add(new ChapterModel(item, newSubject));
+                }
+
+                await _sudyService.CreateMany(chapters);
 
                 return Ok(newSubject);
             }

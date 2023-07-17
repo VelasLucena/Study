@@ -9,8 +9,6 @@ namespace SudyApi.Models.Subject
         [Key]
         public int SubjectId { get; set; }
 
-        public UserModel? User { get; set; }
-
         public string? Name { get; set; }
 
         public DateTime? CreationDate { get; set; }
@@ -19,16 +17,14 @@ namespace SudyApi.Models.Subject
 
         public SubjectModel() { }
 
-        public SubjectModel(RegisterSubjectViewModel newSubject, UserModel user) 
+        public SubjectModel(RegisterSubjectViewModel newSubject) 
         {
-            User = user;
             Name = newSubject.Name;
             CreationDate = DateTime.Now;
         }
 
-        public SubjectModel(EditSubjectViewModel newSubject, UserModel user)
+        public SubjectModel(EditSubjectViewModel newSubject)
         {
-            User = user;
             SubjectId = newSubject.SubjectId;
             Name = newSubject.Name;
             UpdateDate = DateTime.Now;
