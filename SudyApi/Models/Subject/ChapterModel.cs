@@ -8,7 +8,7 @@ namespace SudyApi.Models.Subject
     public class ChapterModel
     {
         [Key]
-        public int? ChapterId { get; set; }
+        public int ChapterId { get; set; }
 
         public int? SubjectId { get; set; }
 

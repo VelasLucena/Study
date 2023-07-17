@@ -116,6 +116,20 @@ namespace SudyApi.Controllers
 
                 SubjectModel editSubject = new SubjectModel(subject, user);
 
+                List<ChapterModel> chaptersOld = await _sudyService.ChapterRepository.GetAllChaptersBySubjectIdNoTracking(subject.SubjectId);
+
+                List<int> subjectChaptersList = subject.Chapters.Select(x => x.ChapterId).ToList();
+
+                List<ChapterModel> deleteChapter = new List<ChapterModel>();
+
+                foreach(var chapter in chaptersOld)
+                {
+                    if(!subjectChaptersList.Contains(chapter.ChapterId))
+                        deleteChapter.Add(chapter);
+                }
+
+                await _sudyService.DeleteMany(deleteChapter)
+
                 List<ChapterModel> chapters = new List<ChapterModel>();
 
                 foreach(EditChapterViewModel item in subject.Chapters)
