@@ -68,9 +68,9 @@ namespace SudyApi.Data.Services
 
         #region Methods
 
-        public async Task Update<T>(T obj, bool manualDesactiveCache = false)
+        public async Task Update<T>(T obj, bool removeCache = false, bool manualDesactiveCache = false)
         {
-            bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             foreach (PropertyInfo item in obj.GetType().GetProperties())
             {
@@ -92,7 +92,8 @@ namespace SudyApi.Data.Services
 
                         _cacheService.Remove(item.ReflectedType.Name + p);
 
-                        _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
+                        if (!removeCache)
+                            _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
                     }
                 }
             }
@@ -102,7 +103,7 @@ namespace SudyApi.Data.Services
             await _sudyContext.SaveChangesAsync();
         }
 
-        public async Task UpdateMany<T>(List<T> obj, bool manualDesactiveCache = false)
+        public async Task UpdateMany<T>(List<T> obj, bool removeCache = false, bool manualDesactiveCache = false)
         {
             bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
@@ -125,11 +126,12 @@ namespace SudyApi.Data.Services
 
                         if (attribute != null)
                         {
-                            var p = typeof(T).GetProperty(item.Name).GetValue(obj);
+                            var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
 
                             _cacheService.Remove(item.ReflectedType.Name + p);
 
-                            _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
+                            if (!removeCache)
+                                _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
                         }
                     }
                 }
@@ -140,7 +142,7 @@ namespace SudyApi.Data.Services
             await _sudyContext.SaveChangesAsync();
         }
 
-        public async Task Create<T>(T obj, bool manualDesactiveCache = false)
+        public async Task Create<T>(T obj, bool removeCache = false, bool manualDesactiveCache = false)
         {
             bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
@@ -163,14 +165,15 @@ namespace SudyApi.Data.Services
 
                         _cacheService.Remove(item.ReflectedType.Name + p);
 
-                        _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
+                        if (!removeCache)
+                            _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
                     }
 
                 }
             }
         }
 
-        public async Task CreateMany<T>(List<T> obj, bool manualDesactiveCache = false)
+        public async Task CreateMany<T>(List<T> obj, bool removeCache = false, bool manualDesactiveCache = false)
         {
             bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
@@ -195,7 +198,8 @@ namespace SudyApi.Data.Services
 
                             _cacheService.Remove(item.ReflectedType.Name + p);
 
-                            _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(objItem));
+                            if (!removeCache)
+                                _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
                         }
 
                     }
@@ -277,7 +281,6 @@ namespace SudyApi.Data.Services
             await _sudyContext.SaveChangesAsync();
 
         }
-
 
         #endregion
     }

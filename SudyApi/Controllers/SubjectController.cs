@@ -32,7 +32,7 @@ namespace SudyApi.Controllers
                 if (subjects.Count == 0)
                     return NotFound();
 
-                return Ok(JsonConvert.SerializeObject(subjects));
+                return Ok(subjects);
             }
             catch (Exception ex)
             {
@@ -56,7 +56,7 @@ namespace SudyApi.Controllers
                 else
                     return BadRequest();
 
-                return Ok(JsonConvert.SerializeObject(subject));
+                return Ok(subject);
             }
             catch (Exception ex)
             {
@@ -89,9 +89,11 @@ namespace SudyApi.Controllers
                     chapters.Add(new ChapterModel(item, newSubject));
                 }
 
-                await _sudyService.CreateMany(chapters);
+                await _sudyService.CreateMany(chapters, true);
 
-                return Ok(JsonConvert.SerializeObject(newSubject));
+                SubjectModel subjectView = await _sudyService.SubjectRepository.GetSubjectBySubjectIdNoTracking(newSubject.SubjectId);
+
+                return Ok(subjectView);
             }
             catch (Exception ex)
             {
@@ -109,37 +111,37 @@ namespace SudyApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                UserModel user = await _sudyService.UserRepository.GetUserByIdNoTracking(subject.UserId);
+                UserModel user = await _sudyService.UserRepository.GetUserByIdNoTracking(Convert.ToInt32(subject.UserId));
 
                 if (user == null)
                     return NotFound();
 
-                SubjectModel editSubject = new SubjectModel(subject, user);
-
                 List<ChapterModel> chaptersOld = await _sudyService.ChapterRepository.GetAllChaptersBySubjectIdNoTracking(subject.SubjectId);
-
                 List<int> subjectChaptersList = subject.Chapters.Select(x => x.ChapterId).ToList();
-
                 List<ChapterModel> deleteChapter = new List<ChapterModel>();
-
-                foreach(var chapter in chaptersOld)
+                foreach (var chapter in chaptersOld)
                 {
-                    if(!subjectChaptersList.Contains(chapter.ChapterId))
+                    if (!subjectChaptersList.Contains(chapter.ChapterId))
                         deleteChapter.Add(chapter);
                 }
-
                 await _sudyService.DeleteMany(deleteChapter);
 
+                SubjectModel editSubject = await _sudyService.SubjectRepository.GetSubjectBySubjectId(subject.SubjectId);
+                editSubject.Update(subject);
+                await _sudyService.Update(editSubject, true);
+
                 List<ChapterModel> chapters = new List<ChapterModel>();
-
-                foreach(EditChapterViewModel item in subject.Chapters)
+                foreach (EditChapterViewModel item in subject.Chapters)
                 {
-                    chapters.Add(new ChapterModel(item, editSubject));
+                    ChapterModel chapter = await _sudyService.ChapterRepository.GetChapterById(item.ChapterId);
+                    chapter.Update(item);
+                    chapters.Add(chapter);
                 }
+                await _sudyService.UpdateMany(chapters, true);
 
-                await _sudyService.Update(editSubject);
+                SubjectModel subjectView = await _sudyService.SubjectRepository.GetSubjectBySubjectIdNoTracking(subject.SubjectId);
 
-                return Ok(JsonConvert.SerializeObject(editSubject));
+                return Ok(subjectView);
             }
             catch (Exception ex)
             {

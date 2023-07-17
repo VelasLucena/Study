@@ -41,5 +41,12 @@ namespace SudyApi.Models.Subject
             ModulesCount = viewModel.ModulesCount;
             UpdateDate = DateTime.Now;
         }
+
+        public void Update(EditChapterViewModel viewModel)
+        {
+            Name = viewModel.Name;
+            ModulesCount = viewModel.ModulesCount;
+            UpdateDate = DateTime.Now;
+        }
     }
 }

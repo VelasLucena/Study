@@ -10,6 +10,7 @@ using SudyApi.Middlewares;
 using SudyApi.Properties.Enuns;
 using SudyApi.Utility;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +56,8 @@ builder.Services.AddAuthentication(x =>
 #endregion
 
 builder.Services.AddControllers();
+
+builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 {

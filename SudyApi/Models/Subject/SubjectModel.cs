@@ -13,9 +13,9 @@ namespace SudyApi.Models.Subject
 
         public UserModel? User { get; set; }
 
-        public ICollection<ChapterModel>? Chapters { get; set; }
-
         public string? Name { get; set; }
+
+        public ICollection<ChapterModel>? Chapters { get; set; }
 
         public DateTime? CreationDate { get; set; }
 
@@ -23,21 +23,27 @@ namespace SudyApi.Models.Subject
 
         public SubjectModel() { }
 
-        public SubjectModel(RegisterSubjectViewModel newSubject, UserModel user) 
+        public SubjectModel(RegisterSubjectViewModel viewModel, UserModel user) 
         {
-            Name = newSubject.Name;
+            Name = viewModel.Name;
             CreationDate = DateTime.Now;
-            UserId = newSubject.UserId;
+            UserId = viewModel.UserId;
             User = user;
         }
 
-        public SubjectModel(EditSubjectViewModel newSubject, UserModel user)
+        public SubjectModel(EditSubjectViewModel viewModel, UserModel user)
         {
-            SubjectId = newSubject.SubjectId;
-            Name = newSubject.Name;
+            SubjectId = viewModel.SubjectId;
+            Name = viewModel.Name;
             UpdateDate = DateTime.Now;
-            UserId = newSubject.UserId;
+            UserId = viewModel.UserId;
             User = user;
+        }
+
+        public void Update(EditSubjectViewModel viewModel)
+        {
+            Name = viewModel.Name;
+            UpdateDate = DateTime.Now;
         }
     }
 }
