@@ -128,7 +128,7 @@ namespace SudyApi.Controllers
                         deleteChapter.Add(chapter);
                 }
 
-                await _sudyService.DeleteMany(deleteChapter)
+                await _sudyService.DeleteMany(deleteChapter);
 
                 List<ChapterModel> chapters = new List<ChapterModel>();
 
