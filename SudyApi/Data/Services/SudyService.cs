@@ -206,6 +206,45 @@ namespace SudyApi.Data.Services
 
         }
 
+        public async Task DeleteMany<T>(List<T> objList)
+        {
+            bool cacheIsActivated = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+
+            foreach (T objItem in objList)
+            {
+                foreach (PropertyInfo item in objItem.GetType().GetProperties())
+                {
+                    if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
+                    {
+                        var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
+
+                        if (p != null)
+                        {
+                            item.SetValue(objItem, null, null);
+                            _sudyContext.Entry(objItem).State = EntityState.Modified;
+                        }
+                    }
+
+                    if (cacheIsActivated && !item.PropertyType.IsClass)
+                    {
+                        KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+
+                        if (attribute != null)
+                        {
+                            var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
+
+                            _cacheService.Remove(item.ReflectedType.Name + p);
+                        }
+                    }
+                }
+
+                _sudyContext.Remove(objItem);
+            }
+
+            await _sudyContext.SaveChangesAsync();
+
+        }
+
         #endregion
     }
 }

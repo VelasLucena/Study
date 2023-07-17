@@ -20,5 +20,7 @@ namespace StudandoApi.Data.Interfaces
 
         Task Delete<T>(T obj);
 
+        Task DeleteMany<T>(List<T> obj);
+
     }
 }

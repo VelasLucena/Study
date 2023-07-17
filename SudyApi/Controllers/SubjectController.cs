@@ -123,13 +123,18 @@ namespace SudyApi.Controllers
         {
             try
             {
-                ChapterInformationModel subjectChapterModel = await _sudyService.ChapterRepository
+                SubjectModel subject = await _sudyService.SubjectRepository.GetSubjectBySubjectId(subjectId);
 
-                if (user == null)
+                if(subject == null)
                     return NotFound();
 
-                await _sudyService.Delete(user.UserInformation);
-                await _sudyService.Delete(user);
+                List<ChapterModel> chapters = await _sudyService.ChapterRepository.GetAllChaptersBySubjectId(subjectId);
+
+                if (chapters.Count == 0)
+                    return NotFound();
+
+                await _sudyService.Delete(subject);
+                await _sudyService.DeleteMany(chapters);
 
                 return Ok();
             }

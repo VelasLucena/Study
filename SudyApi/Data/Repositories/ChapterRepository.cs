@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using StudandoApi.Data.Contexts;
+using StudandoApi.Models.User;
 using SudyApi.Data.Interfaces;
 using SudyApi.Models.Subject;
 using SudyApi.Properties.Enuns;
@@ -31,7 +32,7 @@ namespace SudyApi.Data.Repositories
 
         #region GetChapterByChapterId
 
-        public async Task<ChapterModel> GetChapterByChapterId(int chapterId)
+        public async Task<ChapterModel> GetChapterById(int chapterId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
                 return await _sudyContext.Chapters.FirstOrDefaultAsync(x => x.ChapterId == chapterId);
@@ -44,12 +45,12 @@ namespace SudyApi.Data.Repositories
             ChapterModel chapter = await _sudyContext.Chapters.FirstOrDefaultAsync(x => x.ChapterId == chapterId);
 
             if (chapter != null)
-                await _cachingService.Set(nameof(ChapterModel) + chapterId, JsonConvert.SerializeObject(subject));
+                await _cachingService.Set(nameof(ChapterModel) + chapterId, JsonConvert.SerializeObject(chapter));
 
             return chapter;
         }
 
-        public async Task<ChapterModel> GetChapterByChapterIdNoTracking(int chapterId)
+        public async Task<ChapterModel> GetChapterByIdNoTracking(int chapterId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
                 return await _sudyContext.Chapters.AsNoTracking().FirstOrDefaultAsync(x => x.ChapterId == chapterId);
@@ -62,18 +63,23 @@ namespace SudyApi.Data.Repositories
             ChapterModel chapter = await _sudyContext.Chapters.AsNoTracking().FirstOrDefaultAsync(x => x.ChapterId == chapterId);
 
             if (chapter != null)
-                await _cachingService.Set(nameof(ChapterModel) + chapterId, JsonConvert.SerializeObject(subject));
+                await _cachingService.Set(nameof(ChapterModel) + chapterId, JsonConvert.SerializeObject(chapter));
 
             return chapter;
         }
 
         #endregion
 
-        #region GetChapterByUserId
+        #region GetChapterBySubjectId
 
-        public async Task<List<ChapterModel>> GetAllChaptersByUserId(int userid)
+        public async Task<List<ChapterModel>> GetAllChaptersBySubjectId(int subjectId)
         {
-            return await _sudyContext.Chapters.Where(x => x.User)
+            return await _sudyContext.Chapters.Where(x => x.Subject.SubjectId == subjectId).ToListAsync();
+        }
+
+        public async Task<List<ChapterModel>> GetAllChaptersBySubjectIdNoTracking(int subjectId)
+        {
+            return await _sudyContext.Chapters.AsNoTracking().Where(x => x.Subject.SubjectId == subjectId).ToListAsync();
         }
 
         #endregion
