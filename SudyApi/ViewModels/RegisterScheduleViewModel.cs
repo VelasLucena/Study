@@ -2,5 +2,8 @@
 {
     public class RegisterScheduleViewModel
     {
+        public TimeOnly StudyStart { get; set; }
+
+
     }
 }
