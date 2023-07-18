@@ -56,6 +56,9 @@ namespace SudyApi.Controllers
                 else
                     return BadRequest();
 
+                if(subject == null)
+                    return NotFound();
+
                 return Ok(subject);
             }
             catch (Exception ex)

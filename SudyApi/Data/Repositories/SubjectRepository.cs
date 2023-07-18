@@ -64,20 +64,7 @@ namespace SudyApi.Data.Repositories
 
         public async Task<SubjectModel> GetSubjectBySubjectId (int subjectId)
         {
-            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Subjects.Include(x => x.User).FirstOrDefaultAsync(x => x.SubjectId == subjectId);
-
-            string resultCache = await _cachingService.Get(nameof(SubjectModel) + subjectId);
-
-            if (!string.IsNullOrEmpty(resultCache))
-                return JsonConvert.DeserializeObject<SubjectModel>(resultCache);
-
-            SubjectModel subject = await _sudyContext.Subjects.Include(x => x.User).FirstOrDefaultAsync(x => x.SubjectId == subjectId);
-
-            if (subject != null)
-                await _cachingService.Set(nameof(SubjectModel) + subjectId, JsonConvert.SerializeObject(subject));
-
-            return subject;
+            return await _sudyContext.Subjects.Include(x => x.User).FirstOrDefaultAsync(x => x.SubjectId == subjectId);
         }
 
         public async Task<SubjectModel> GetSubjectBySubjectIdNoTracking(int subjectId)

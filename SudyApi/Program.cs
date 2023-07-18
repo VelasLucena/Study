@@ -1,7 +1,12 @@
+using Elastic.Apm.NetCoreAll;
+using Elastic.Apm.SerilogEnricher;
+using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Serilog;
+using Serilog.Exceptions;
 using StudandoApi.Data.Contexts;
 using StudandoApi.Data.Interfaces;
 using SudyApi.Data.Interfaces;
@@ -20,6 +25,23 @@ builder.Services.AddDbContext<SudyContext>(options => options.UseMySql(connectSt
 
 builder.Services.AddScoped<ISudyService, SudyService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.WithMachineName()
+    .Enrich.WithEnvironmentName()
+    .Enrich.WithEnvironmentUserName()
+    .Enrich.WithExceptionDetails()
+    .Enrich.WithElasticApmCorrelationInfo()
+    .WriteTo.Elasticsearch(new Serilog.Sinks.Elasticsearch.ElasticsearchSinkOptions(new Uri(builder.Configuration["ElasticApmSettings:Url"]))
+    {
+        CustomFormatter = new EcsTextFormatter(),
+        AutoRegisterTemplate = true,
+        ModifyConnectionSettings = x => x.BasicAuthentication(builder.Configuration["ElasticApmSettings:UserName"], builder.Configuration["ElasticApmSettings:Password"])
+    })
+    .CreateLogger();
+
+builder.Host.UseSerilog(Log.Logger);
 
 #region RedisCache
 
@@ -65,6 +87,8 @@ JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 };
 
 var app = builder.Build();
+
+app.UseAllElasticApm(builder.Configuration);
 
 app.UseMiddleware<AuthorizationTokenMiddleware>();
 

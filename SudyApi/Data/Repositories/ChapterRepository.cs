@@ -34,20 +34,7 @@ namespace SudyApi.Data.Repositories
 
         public async Task<ChapterModel> GetChapterById(int chapterId)
         {
-            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Chapters.FirstOrDefaultAsync(x => x.ChapterId == chapterId);
-
-            string resultCache = await _cachingService.Get(nameof(ChapterModel) + chapterId);
-
-            if (!string.IsNullOrEmpty(resultCache))
-                return JsonConvert.DeserializeObject<ChapterModel>(resultCache);
-
-            ChapterModel chapter = await _sudyContext.Chapters.FirstOrDefaultAsync(x => x.ChapterId == chapterId);
-
-            if (chapter != null)
-                await _cachingService.Set(nameof(ChapterModel) + chapterId, JsonConvert.SerializeObject(chapter));
-
-            return chapter;
+            return await _sudyContext.Chapters.FirstOrDefaultAsync(x => x.ChapterId == chapterId);
         }
 
         public async Task<ChapterModel> GetChapterByIdNoTracking(int chapterId)
