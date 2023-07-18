@@ -13,4 +13,12 @@
         Admin = 1,
         Client = 2
     }
+
+    public enum GraduationLevel
+    {
+        graduation = 1,
+        Technological = 2,
+        MasterDegree = 3,
+        DoctorateDegree = 4
+    }
 }

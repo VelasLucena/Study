@@ -64,6 +64,30 @@ namespace SudyApi.Data.Services
             }
         }
 
+        public ICourseRepository CourseRepository
+        {
+            get
+            {
+                return new CourseRepository(_sudyContext, _cacheService);
+            }
+        }
+
+        public IInstitutionRepository InstitutionRepository
+        {
+            get
+            {
+                return new InstitutionRepository(_sudyContext, _cacheService);
+            }
+        }
+
+        public ISemesterRepository SemesterRepository
+        {
+            get
+            {
+                return new SemesterRepository(_sudyContext, _cacheService);
+            }
+        }
+
         #endregion
 
         #region Methods
