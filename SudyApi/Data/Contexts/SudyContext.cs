@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StudandoApi.Models.User;
-using SudyApi.Models.Subject;
+using SudyApi.Models;
 
 namespace StudandoApi.Data.Contexts
 {

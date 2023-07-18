@@ -3,7 +3,7 @@ using SudyApi.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SudyApi.Models.Subject
+namespace SudyApi.Models
 {
     public class ChapterModel
     {

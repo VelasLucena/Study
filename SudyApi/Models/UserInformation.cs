@@ -1,10 +1,9 @@
 ﻿using StudandoApi.Properties.Enuns;
-using SudyApi.Models.User;
 using SudyApi.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace StudandoApi.Models.User
+namespace SudyApi.Models
 {
     public class UserInformation
     {

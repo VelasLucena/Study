@@ -1,4 +1,4 @@
-﻿using StudandoApi.Models.User;
+﻿using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 
 namespace SudyApi.Data.Interfaces

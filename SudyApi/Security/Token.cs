@@ -1,5 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using StudandoApi.Models.User;
+using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 using SudyApi.Utility;
 using System.IdentityModel.Tokens.Jwt;

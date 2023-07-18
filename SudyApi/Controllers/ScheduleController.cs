@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudandoApi.Data.Interfaces;
-using StudandoApi.Models.User;
+using SudyApi.Models;
 using SudyApi.ViewModels;
 
 namespace SudyApi.Controllers

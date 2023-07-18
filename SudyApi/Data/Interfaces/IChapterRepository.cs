@@ -1,4 +1,4 @@
-﻿using SudyApi.Models.Subject;
+﻿using SudyApi.Models;
 
 namespace SudyApi.Data.Interfaces
 {

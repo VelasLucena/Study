@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudandoApi.Data.Interfaces;
-using StudandoApi.Models.User;
 using StudandoApi.Properties.Enuns;
+using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 using SudyApi.ViewModels;
 

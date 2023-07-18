@@ -1,8 +1,7 @@
-﻿using StudandoApi.Models.User;
-using SudyApi.ViewModels;
+﻿using SudyApi.ViewModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace SudyApi.Models.Subject
+namespace SudyApi.Models
 {
     public class SubjectModel
     {
@@ -23,7 +22,7 @@ namespace SudyApi.Models.Subject
 
         public SubjectModel() { }
 
-        public SubjectModel(RegisterSubjectViewModel viewModel, UserModel user) 
+        public SubjectModel(RegisterSubjectViewModel viewModel, UserModel user)
         {
             Name = viewModel.Name;
             CreationDate = DateTime.Now;

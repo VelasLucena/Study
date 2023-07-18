@@ -1,6 +1,4 @@
 ﻿using StudandoApi.Properties.Enuns;
-using SudyApi.Models.Subject;
-using SudyApi.Models.User;
 using SudyApi.Security;
 using SudyApi.ViewModels;
 using System.Collections;
@@ -8,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.AccessControl;
 using System.Security.Claims;
 
-namespace StudandoApi.Models.User
+namespace SudyApi.Models
 {
     public class UserModel
     {

@@ -1,4 +1,4 @@
-﻿namespace SudyApi.Models.User
+﻿namespace SudyApi.Models
 {
     public static class UserLogged
     {

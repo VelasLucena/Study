@@ -1,4 +1,4 @@
-﻿using SudyApi.Models.Subject;
+﻿using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 
 namespace SudyApi.Data.Interfaces
