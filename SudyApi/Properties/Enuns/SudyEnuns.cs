@@ -8,12 +8,6 @@
         Other = 3
     }
 
-    public enum AcessType
-    {
-        Admin = 1,
-        Client = 2
-    }
-
     public enum GraduationLevel
     {
         graduation = 1,

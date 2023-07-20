@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using StudandoApi.Data.Contexts;
-using StudandoApi.Models.User;
 using SudyApi.Data.Interfaces;
 using SudyApi.Models;
 using SudyApi.Properties.Enuns;
@@ -64,7 +63,7 @@ namespace SudyApi.Data.Repositories
 
         public async Task<SubjectModel> GetSubjectBySubjectId (int subjectId)
         {
-            return await _sudyContext.Subjects.Include(x => x.User).FirstOrDefaultAsync(x => x.SubjectId == subjectId);
+            return await _sudyContext.Subjects.Include(x => x.Chapters).FirstOrDefaultAsync(x => x.SubjectId == subjectId);
         }
 
         public async Task<SubjectModel> GetSubjectBySubjectIdNoTracking(int subjectId)
@@ -87,16 +86,16 @@ namespace SudyApi.Data.Repositories
 
         #endregion
 
-        #region GetSubjectByUserId
+        #region GetSubjectByCollegeSubjectId
 
-        public async Task<List<SubjectModel>> GetSubjectByUserId(int userId)
+        public async Task<List<SubjectModel>> GetSubjectByCollegeSubjectId(int collegeSubjectId)
         {
-            return await _sudyContext.Subjects.Where(x => x.User.UserId == userId).ToListAsync();
+            return await _sudyContext.Subjects.Where(x => x.CollegeSubjectId == collegeSubjectId).ToListAsync();
         }
 
-        public async Task<List<SubjectModel>> GetSubjectByUserIdNoTracking(int userId)
+        public async Task<List<SubjectModel>> GetSubjectByCollegeSubjectIdNoTracking(int collegeSubjectId)
         {
-            return await _sudyContext.Subjects.Where(x => x.User.UserId == userId).ToListAsync();
+            return await _sudyContext.Subjects.Where(x => x.CollegeSubjectId == collegeSubjectId).ToListAsync();
         }
 
         #endregion

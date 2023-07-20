@@ -36,9 +36,7 @@ namespace SudyApi.Controllers
                 if (!EncryptPassord.VerifyHashedPassword(user.PasswordHash, userLogin.Password))
                     return BadRequest();
 
-                user.Token = Token.GenerateToken(user);
-                user.UpdateDate = DateTime.UtcNow;
-                user.UpdateUser = user.UserId;
+                user.Login();
 
                 await _sudyService.Update(user);
 
@@ -62,9 +60,7 @@ namespace SudyApi.Controllers
                 if (user == null)
                     return NotFound();
 
-                user.Token = null;
-                user.UpdateDate = DateTime.UtcNow;
-                user.UpdateUser = UserLogged.UserId;
+                user.Logout();
 
                 await _sudyService.Update(user);
 

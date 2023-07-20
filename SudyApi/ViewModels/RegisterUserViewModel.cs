@@ -45,9 +45,6 @@ namespace SudyApi.ViewModels
         [Required(ErrorMessageResourceName = nameof(MessageClient.MC0015), ErrorMessageResourceType = typeof(MessageClient))]
         public string Cep { get; set; }
 
-        [Required(ErrorMessageResourceName = nameof(MessageClient.MC0016), ErrorMessageResourceType = typeof(MessageClient))]
-        public AcessType AcessType { get; set; }
-
         [Required(ErrorMessageResourceName = nameof(MessageClient.MC0017), ErrorMessageResourceType = typeof(MessageClient))]
         public Gender Gender { get; set; }
     }

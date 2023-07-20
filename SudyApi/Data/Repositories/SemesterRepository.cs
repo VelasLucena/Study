@@ -33,25 +33,39 @@ namespace SudyApi.Data.Repositories
 
         async Task<List<SemesterModel>> ISemesterRepository.GetAllSemestersByUserId(int userId)
         {
-            return await _sudyContext.Semesters.Where(x => x.User.UserId == userId).ToListAsync();
+            return await _sudyContext.Semesters.Include(x => x.CollegeSubjects).Include(x => x.Course).Include(x => x.Institution).Where(x => x.User.UserId == userId).ToListAsync();
         }
 
         async Task<List<SemesterModel>> ISemesterRepository.GetAllSemestersByUserIdNoTracking(int userId)
         {
-            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Semesters.AsNoTracking().Where(x => x.User.UserId == userId).ToListAsync();
+            return await _sudyContext.Semesters.AsNoTracking().Include(x => x.CollegeSubjects).Include(x => x.Course).Include(x => x.Institution).Where(x => x.User.UserId == userId).ToListAsync();
+        }
 
-            string resultCache = await _cachingService.Get(nameof(UserModel) + userId);
+        #endregion
+
+        #region GetSemesterById
+
+        async Task<SemesterModel> ISemesterRepository.GetSemesterById(int semesterId)
+        {
+            return await _sudyContext.Semesters.Include(x => x.CollegeSubjects).Include(x => x.Course).Include(x => x.Institution).FirstOrDefaultAsync(x => x.SemesterId == semesterId);
+        }
+
+        async Task<SemesterModel> ISemesterRepository.GetSemesterByIdNoTracking(int semesterId)
+        {
+            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
+                return await _sudyContext.Semesters.Include(x => x.CollegeSubjects).Include(x => x.Course).Include(x => x.Institution).FirstOrDefaultAsync(x => x.SemesterId == semesterId);
+
+            string resultCache = await _cachingService.Get(nameof(SemesterModel) + semesterId);
 
             if (!string.IsNullOrEmpty(resultCache))
-                return JsonConvert.DeserializeObject<List<SemesterModel>>(resultCache);
+                return JsonConvert.DeserializeObject<SemesterModel>(resultCache);
 
-            List<SemesterModel> user = await _sudyContext.Semesters.AsNoTracking().Where(x => x.User.UserId == userId).ToListAsync();
+            SemesterModel semester = await _sudyContext.Semesters.Include(x => x.CollegeSubjects).Include(x => x.Course).Include(x => x.Institution).FirstOrDefaultAsync(x => x.SemesterId == semesterId);
 
-            if (user != null)
-                await _cachingService.Set(nameof(SemesterModel) + userId, JsonConvert.SerializeObject(user));
+            if (semester != null)
+                await _cachingService.Set(nameof(SemesterModel) + semesterId, JsonConvert.SerializeObject(semester));
 
-            return user;
+            return semester;
         }
 
         #endregion

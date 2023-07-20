@@ -1,9 +1,11 @@
 ﻿using StudandoApi.Properties.Enuns;
+using System.ComponentModel.DataAnnotations;
 
 namespace SudyApi.Models
 {
     public class CourseModel
     {
+        [Key]
         public int CourseId { get; set; }
 
         public string? CourseName { get; set; }

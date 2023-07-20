@@ -42,7 +42,7 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetSubject))]
         [Authorize]
-        public async Task<IActionResult> GetSubject (int? subjectId, string? name)
+        public async Task<IActionResult> GetSubject(int? subjectId, string? name)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace SudyApi.Controllers
                 if(user == null)
                     return NotFound();
 
-                SubjectModel newSubject = new SubjectModel(subject, user);
+                SubjectModel newSubject = new SubjectModel(subject);
 
                 await _sudyService.Create(newSubject, true);
 

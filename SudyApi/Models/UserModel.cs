@@ -15,8 +15,6 @@ namespace SudyApi.Models
 
         public UserInformation? UserInformation { get; set; }
 
-        public AcessType? AcessType { get; set; }
-
         public string? Name { get; set; }
 
         public string? Email { get; set; }
@@ -31,14 +29,12 @@ namespace SudyApi.Models
 
         public DateTime? CreationDate { get; set; }
 
-        public int? CreationUser { get; set; }
-
         [DataType(DataType.DateTime)]
         public DateTime? UpdateDate { get; set; }
 
-        public int? UpdateUser { get; set; }
-
         public ICollection<SubjectModel> Subjects { get; set; }
+
+        #region Constructor
 
         public UserModel() { }
 
@@ -48,21 +44,35 @@ namespace SudyApi.Models
             Email = viewModel.Email;
             PasswordHash = EncryptPassord.Hash(viewModel.Password);
             CreationDate = DateTime.Now;
-            CreationUser = UserLogged.UserId;
 
             UserInformation = new UserInformation(viewModel);
         }
 
-        public UserModel(EditUserViewModel viewModel)
-        {
-            UserId = viewModel.UserId;
-            Name = viewModel.Name;
-            Email = viewModel.Email;
-            PasswordHash = EncryptPassord.Hash(viewModel.Password);
-            UpdateDate = DateTime.Now;
-            UpdateUser = UserLogged.UserId;
+        #endregion
 
-            UserInformation = new UserInformation(viewModel);
+        #region Methods
+
+        public void Login()
+        {
+            Token = Security.Token.GenerateToken(this);
+            UpdateDate = DateTime.Now;
+        }
+
+        public void Logout()
+        {
+            Token = null;
+            LastLogin = DateTime.UtcNow;
+            UpdateDate = DateTime.UtcNow;
+        }
+
+        public void Update(EditUserViewModel viewModel)
+        {
+            Name = viewModel.Name != null ? viewModel.Name : Name;
+            Email = viewModel.Email != null ? viewModel.Email : Email;
+            PasswordHash = viewModel.Password != null ? EncryptPassord.Hash(viewModel.Password) : PasswordHash;
+            UpdateDate = DateTime.Now;
+            
+            UserInformation.Update(viewModel);
         }
 
         public static IEnumerable<Claim> GetClaims(UserModel user)
@@ -73,5 +83,7 @@ namespace SudyApi.Models
             };
             return result;
         }
+
+        #endregion
     }
 }

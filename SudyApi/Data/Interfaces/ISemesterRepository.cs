@@ -11,5 +11,13 @@ namespace SudyApi.Data.Interfaces
         Task<List<SemesterModel>> GetAllSemestersByUserIdNoTracking(int userId);
 
         #endregion
+
+        #region
+
+        Task<SemesterModel> GetSemesterById(int semesterId);
+
+        Task<SemesterModel> GetSemesterByIdNoTracking(int semesterId);
+
+        #endregion
     }
 }

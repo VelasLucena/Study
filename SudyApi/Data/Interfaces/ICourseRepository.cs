@@ -20,5 +20,13 @@ namespace SudyApi.Data.Interfaces
         Task<List<CourseModel>> GetCourseByNameNoTracking(string courseName);
 
         #endregion
+
+        #region GetCourseById
+
+        Task<CourseModel> GetCourseById(int courseId);
+
+        Task<CourseModel> GetCourseByIdNoTracking(int courseId);
+
+        #endregion
     }
 }

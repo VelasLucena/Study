@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using StudandoApi.Data.Contexts;
 using SudyApi.Data.Interfaces;
 using SudyApi.Models;
 using SudyApi.Properties.Enuns;
+using SudyApi.Utility;
 using System.Collections.Generic;
 
 namespace SudyApi.Data.Repositories
@@ -56,6 +58,8 @@ namespace SudyApi.Data.Repositories
             return null;
         }
 
+        #region GetCourseByName
+
         async Task<List<CourseModel>> ICourseRepository.GetCourseByName(string courseName)
         {
             return await _sudyContext.Courses.Where(x => x.CourseName.Contains(courseName)).ToListAsync();
@@ -65,6 +69,34 @@ namespace SudyApi.Data.Repositories
         {
             return await _sudyContext.Courses.AsNoTracking().Where(x => x.CourseName.Contains(courseName)).ToListAsync();
         }
+
+        #endregion
+
+        #region GetCourseById
+
+        async Task<CourseModel> ICourseRepository.GetCourseById(int courseId)
+        {
+            return await _sudyContext.Courses.FirstOrDefaultAsync(x => x.CourseId == courseId);
+        }
+
+        async Task<CourseModel> ICourseRepository.GetCourseByIdNoTracking(int courseId)
+        {
+            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
+                return await _sudyContext.Courses.AsNoTracking().FirstOrDefaultAsync(x => x.CourseId == courseId);
+
+            string resultCache = await _cachingService.Get(nameof(CourseModel) + courseId);
+
+            if (!string.IsNullOrEmpty(resultCache))
+                return JsonConvert.DeserializeObject<CourseModel>(resultCache);
+
+            CourseModel course = await _sudyContext.Courses.AsNoTracking().FirstOrDefaultAsync(x => x.CourseId == courseId);
+            if (course != null)
+                await _cachingService.Set(nameof(CourseModel) + courseId, JsonConvert.SerializeObject(course));
+
+            return course;
+        }
+
+        #endregion
 
         #endregion
 

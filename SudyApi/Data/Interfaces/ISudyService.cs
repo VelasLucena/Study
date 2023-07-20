@@ -12,6 +12,14 @@ namespace StudandoApi.Data.Interfaces
 
         public IUserInformationRepository UserInformationRepository { get; }
 
+        public ISemesterRepository SemesterRepository { get; }
+
+        public ICourseRepository CourseRepository { get; }
+
+        public IInstitutionRepository InstitutionRepository { get; }
+
+        public ICollegeSubjectRepository collegeSubjectRepository { get; }
+
         Task Create<T>(T user, bool removeCache = false, bool manualDesactiveCache = false);
 
         Task CreateMany<T>(List<T> user, bool removeCache = false, bool manualDesactiveCache = false);

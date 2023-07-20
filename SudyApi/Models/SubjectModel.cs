@@ -8,35 +8,25 @@ namespace SudyApi.Models
         [Key]
         public int SubjectId { get; set; }
 
-        public int? UserId { get; set; }
-
-        public UserModel? User { get; set; }
-
         public string? Name { get; set; }
 
-        public ICollection<ChapterModel>? Chapters { get; set; }
+        public int? CollegeSubjectId { get; set; }
+
+        public CollegeSubjectModel CollegeSubject { get; set; }
 
         public DateTime? CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
 
+        public ICollection<ChapterModel>? Chapters { get; set; }
+
+
         public SubjectModel() { }
 
-        public SubjectModel(RegisterSubjectViewModel viewModel, UserModel user)
+        public SubjectModel(RegisterSubjectViewModel viewModel)
         {
             Name = viewModel.Name;
             CreationDate = DateTime.Now;
-            UserId = viewModel.UserId;
-            User = user;
-        }
-
-        public SubjectModel(EditSubjectViewModel viewModel, UserModel user)
-        {
-            SubjectId = viewModel.SubjectId;
-            Name = viewModel.Name;
-            UpdateDate = DateTime.Now;
-            UserId = viewModel.UserId;
-            User = user;
         }
 
         public void Update(EditSubjectViewModel viewModel)

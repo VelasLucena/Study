@@ -88,24 +88,23 @@ namespace StudandoApi.Controllers
         [HttpPut]
         [ActionName(nameof(EditUser))]
         [Authorize]
-        public async Task<IActionResult> EditUser(EditUserViewModel userEdit)
+        public async Task<IActionResult> EditUser(EditUserViewModel user)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
+                UserModel editUser = await _sudyService.UserRepository.GetUserByIdNoTracking(user.UserId);
 
-                UserModel userOld = await _sudyService.UserRepository.GetUserByIdNoTracking(userEdit.UserId);
-
-                if(userOld == null) 
+                if(editUser == null) 
                     return NotFound();
 
-                UserModel userNew = new UserModel(userEdit);
+                editUser.Update(user);
 
-                await _sudyService.Update(userNew);
+                await _sudyService.Update(editUser);
 
-                return Ok(userNew);
+                return Ok(editUser);
             }
             catch (Exception ex)
             {

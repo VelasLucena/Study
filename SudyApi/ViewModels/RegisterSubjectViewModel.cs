@@ -1,5 +1,4 @@
-﻿using SudyApi.Models.Subject;
-
+﻿
 namespace SudyApi.ViewModels
 {
     public class RegisterSubjectViewModel

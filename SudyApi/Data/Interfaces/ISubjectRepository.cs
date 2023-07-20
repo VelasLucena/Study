@@ -21,11 +21,11 @@ namespace SudyApi.Data.Interfaces
 
         #endregion
 
-        #region GetSubjectByUserId
+        #region GetSubjectByCollegeSubjectId
 
-        Task<List<SubjectModel>> GetSubjectByUserId(int userId);
+        Task<List<SubjectModel>> GetSubjectByCollegeSubjectId(int collegeSubjectId);
 
-        Task<List<SubjectModel>> GetSubjectByUserIdNoTracking(int userId);
+        Task<List<SubjectModel>> GetSubjectByCollegeSubjectIdNoTracking(int collegeSubjectId);
 
         #endregion
 

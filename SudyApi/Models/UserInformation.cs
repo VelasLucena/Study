@@ -28,11 +28,7 @@ namespace SudyApi.Models
 
         public DateTime? CreationDate { get; set; }
 
-        public int? CreationUser { get; set; }
-
         public DateTime? UpdateDate { get; set; }
-
-        public int? UpdateUser { get; set; }
 
         public UserInformation() { }
 
@@ -47,22 +43,19 @@ namespace SudyApi.Models
             Address = viewModel.Address;
             Cep = viewModel.Cep;
             CreationDate = DateTime.Now;
-            CreationUser = UserLogged.UserId;
         }
 
-        public UserInformation(EditUserViewModel viewModel)
+        public void Update(EditUserViewModel viewModel)
         {
-            UserInformationId = viewModel.UserInformationId;
-            PhoneNumber = viewModel.PhoneNumber;
-            Age = viewModel.Age;
-            Cpf = viewModel.Cpf;
-            Rg = viewModel.Rg;
-            Gender = viewModel.Gender;
-            Birthday = viewModel.Birthday;
-            Address = viewModel.Address;
-            Cep = viewModel.Cep;
+            PhoneNumber = viewModel.PhoneNumber != null ? viewModel.PhoneNumber : PhoneNumber;
+            Age = viewModel.Age != null ? viewModel.Age : Age;
+            Cpf = viewModel.Cpf != null ? viewModel.Cpf : Cpf;
+            Rg = viewModel.Rg != null ? viewModel.Rg : Rg;
+            Gender = viewModel.Gender != null ? viewModel.Gender : Gender;
+            Birthday = viewModel.Birthday != null ? viewModel.Birthday : Birthday;
+            Address = viewModel.Address != null ? viewModel.Address : Address;
+            Cep = viewModel.Cep != null ? viewModel.Cep : Cep;
             UpdateDate = DateTime.Now;
-            UpdateUser = UserLogged.UserId;
         }
     }
 }
