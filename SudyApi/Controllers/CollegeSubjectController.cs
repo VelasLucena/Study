@@ -33,5 +33,25 @@ namespace SudyApi.Controllers
                 return BadRequest(new { Error = ex.Message });
             }
         }
+
+        [HttpGet]
+        [ActionName(nameof(GetCollegeSubject))]
+        [Authorize]
+        public async Task<IActionResult> GetCollegeSubject(string? name)
+        {
+            try
+            {
+                SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterByIdNoTracking(semesterId);
+
+                if (semester == null)
+                    return NotFound();
+
+                return Ok(semester);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+        }
     }
 }
