@@ -19,5 +19,13 @@ namespace SudyApi.Data.Interfaces
         Task<List<DisciplineModel>> GetDisciplinesByNameNoTracking(string name);
 
         #endregion
+
+        #region GetDisciplineById
+
+        Task<DisciplineModel> GetDisciplineById(int disciplineId);
+
+        Task<DisciplineModel> GetDisciplineByIdNoTracking(int disciplineId);
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SudyApi.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace SudyApi.Models
 {
@@ -18,5 +19,21 @@ namespace SudyApi.Models
         public DateTime UpdateDate { get; set; }
 
         public ICollection<SubjectModel> Subjects { get; set; }
+
+        public DisciplineModel() { }
+
+        public DisciplineModel(SemesterModel semester, DisciplineNameModel disciplineName)
+        {
+            SemesterId = semester.SemesterId;
+            Name = disciplineName;
+            CreationDate = DateTime.Now;
+        }
+
+        public void Update(SemesterModel semester, DisciplineNameModel disciplineName)
+        {
+            Semester = semester;
+            Name = disciplineName;
+            UpdateDate = DateTime.Now;
+        }
     }
 }

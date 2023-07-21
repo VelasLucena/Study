@@ -1,0 +1,30 @@
+﻿Artes 
+,Artes Cênicas 
+,Artes Plásticas 
+,Artes Visuais 
+,Biologia 
+,Ciência da Computação 
+,Ciências Agrícolas 
+,Ciências da Natureza 
+,Ciências Exatas 
+,Ciências Sociais 
+,Computação 
+,Desenho e Plástica 
+,Educação do Campo 
+,Educação Especial 
+,Educação Física 
+,Enfermagem 
+,Filosofia 
+,Física 
+,Geografia 
+,História 
+,Informática 
+,Letras 
+,Matemática 
+,Música 
+,Pedagogia 
+,Programa Especial de Formação Pedagógica 
+,Psicologia 
+,Química 
+,Segunda licenciatura 
+,Teatro

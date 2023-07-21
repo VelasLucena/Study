@@ -20,6 +20,8 @@ namespace StudandoApi.Data.Interfaces
 
         public IDisciplineRepository DisciplineRepository { get; }
 
+        public IDisciplineNameRepository DisciplineNameRepository { get; }
+
         Task Create<T>(T user, bool removeCache = false, bool manualDesactiveCache = false);
 
         Task CreateMany<T>(List<T> user, bool removeCache = false, bool manualDesactiveCache = false);

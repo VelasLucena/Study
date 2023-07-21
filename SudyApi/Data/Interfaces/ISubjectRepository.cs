@@ -23,9 +23,9 @@ namespace SudyApi.Data.Interfaces
 
         #region GetSubjectByCollegeSubjectId
 
-        Task<List<SubjectModel>> GetSubjectByCollegeSubjectId(int collegeSubjectId);
+        Task<List<SubjectModel>> GetSubjectByDisciplineId(int disciplineId);
 
-        Task<List<SubjectModel>> GetSubjectByCollegeSubjectIdNoTracking(int collegeSubjectId);
+        Task<List<SubjectModel>> GetSubjectByDisciplineIdNoTracking(int disciplineId);
 
         #endregion
 

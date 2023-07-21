@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using StudandoApi.Data.Contexts;
 using SudyApi.Data.Interfaces;
 using SudyApi.Data.Services;
 using SudyApi.Models;
+using SudyApi.Properties.Enuns;
+using SudyApi.Utility;
 
 namespace SudyApi.Data.Repositories
 {
@@ -49,6 +52,33 @@ namespace SudyApi.Data.Repositories
         Task<List<DisciplineModel>> IDisciplineRepository.GetDisciplinesByNameNoTracking(string name)
         {
             throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region GetDisciplineById
+
+        async Task<DisciplineModel> IDisciplineRepository.GetDisciplineById(int disciplineid)
+        {
+            return await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).FirstOrDefaultAsync(x => x.DisciplineId == disciplineid);
+        }
+
+        async Task<DisciplineModel> IDisciplineRepository.GetDisciplineByIdNoTracking(int disciplineid)
+        {
+            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
+                return await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).FirstOrDefaultAsync(x => x.DisciplineId == disciplineid);
+
+            string resultCache = await _cacheService.Get(nameof(DisciplineModel) + disciplineid);
+
+            if (!string.IsNullOrEmpty(resultCache))
+                return JsonConvert.DeserializeObject<DisciplineModel>(resultCache);
+
+            DisciplineModel discipline = await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).FirstOrDefaultAsync(x => x.DisciplineId == disciplineid);
+
+            if (discipline != null)
+                await _cacheService.Set(nameof(DisciplineModel) + disciplineid, JsonConvert.SerializeObject(discipline));
+
+            return discipline;
         }
 
         #endregion

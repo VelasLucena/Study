@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SudyApi.Models;
+using SudyApi.Utility;
 
 namespace StudandoApi.Data.Contexts
 {
@@ -68,6 +69,14 @@ namespace StudandoApi.Data.Contexts
                 .WithOne(x => x.Subject)
                 .HasForeignKey(x => x.SubjectId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            #endregion
+
+            #region Default Data
+
+            List<CourseModel> courses = DefaultValues.GenerateCourses();
+
+            modelBuilder.Entity<CourseModel>().HasData(courses);
 
             #endregion
         }

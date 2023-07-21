@@ -50,8 +50,10 @@ namespace StudandoApi.Controllers
 
                 if (userId != null)
                     user = await _sudyService.UserRepository.GetUserByIdNoTracking(Convert.ToInt32(userId));
-                else if(name != null)
+                else if (name != null)
                     user = await _sudyService.UserRepository.GetUserByNameFirstNoTracking(name);
+                else
+                    return BadRequest();
 
                 if (user == null)
                     return NotFound();

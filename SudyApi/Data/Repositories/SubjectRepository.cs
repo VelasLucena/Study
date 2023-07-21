@@ -88,14 +88,14 @@ namespace SudyApi.Data.Repositories
 
         #region GetSubjectByCollegeSubjectId
 
-        public async Task<List<SubjectModel>> GetSubjectByCollegeSubjectId(int collegeSubjectId)
+        public async Task<List<SubjectModel>> GetSubjectByDisciplineId(int disciplineId)
         {
-            return await _sudyContext.Subjects.Where(x => x.CollegeSubjectId == collegeSubjectId).ToListAsync();
+            return await _sudyContext.Subjects.Include(x => x.Chapters).Where(x => x.DisciplineId == disciplineId).ToListAsync();
         }
 
-        public async Task<List<SubjectModel>> GetSubjectByCollegeSubjectIdNoTracking(int collegeSubjectId)
+        public async Task<List<SubjectModel>> GetSubjectByDisciplineIdNoTracking(int disciplineId)
         {
-            return await _sudyContext.Subjects.Where(x => x.CollegeSubjectId == collegeSubjectId).ToListAsync();
+            return await _sudyContext.Subjects.Include(x => x.Chapters).Where(x => x.DisciplineId == disciplineId).ToListAsync();
         }
 
         #endregion

@@ -13,5 +13,14 @@ namespace SudyApi.Models
         public GraduationLevel? Level { get; set; }
 
         public int? SemestersCount { get; set; }
+
+        public CourseModel() { }
+
+        public CourseModel(string name, GraduationLevel level, int id)
+        {
+            CourseName = name;
+            Level = level;
+            SemestersCount = id;
+        }
     }
 }

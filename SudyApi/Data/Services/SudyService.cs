@@ -97,6 +97,12 @@ namespace SudyApi.Data.Services
         }
 
         public IDisciplineNameRepository DisciplineNameRepository
+        {
+            get
+            {
+                return new DisciplineNameRepository(_sudyContext, _cacheService);
+            }
+        }
 
         #endregion
 
