@@ -7,6 +7,8 @@ using SudyApi.ViewModels;
 
 namespace SudyApi.Controllers
 {
+    [ApiController]
+    [Route("{controller}/{action}")]
     public class DisciplineController : Controller
     {
         private readonly ISudyService _sudyService;
@@ -43,7 +45,40 @@ namespace SudyApi.Controllers
         {
             try
             {
-                List<string> disciplines = await _sudyService.DisciplineNameRepository.GetDisciplineNameByNameNoTracking(name);
+                List<DisciplineNameModel> disciplines = await _sudyService.DisciplineNameRepository.GetDisciplineNameByNameNoTracking(name);
+
+                if (disciplines.Count == 0)
+                    return NotFound();
+
+                return Ok(disciplines);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [ActionName(nameof(GetDisciplineByName))]
+        [Authorize]
+        public async Task<IActionResult> GetDisciplineByName(string name, int semesterId)
+        {
+            try
+            {
+                List<DisciplineNameModel> disciplinesnames = await _sudyService.DisciplineNameRepository.GetDisciplineNameByNameNoTracking(name);
+
+                if (disciplinesnames.Count == 0)
+                    return NotFound();
+
+                List<DisciplineModel> disciplines = new List<DisciplineModel>();
+
+                foreach (DisciplineNameModel item in disciplinesnames)
+                {
+                    DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByNameNoTracking(item.DisciplineNameId, semesterId);
+
+                    if(discipline != null)
+                        disciplines.Add(discipline);
+                }
 
                 if (disciplines.Count == 0)
                     return NotFound();
@@ -82,7 +117,7 @@ namespace SudyApi.Controllers
                     }
                 }
 
-                DisciplineModel newDiscipline = new DisciplineModel();
+                DisciplineModel newDiscipline = new DisciplineModel(semester, disciplineName);
 
                 await _sudyService.Create(newDiscipline);
 
@@ -145,11 +180,10 @@ namespace SudyApi.Controllers
 
                 List<SubjectModel> subjects = await _sudyService.SubjectRepository.GetSubjectByDisciplineId(disciplineId);
 
-                if (subjects.Count == 0)
-                    return NotFound();
+                if (subjects.Count > 0)
+                    await _sudyService.DeleteMany(subjects);
 
                 await _sudyService.Delete(discipline);
-                await _sudyService.DeleteMany(subjects);
 
                 return Ok();
             }

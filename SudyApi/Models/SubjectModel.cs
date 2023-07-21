@@ -12,7 +12,7 @@ namespace SudyApi.Models
 
         public int? DisciplineId { get; set; }
 
-        public DisciplineModel Discipline { get; set; }
+        public DisciplineModel? Discipline { get; set; }
 
         public DateTime? CreationDate { get; set; }
 
@@ -26,6 +26,7 @@ namespace SudyApi.Models
         public SubjectModel(RegisterSubjectViewModel viewModel)
         {
             Name = viewModel.Name;
+            DisciplineId = viewModel.DisciplineId;
             CreationDate = DateTime.Now;
         }
 

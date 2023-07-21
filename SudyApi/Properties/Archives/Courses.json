@@ -1,0 +1,1730 @@
+[
+  {
+    "Name": "Artes",
+    "level": 1
+  },
+  {
+    "Name": "Artes Cênicas",
+    "level": 1
+  },
+  {
+    "Name": "Artes Plásticas",
+    "level": 1
+  },
+  {
+    "Name": "Artes Visuais",
+    "level": 1
+  },
+  {
+    "Name": "Biologia",
+    "level": 1
+  },
+  {
+    "Name": "Ciência da Computação",
+    "level": 1
+  },
+  {
+    "Name": "Ciências Agrícolas",
+    "level": 1
+  },
+  {
+    "Name": "Ciências da Natureza",
+    "level": 1
+  },
+  {
+    "Name": "Ciências Exatas",
+    "level": 1
+  },
+  {
+    "Name": "Ciências Sociais",
+    "level": 1
+  },
+  {
+    "Name": "Computação",
+    "level": 1
+  },
+  {
+    "Name": "Desenho e Plástica",
+    "level": 1
+  },
+  {
+    "Name": "Educação do Campo",
+    "level": 1
+  },
+  {
+    "Name": "Educação Especial",
+    "level": 1
+  },
+  {
+    "Name": "Educação Física",
+    "level": 1
+  },
+  {
+    "Name": "Enfermagem",
+    "level": 1
+  },
+  {
+    "Name": "Filosofia",
+    "level": 1
+  },
+  {
+    "Name": "Física",
+    "level": 1
+  },
+  {
+    "Name": "Geografia",
+    "level": 1
+  },
+  {
+    "Name": "História",
+    "level": 1
+  },
+  {
+    "Name": "Informática",
+    "level": 1
+  },
+  {
+    "Name": "Letras",
+    "level": 1
+  },
+  {
+    "Name": "Matemática",
+    "level": 1
+  },
+  {
+    "Name": "Música",
+    "level": 1
+  },
+  {
+    "Name": "Pedagogia",
+    "level": 1
+  },
+  {
+    "Name": "Programa Especial de Formação Pedagógica",
+    "level": 1
+  },
+  {
+    "Name": "Psicologia",
+    "level": 1
+  },
+  {
+    "Name": "Química",
+    "level": 1
+  },
+  {
+    "Name": "Segunda licenciatura",
+    "level": 1
+  },
+  {
+    "Name": "Teatr",
+    "level": 1
+  },
+  {
+    "Name": "Acupuntura",
+    "level": 2
+  },
+  {
+    "Name": "Agrimensura",
+    "level": 2
+  },
+  {
+    "Name": "Agrocomputação",
+    "level": 2
+  },
+  {
+    "Name": "Agroecologia",
+    "level": 2
+  },
+  {
+    "Name": "Agroindústria",
+    "level": 2
+  },
+  {
+    "Name": "Agronegócio",
+    "level": 2
+  },
+  {
+    "Name": "Agropecuária",
+    "level": 2
+  },
+  {
+    "Name": "Alimentos",
+    "level": 2
+  },
+  {
+    "Name": "Análise de Dados",
+    "level": 2
+  },
+  {
+    "Name": "Análise e Desenvolvimento de Sistemas",
+    "level": 2
+  },
+  {
+    "Name": "Apicultura e Meliponicultura",
+    "level": 2
+  },
+  {
+    "Name": "Aquicultura",
+    "level": 2
+  },
+  {
+    "Name": "Arqueologia",
+    "level": 2
+  },
+  {
+    "Name": "Arquitetura de Dados",
+    "level": 2
+  },
+  {
+    "Name": "Artes do Espetáculo",
+    "level": 2
+  },
+  {
+    "Name": "Artes e Mídias Digitais",
+    "level": 2
+  },
+  {
+    "Name": "Assessoria Executiva Digital",
+    "level": 2
+  },
+  {
+    "Name": "Atividades de Inteligência e Gestão de Sigilos",
+    "level": 2
+  },
+  {
+    "Name": "Auditoria em Saúde",
+    "level": 2
+  },
+  {
+    "Name": "Automação de Escritórios e Secretariado",
+    "level": 2
+  },
+  {
+    "Name": "Automação e Manufatura Digital",
+    "level": 2
+  },
+  {
+    "Name": "Automação Industrial",
+    "level": 2
+  },
+  {
+    "Name": "Banco de Dados",
+    "level": 2
+  },
+  {
+    "Name": "Big Data e Inteligência Analítica",
+    "level": 2
+  },
+  {
+    "Name": "Big Data no Agronegócio",
+    "level": 2
+  },
+  {
+    "Name": "Biocombustíveis",
+    "level": 2
+  },
+  {
+    "Name": "Bioenergia",
+    "level": 2
+  },
+  {
+    "Name": "Bioinformática",
+    "level": 2
+  },
+  {
+    "Name": "Biotecnologia",
+    "level": 2
+  },
+  {
+    "Name": "Blockchain e Criptografia Digital",
+    "level": 2
+  },
+  {
+    "Name": "Cafeicultura",
+    "level": 2
+  },
+  {
+    "Name": "Cibersegurança",
+    "level": 2
+  },
+  {
+    "Name": "Ciência de Dados",
+    "level": 2
+  },
+  {
+    "Name": "Cinema e Audiovisual",
+    "level": 2
+  },
+  {
+    "Name": "Coach Digital",
+    "level": 2
+  },
+  {
+    "Name": "Coaching e Mentoring",
+    "level": 2
+  },
+  {
+    "Name": "Coding",
+    "level": 2
+  },
+  {
+    "Name": "Comércio Exterior",
+    "level": 2
+  },
+  {
+    "Name": "Computação em Nuvem",
+    "level": 2
+  },
+  {
+    "Name": "Comunicação Assistiva",
+    "level": 2
+  },
+  {
+    "Name": "Comunicação Digital",
+    "level": 2
+  },
+  {
+    "Name": "Comunicação em Computação Gráfica",
+    "level": 2
+  },
+  {
+    "Name": "Comunicação em Mídias Digitais",
+    "level": 2
+  },
+  {
+    "Name": "Comunicação Institucional",
+    "level": 2
+  },
+  {
+    "Name": "Conservação e Restauro",
+    "level": 2
+  },
+  {
+    "Name": "Construção Civil",
+    "level": 2
+  },
+  {
+    "Name": "Construção de Edifícios",
+    "level": 2
+  },
+  {
+    "Name": "Construção Naval",
+    "level": 2
+  },
+  {
+    "Name": "Controle Ambienta",
+    "level": 2
+  },
+  {
+    "Name": "Controle de Obra",
+    "level": 2
+  },
+  {
+    "Name": "Cosmetologia e Estética",
+    "level": 2
+  },
+  {
+    "Name": "Cozinha Contemporânea",
+    "level": 2
+  },
+  {
+    "Name": "Data Science",
+    "level": 2
+  },
+  {
+    "Name": "Defesa Cibernética",
+    "level": 2
+  },
+  {
+    "Name": "Defesa Médica Hospitalar",
+    "level": 2
+  },
+  {
+    "Name": "Desenho de Animação",
+    "level": 2
+  },
+  {
+    "Name": "Desenvolvimento Back-End",
+    "level": 2
+  },
+  {
+    "Name": "Desenvolvimento de Aplicativos para Dispositivos Móveis",
+    "level": 2
+  },
+  {
+    "Name": "Desenvolvimento de Produtos Plásticos",
+    "level": 2
+  },
+  {
+    "Name": "Desenvolvimento de Sistemas",
+    "level": 2
+  },
+  {
+    "Name": "Desenvolvimento e Gestão de Startups",
+    "level": 2
+  },
+  {
+    "Name": "Desenvolvimento Mobile",
+    "level": 2
+  },
+  {
+    "Name": "Desenvolvimento para Internet",
+    "level": 2
+  },
+  {
+    "Name": "Desenvolvimento para Web",
+    "level": 2
+  },
+  {
+    "Name": "Design",
+    "level": 2
+  },
+  {
+    "Name": "Design Comercial",
+    "level": 2
+  },
+  {
+    "Name": "Design de Animação",
+    "level": 2
+  },
+  {
+    "Name": "Design de Aplicações e Interfaces Digitais",
+    "level": 2
+  },
+  {
+    "Name": "Design de Experiência e de Serviços",
+    "level": 2
+  },
+  {
+    "Name": "Design de Games",
+    "level": 2
+  },
+  {
+    "Name": "Design de Interiores",
+    "level": 2
+  },
+  {
+    "Name": "Design de Moda",
+    "level": 2
+  },
+  {
+    "Name": "Design de Produto",
+    "level": 2
+  },
+  {
+    "Name": "Design Editorial",
+    "level": 2
+  },
+  {
+    "Name": "Design Educacional",
+    "level": 2
+  },
+  {
+    "Name": "Design Gráfico",
+    "level": 2
+  },
+  {
+    "Name": "Devops",
+    "level": 2
+  },
+  {
+    "Name": "Digital Influencer",
+    "level": 2
+  },
+  {
+    "Name": "Digital Security",
+    "level": 2
+  },
+  {
+    "Name": "E-Commerce",
+    "level": 2
+  },
+  {
+    "Name": "Educação e Processos de Trabalho: Alimentação Escolar",
+    "level": 2
+  },
+  {
+    "Name": "Educador Social",
+    "level": 2
+  },
+  {
+    "Name": "Eletrônica Automotiva",
+    "level": 2
+  },
+  {
+    "Name": "Eletrônica Industrial",
+    "level": 2
+  },
+  {
+    "Name": "Eletrotécnica Industrial",
+    "level": 2
+  },
+  {
+    "Name": "Embelezamento e Imagem Pessoal",
+    "level": 2
+  },
+  {
+    "Name": "Empreendedorismo",
+    "level": 2
+  },
+  {
+    "Name": "Energias Renováveis",
+    "level": 2
+  },
+  {
+    "Name": "Escrita Criativa",
+    "level": 2
+  },
+  {
+    "Name": "Estética e Cosmética",
+    "level": 2
+  },
+  {
+    "Name": "Estilismo",
+    "level": 2
+  },
+  {
+    "Name": "Estradas",
+    "level": 2
+  },
+  {
+    "Name": "Eventos",
+    "level": 2
+  },
+  {
+    "Name": "Fabricação Mecânica",
+    "level": 2
+  },
+  {
+    "Name": "Filmmaker",
+    "level": 2
+  },
+  {
+    "Name": "Finanças",
+    "level": 2
+  },
+  {
+    "Name": "Fitoterapia",
+    "level": 2
+  },
+  {
+    "Name": "Fotografia",
+    "level": 2
+  },
+  {
+    "Name": "Fruticultura",
+    "level": 2
+  },
+  {
+    "Name": "Futebol",
+    "level": 2
+  },
+  {
+    "Name": "Game Design",
+    "level": 2
+  },
+  {
+    "Name": "Gastronomia",
+    "level": 2
+  },
+  {
+    "Name": "Geoprocessamento",
+    "level": 2
+  },
+  {
+    "Name": "Gerenciamento de Redes de Computadores",
+    "level": 2
+  },
+  {
+    "Name": "Gerontologia",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Ambiental",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Comercial",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Cultural",
+    "level": 2
+  },
+  {
+    "Name": "Gestão da Avaliação",
+    "level": 2
+  },
+  {
+    "Name": "Gestão da Inovação e Empreendedorismo Digital",
+    "level": 2
+  },
+  {
+    "Name": "Gestão da Produção Industrial",
+    "level": 2
+  },
+  {
+    "Name": "Gestão da Qualidade",
+    "level": 2
+  },
+  {
+    "Name": "Gestão da Segurança Pública e Patrimonial",
+    "level": 2
+  },
+  {
+    "Name": "Gestão das Organizações do Terceiro Setor",
+    "level": 2
+  },
+  {
+    "Name": "Gestão das Relações Eletrônicas",
+    "level": 2
+  },
+  {
+    "Name": "Gestão da Tecnologia da Informação",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Agronegócios",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Cidades Inteligentes",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Cloud Computing",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Cooperativas",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Energia e Eficiência Energética",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Equinocultura",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Inventário Extrajudicial",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Investimentos",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Lojas e Pontos de Vendas",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Mercado de Capitais",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Micro e Pequenas Empresas",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Negócios",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Pessoas",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Qualidade na Saúde",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Recursos Hídricos",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Recursos Humanos",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Representação Comercial",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Resíduos de Serviços de Saúde",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Saúde Pública",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Segurança Privada",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Seguros",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Serviços Judiciários e Notariais",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Desportiva e de Lazer",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Telecomunicações",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Trânsito",
+    "level": 2
+  },
+  {
+    "Name": "Gestão de Turismo",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Empresarial",
+    "level": 2
+  },
+  {
+    "Name": "Gestão em Serviços",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Financeira",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Hospitalar",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Portuária",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Pública",
+    "level": 2
+  },
+  {
+    "Name": "Gestão Tributária",
+    "level": 2
+  },
+  {
+    "Name": "Horticultura",
+    "level": 2
+  },
+  {
+    "Name": "Hotelaria",
+    "level": 2
+  },
+  {
+    "Name": "Informática",
+    "level": 2
+  },
+  {
+    "Name": "Informática para Negócios",
+    "level": 2
+  },
+  {
+    "Name": "Instalações Elétricas",
+    "level": 2
+  },
+  {
+    "Name": "Instrumentação Cirúrgica",
+    "level": 2
+  },
+  {
+    "Name": "Inteligência Artificial",
+    "level": 2
+  },
+  {
+    "Name": "Interiores e Decorações",
+    "level": 2
+  },
+  {
+    "Name": "Internet das Coisas",
+    "level": 2
+  },
+  {
+    "Name": "Investigação e Perícia Criminal",
+    "level": 2
+  },
+  {
+    "Name": "Irrigação e Drenagem",
+    "level": 2
+  },
+  {
+    "Name": "Jogos Digitais",
+    "level": 2
+  },
+  {
+    "Name": "Laticínios",
+    "level": 2
+  },
+  {
+    "Name": "Logística",
+    "level": 2
+  },
+  {
+    "Name": "Luteria",
+    "level": 2
+  },
+  {
+    "Name": "Manufatura Avançada",
+    "level": 2
+  },
+  {
+    "Name": "Manutenção de Aeronaves",
+    "level": 2
+  },
+  {
+    "Name": "Manutenção Industrial",
+    "level": 2
+  },
+  {
+    "Name": "Marketing",
+    "level": 2
+  },
+  {
+    "Name": "Massoterapia",
+    "level": 2
+  },
+  {
+    "Name": "Mecânica Automobilística",
+    "level": 2
+  },
+  {
+    "Name": "Mecânica de Precisão",
+    "level": 2
+  },
+  {
+    "Name": "Mecânica",
+    "level": 2
+  },
+  {
+    "Name": "Mecatrônica Automotiva",
+    "level": 2
+  },
+  {
+    "Name": "Mecatrônica Industrial",
+    "level": 2
+  },
+  {
+    "Name": "Mediação",
+    "level": 2
+  },
+  {
+    "Name": "Microeletrônica",
+    "level": 2
+  },
+  {
+    "Name": "Mídias Sociais",
+    "level": 2
+  },
+  {
+    "Name": "Mineração",
+    "level": 2
+  },
+  {
+    "Name": "Ministério Pastoral",
+    "level": 2
+  },
+  {
+    "Name": "Moda",
+    "level": 2
+  },
+  {
+    "Name": "Multidisciplinar em Dependência Química",
+    "level": 2
+  },
+  {
+    "Name": "Negócios Digitais",
+    "level": 2
+  },
+  {
+    "Name": "Negócios Imobiliários",
+    "level": 2
+  },
+  {
+    "Name": "Oftálmica",
+    "level": 2
+  },
+  {
+    "Name": "Óptica e Optometria",
+    "level": 2
+  },
+  {
+    "Name": "Paisagismo",
+    "level": 2
+  },
+  {
+    "Name": "Papel e Celulose",
+    "level": 2
+  },
+  {
+    "Name": "Paramedicina",
+    "level": 2
+  },
+  {
+    "Name": "Petróleo e Gás",
+    "level": 2
+  },
+  {
+    "Name": "Pilotagem Profissional de Aeronaves",
+    "level": 2
+  },
+  {
+    "Name": "Planejamento Logístico de Cargas",
+    "level": 2
+  },
+  {
+    "Name": "Podologia",
+    "level": 2
+  },
+  {
+    "Name": "Polímeros",
+    "level": 2
+  },
+  {
+    "Name": "Política e Gestão Cultural",
+    "level": 2
+  },
+  {
+    "Name": "Políticas e Estratégicas Públicas",
+    "level": 2
+  },
+  {
+    "Name": "Práticas Integrativas e Complementares",
+    "level": 2
+  },
+  {
+    "Name": "Processamento de Dados",
+    "level": 2
+  },
+  {
+    "Name": "Processos Ambientais",
+    "level": 2
+  },
+  {
+    "Name": "Processos Escolares",
+    "level": 2
+  },
+  {
+    "Name": "Processos Gerenciais",
+    "level": 2
+  },
+  {
+    "Name": "Processos Metalúrgicos",
+    "level": 2
+  },
+  {
+    "Name": "Processos Químicos",
+    "level": 2
+  },
+  {
+    "Name": "Produção Agrícola",
+    "level": 2
+  },
+  {
+    "Name": "Produção Agropecuária",
+    "level": 2
+  },
+  {
+    "Name": "Produção Audiovisual",
+    "level": 2
+  },
+  {
+    "Name": "Produção Cervejeira",
+    "level": 2
+  },
+  {
+    "Name": "Produção Cultural",
+    "level": 2
+  },
+  {
+    "Name": "Produção de Cacau e Chocolate",
+    "level": 2
+  },
+  {
+    "Name": "Produção de Cachaça",
+    "level": 2
+  },
+  {
+    "Name": "Produção de Fármacos",
+    "level": 2
+  },
+  {
+    "Name": "Produção de Grãos",
+    "level": 2
+  },
+  {
+    "Name": "Produção de Plástico",
+    "level": 2
+  },
+  {
+    "Name": "Produção Fonográfica",
+    "level": 2
+  },
+  {
+    "Name": "Produção Gráfica",
+    "level": 2
+  },
+  {
+    "Name": "Produção Industrial",
+    "level": 2
+  },
+  {
+    "Name": "Produção Leiteira",
+    "level": 2
+  },
+  {
+    "Name": "Produção Multimídia",
+    "level": 2
+  },
+  {
+    "Name": "Produção Musical",
+    "level": 2
+  },
+  {
+    "Name": "Produção Pesqueira",
+    "level": 2
+  },
+  {
+    "Name": "Produção Publicitária",
+    "level": 2
+  },
+  {
+    "Name": "Produção Sucroalcooleira",
+    "level": 2
+  },
+  {
+    "Name": "Produção Têxtil",
+    "level": 2
+  },
+  {
+    "Name": "Projeto de Estruturas Aeronáuticas",
+    "level": 2
+  },
+  {
+    "Name": "Projetos Mecânicos",
+    "level": 2
+  },
+  {
+    "Name": "Qualidade de Vida na Contemporaneidade",
+    "level": 2
+  },
+  {
+    "Name": "Quiropraxia",
+    "level": 2
+  },
+  {
+    "Name": "Radiologia",
+    "level": 2
+  },
+  {
+    "Name": "Redes de Computadores",
+    "level": 2
+  },
+  {
+    "Name": "Refrigeração e Climatização",
+    "level": 2
+  },
+  {
+    "Name": "Rochas Ornamentais",
+    "level": 2
+  },
+  {
+    "Name": "Saneamento Ambiental",
+    "level": 2
+  },
+  {
+    "Name": "Saúde Coletiva",
+    "level": 2
+  },
+  {
+    "Name": "Secretariado",
+    "level": 2
+  },
+  {
+    "Name": "Segurança Alimentar",
+    "level": 2
+  },
+  {
+    "Name": "Segurança no Trabalho",
+    "level": 2
+  },
+  {
+    "Name": "Service Design",
+    "level": 2
+  },
+  {
+    "Name": "Silvicultura",
+    "level": 2
+  },
+  {
+    "Name": "Sistema de Informação",
+    "level": 2
+  },
+  {
+    "Name": "Sistemas Automotivos",
+    "level": 2
+  },
+  {
+    "Name": "Sistemas Biomédicos",
+    "level": 2
+  },
+  {
+    "Name": "Sistemas para Internet",
+    "level": 2
+  },
+  {
+    "Name": "Soldagem",
+    "level": 2
+  },
+  {
+    "Name": "Streaming Profissional",
+    "level": 2
+  },
+  {
+    "Name": "Tecnologia da Informação",
+    "level": 2
+  },
+  {
+    "Name": "Tecnologia Eletrônica",
+    "level": 2
+  },
+  {
+    "Name": "Tecnologia em Controle Ambiental",
+    "level": 2
+  },
+  {
+    "Name": "Tecnologia Mecânica",
+    "level": 2
+  },
+  {
+    "Name": "Tecnologias Educacionais",
+    "level": 2
+  },
+  {
+    "Name": "Telemática",
+    "level": 2
+  },
+  {
+    "Name": "Terapias Integrativas e Complementares",
+    "level": 2
+  },
+  {
+    "Name": "Toxicologia Ambiental",
+    "level": 2
+  },
+  {
+    "Name": "Trânsito",
+    "level": 2
+  },
+  {
+    "Name": "Transporte Terrestre",
+    "level": 2
+  },
+  {
+    "Name": "Turismo",
+    "level": 2
+  },
+  {
+    "Name": "Tutoria de Educação a Distância",
+    "level": 2
+  },
+  {
+    "Name": "Varejo Digital",
+    "level": 2
+  },
+  {
+    "Name": "Visagismo e Terapias Capilares",
+    "level": 2
+  },
+  {
+    "Name": "Viticultura e Enologia",
+    "level": 2
+  },
+  {
+    "Name": "Administração",
+    "level": 3
+  },
+  {
+    "Name": "Administração Pública",
+    "level": 3
+  },
+  {
+    "Name": "Agroecologia",
+    "level": 3
+  },
+  {
+    "Name": "Agronegóci",
+    "level": 3
+  },
+  {
+    "Name": "Agronomia",
+    "level": 3
+  },
+  {
+    "Name": "Antropologia",
+    "level": 3
+  },
+  {
+    "Name": "Arquitetura e Urbanismo",
+    "level": 3
+  },
+  {
+    "Name": "Arquivologia",
+    "level": 3
+  },
+  {
+    "Name": "Artes",
+    "level": 3
+  },
+  {
+    "Name": "Artes Cênicas",
+    "level": 3
+  },
+  {
+    "Name": "Astronomia",
+    "level": 3
+  },
+  {
+    "Name": "Biblioteconomia",
+    "level": 3
+  },
+  {
+    "Name": "Biologia",
+    "level": 3
+  },
+  {
+    "Name": "Biomedicina",
+    "level": 3
+  },
+  {
+    "Name": "Biotecnologi",
+    "level": 3
+  },
+  {
+    "Name": "Bioquímica",
+    "level": 3
+  },
+  {
+    "Name": "Canto",
+    "level": 3
+  },
+  {
+    "Name": "Cenografia",
+    "level": 3
+  },
+  {
+    "Name": "Ciência da Computação",
+    "level": 3
+  },
+  {
+    "Name": "Ciências Biológicas",
+    "level": 3
+  },
+  {
+    "Name": "Ciências Contábeis",
+    "level": 3
+  },
+  {
+    "Name": "Ciências Econômica",
+    "level": 3
+  },
+  {
+    "Name": "Ciências Sociais",
+    "level": 3
+  },
+  {
+    "Name": "Cinema e Audiovisual",
+    "level": 3
+  },
+  {
+    "Name": "Ciências Atuariai",
+    "level": 3
+  },
+  {
+    "Name": "Composição e Regência",
+    "level": 3
+  },
+  {
+    "Name": "Computação",
+    "level": 3
+  },
+  {
+    "Name": "Computação e Robótica Educativ",
+    "level": 3
+  },
+  {
+    "Name": "Comunicação e Marketing",
+    "level": 3
+  },
+  {
+    "Name": "Comunicação Social",
+    "level": 3
+  },
+  {
+    "Name": "Desenho Industria",
+    "level": 3
+  },
+  {
+    "Name": "Design",
+    "level": 3
+  },
+  {
+    "Name": "Design de Ambientes",
+    "level": 3
+  },
+  {
+    "Name": "Design de Games",
+    "level": 3
+  },
+  {
+    "Name": "Design de Interiores",
+    "level": 3
+  },
+  {
+    "Name": "Design de Moda",
+    "level": 3
+  },
+  {
+    "Name": "Design de Produto",
+    "level": 3
+  },
+  {
+    "Name": "Design Digital",
+    "level": 3
+  },
+  {
+    "Name": "Design Gráfico",
+    "level": 3
+  },
+  {
+    "Name": "Direção",
+    "level": 3
+  },
+  {
+    "Name": "Direit",
+    "level": 3
+  },
+  {
+    "Name": "Danç",
+    "level": 3
+  },
+  {
+    "Name": "Desenvolvimento Rura",
+    "level": 3
+  },
+  {
+    "Name": "Desenvolvimento Regiona",
+    "level": 3
+  },
+  {
+    "Name": "Educação Física",
+    "level": 3
+  },
+  {
+    "Name": "Educação do Camp",
+    "level": 3
+  },
+  {
+    "Name": "Enfermagem",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Acústica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Aeroespacial",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Aeronáutica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Agrícola",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Agroindustrial",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Agronômica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Ambiental",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Automotiva",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Bioenergética",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Biomédica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Bioquímica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Biotecnológica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Cartográfica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Civil",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia da Computação",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia da Mobilidade",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Agrimensura",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Agronegócios",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Alimentos",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Aquicultura",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Automação",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Bioprocessos",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Biossistemas",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Biotecnologia",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Energia",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Gestão",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Informação",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Instrumentação",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Manufatura",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Materiais",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Minas",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Pesca",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Petróleo",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Produção",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Recursos Hídricos",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Saúde e Segurança",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Sistemas",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Serviço",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Software",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Telecomunicações",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia de Transporte e Logística",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Elétrica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Eletrônic",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia em Sistemas Digitais",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Ferroviária e Metroviária",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Física",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Florestal",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Geológica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Hídrica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Industrial",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Mecânica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Mecatrônica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Metalúrgica",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Naval",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Química",
+    "level": 3
+  },
+  {
+    "Name": "Engenharia Têxtil",
+    "level": 3
+  },
+  {
+    "Name": "Estatística",
+    "level": 3
+  },
+  {
+    "Name": "Farmácia",
+    "level": 3
+  },
+  {
+    "Name": "Filosofia",
+    "level": 3
+  },
+  {
+    "Name": "Física",
+    "level": 3
+  },
+  {
+    "Name": "Fisioterapia",
+    "level": 3
+  },
+  {
+    "Name": "Fonoaudiologi",
+    "level": 3
+  },
+  {
+    "Name": "Geografia",
+    "level": 3
+  },
+  {
+    "Name": "Geologi",
+    "level": 3
+  },
+  {
+    "Name": "História",
+    "level": 3
+  },
+  {
+    "Name": "História da Art",
+    "level": 3
+  },
+  {
+    "Name": "Hotelaria",
+    "level": 3
+  },
+  {
+    "Name": "Jornalismo",
+    "level": 3
+  },
+  {
+    "Name": "Letras",
+    "level": 3
+  },
+  {
+    "Name": "Marketing",
+    "level": 3
+  },
+  {
+    "Name": "Matemática",
+    "level": 3
+  },
+  {
+    "Name": "Mecânica Industrial",
+    "level": 3
+  },
+  {
+    "Name": "Medicina",
+    "level": 3
+  },
+  {
+    "Name": "Medicina Veterinária",
+    "level": 3
+  },
+  {
+    "Name": "Moda",
+    "level": 3
+  },
+  {
+    "Name": "Música",
+    "level": 3
+  },
+  {
+    "Name": "Museologi",
+    "level": 3
+  },
+  {
+    "Name": "Nutrição",
+    "level": 3
+  },
+  {
+    "Name": "Odontologia",
+    "level": 3
+  },
+  {
+    "Name": "Pedagogia",
+    "level": 3
+  },
+  {
+    "Name": "Políticas Públicas",
+    "level": 3
+  },
+  {
+    "Name": "Propaganda e Marketing",
+    "level": 3
+  },
+  {
+    "Name": "Psicologia",
+    "level": 3
+  },
+  {
+    "Name": "Publicidade e Propaganda",
+    "level": 3
+  },
+  {
+    "Name": "Química",
+    "level": 3
+  },
+  {
+    "Name": "Rádio",
+    "level": 3
+  },
+  {
+    "Name": "Relações Internacionais",
+    "level": 3
+  },
+  {
+    "Name": "Relações Públicas",
+    "level": 3
+  },
+  {
+    "Name": "Secretariado Executivo",
+    "level": 3
+  },
+  {
+    "Name": "Saúde Coletiv",
+    "level": 3
+  },
+  {
+    "Name": "Serviço Social",
+    "level": 3
+  },
+  {
+    "Name": "Teatr",
+    "level": 3
+  },
+  {
+    "Name": "Teologia",
+    "level": 3
+  },
+  {
+    "Name": "Terapia Ocupacional",
+    "level": 3
+  },
+  {
+    "Name": "Tradutor e Intérprete",
+    "level": 3
+  },
+  {
+    "Name": "Turismo",
+    "level": 3
+  },
+  {
+    "Name": "Zootecnia",
+    "level": 3
+  }
+]

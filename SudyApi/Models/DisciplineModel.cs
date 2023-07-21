@@ -14,9 +14,9 @@ namespace SudyApi.Models
 
         public DisciplineNameModel? Name { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
 
-        public DateTime UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
 
         public ICollection<SubjectModel> Subjects { get; set; }
 

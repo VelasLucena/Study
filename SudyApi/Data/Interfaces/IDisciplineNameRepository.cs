@@ -6,9 +6,9 @@ namespace SudyApi.Data.Interfaces
     {
         #region GetDisciplineNameByName
 
-        Task<List<string>> GetDisciplineNameByName(string name);
+        Task<List<DisciplineNameModel>> GetDisciplineNameByName(string name);
 
-        Task<List<string>> GetDisciplineNameByNameNoTracking(string name);
+        Task<List<DisciplineNameModel>> GetDisciplineNameByNameNoTracking(string name);
 
         #endregion
 

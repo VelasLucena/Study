@@ -14,9 +14,9 @@ namespace SudyApi.Data.Interfaces
 
         #region GetDisciplineByName
 
-        Task<List<DisciplineModel>> GetDisciplinesByName(string name);
+        Task<DisciplineModel> GetDisciplineByName(int disciplineNameId, int semesterId);
 
-        Task<List<DisciplineModel>> GetDisciplinesByNameNoTracking(string name);
+        Task<DisciplineModel> GetDisciplineByNameNoTracking(int disciplineNameId, int semesterId);
 
         #endregion
 
@@ -25,6 +25,14 @@ namespace SudyApi.Data.Interfaces
         Task<DisciplineModel> GetDisciplineById(int disciplineId);
 
         Task<DisciplineModel> GetDisciplineByIdNoTracking(int disciplineId);
+
+        #endregion
+
+        #region GetDisciplinesBySemesterId
+
+        Task<List<DisciplineModel>> GetDisciplinesBySemesterId(int semesterId);
+
+        Task<List<DisciplineModel>> GetDisciplinesBySemesterIdNoTracking(int semesterId);
 
         #endregion
     }

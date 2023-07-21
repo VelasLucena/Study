@@ -7,6 +7,8 @@ using SudyApi.ViewModels;
 
 namespace SudyApi.Controllers
 {
+    [ApiController]
+    [Route("{controller}/{action}")]
     public class SemesterController : Controller
     {
         private readonly ISudyService _sudyService;
@@ -143,6 +145,35 @@ namespace SudyApi.Controllers
 
                 if (semester == null)
                     return NotFound();
+
+                List<DisciplineModel> disciplines = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterId(semesterId);
+
+                List<SubjectModel> subjects = new List<SubjectModel>();
+
+                List<ChapterModel> chapters = new List<ChapterModel>();
+
+                if (disciplines.Count > 0)
+                {
+                    foreach (DisciplineModel item in disciplines)
+                    {
+                        subjects.AddRange(await _sudyService.SubjectRepository.GetSubjectByDisciplineId(item.DisciplineId));
+                    }
+
+                    if(subjects.Count > 0)
+                    {
+                        foreach(SubjectModel item in subjects)
+                        {
+                            chapters.AddRange(await _sudyService.ChapterRepository.GetAllChaptersBySubjectId(item.SubjectId));
+                        }
+
+                        if (chapters.Count > 0)
+                            await _sudyService.DeleteMany(chapters);
+
+                        await _sudyService.DeleteMany(subjects);
+                    }
+
+                    await _sudyService.DeleteMany(disciplines);
+                }
 
                 await _sudyService.Delete(semester);
 

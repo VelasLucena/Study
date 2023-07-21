@@ -34,24 +34,26 @@ namespace SudyApi.Data.Repositories
 
         async Task<List<DisciplineModel>> IDisciplineRepository.GetAllDisciplines(int semesterId)
         {
-            return await _sudyContext.Disciplines.Where(x => x.SemesterId == semesterId).ToListAsync();
+            return await _sudyContext.Disciplines.Include(x => x.Name).Where(x => x.SemesterId == semesterId).ToListAsync();
         }
 
         async Task<List<DisciplineModel>> IDisciplineRepository.GetAllDisciplinesNoTracking(int semesterId)
         {
-            return await _sudyContext.Disciplines.AsNoTracking().Where(x => x.SemesterId == semesterId).ToListAsync();
+            return await _sudyContext.Disciplines.Include(x => x.Name).AsNoTracking().Where(x => x.SemesterId == semesterId).ToListAsync();
         }
 
-        #region GetDisciplinesByName
+        #endregion
 
-        Task<List<DisciplineModel>> IDisciplineRepository.GetDisciplinesByName(string name)
+        #region GetDisciplineByName
+
+        async Task<DisciplineModel> IDisciplineRepository.GetDisciplineByName(int disciplineNameId, int semesterId)
         {
-            throw new NotImplementedException();
+            return await _sudyContext.Disciplines.Include(x => x.Name).FirstOrDefaultAsync(x => x.Name.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
         }
 
-        Task<List<DisciplineModel>> IDisciplineRepository.GetDisciplinesByNameNoTracking(string name)
+        async Task<DisciplineModel> IDisciplineRepository.GetDisciplineByNameNoTracking(int disciplineNameId, int semesterId)
         {
-            throw new NotImplementedException();
+            return await _sudyContext.Disciplines.AsNoTracking().Include(x => x.Name).FirstOrDefaultAsync(x => x.Name.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
         }
 
         #endregion
@@ -82,6 +84,18 @@ namespace SudyApi.Data.Repositories
         }
 
         #endregion
+
+        #region GetDisciplinesBySemesterId
+
+        async Task<List<DisciplineModel>> IDisciplineRepository.GetDisciplinesBySemesterId(int semesterId)
+        {
+            return await _sudyContext.Disciplines.Where(x => x.SemesterId == semesterId).ToListAsync();
+        }
+
+        async Task<List<DisciplineModel>> IDisciplineRepository.GetDisciplinesBySemesterIdNoTracking(int semesterId)
+        {
+            return await _sudyContext.Disciplines.AsNoTracking().Where(x => x.SemesterId == semesterId).ToListAsync();
+        }
 
         #endregion
 

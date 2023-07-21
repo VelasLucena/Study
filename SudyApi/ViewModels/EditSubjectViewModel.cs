@@ -4,10 +4,6 @@
     {
         public int SubjectId { get; set; }
 
-        public int? UserId { get; set; }
-
         public string? Name { get; set; }
-
-        public List<EditChapterViewModel>? Chapters { get; set; }
     }
 }

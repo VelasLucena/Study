@@ -75,27 +75,16 @@ namespace SudyApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState });
 
-                UserModel user = await _sudyService.UserRepository.GetUserById(subject.UserId);
+                DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByIdNoTracking(subject.DisciplineId);
 
-                if(user == null)
+                if(discipline == null)
                     return NotFound();
 
                 SubjectModel newSubject = new SubjectModel(subject);
 
-                await _sudyService.Create(newSubject, true);
+                await _sudyService.Create(newSubject);
 
-                List<ChapterModel> chapters = new List<ChapterModel>();
-
-                foreach(RegisterChapterViewModel item in subject.Chapters)
-                {
-                    chapters.Add(new ChapterModel(item, newSubject));
-                }
-
-                await _sudyService.CreateMany(chapters, true);
-
-                SubjectModel subjectView = await _sudyService.SubjectRepository.GetSubjectBySubjectIdNoTracking(newSubject.SubjectId);
-
-                return Ok(subjectView);
+                return Ok(newSubject);
             }
             catch (Exception ex)
             {
@@ -111,39 +100,18 @@ namespace SudyApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest();
-
-                UserModel user = await _sudyService.UserRepository.GetUserByIdNoTracking(Convert.ToInt32(subject.UserId));
-
-                if (user == null)
-                    return NotFound();
-
-                List<ChapterModel> chaptersOld = await _sudyService.ChapterRepository.GetAllChaptersBySubjectIdNoTracking(subject.SubjectId);
-                List<int> subjectChaptersList = subject.Chapters.Select(x => x.ChapterId).ToList();
-                List<ChapterModel> deleteChapter = new List<ChapterModel>();
-                foreach (var chapter in chaptersOld)
-                {
-                    if (!subjectChaptersList.Contains(chapter.ChapterId))
-                        deleteChapter.Add(chapter);
-                }
-                await _sudyService.DeleteMany(deleteChapter);
+                    return BadRequest();           
 
                 SubjectModel editSubject = await _sudyService.SubjectRepository.GetSubjectBySubjectId(subject.SubjectId);
+
+                if(editSubject == null)
+                    return NotFound();
+
                 editSubject.Update(subject);
-                await _sudyService.Update(editSubject, true);
 
-                List<ChapterModel> chapters = new List<ChapterModel>();
-                foreach (EditChapterViewModel item in subject.Chapters)
-                {
-                    ChapterModel chapter = await _sudyService.ChapterRepository.GetChapterById(item.ChapterId);
-                    chapter.Update(item);
-                    chapters.Add(chapter);
-                }
-                await _sudyService.UpdateMany(chapters, true);
+                await _sudyService.Update(editSubject);       
 
-                SubjectModel subjectView = await _sudyService.SubjectRepository.GetSubjectBySubjectIdNoTracking(subject.SubjectId);
-
-                return Ok(subjectView);
+                return Ok(editSubject);
             }
             catch (Exception ex)
             {
@@ -163,13 +131,7 @@ namespace SudyApi.Controllers
                 if(subject == null)
                     return NotFound();
 
-                List<ChapterModel> chapters = await _sudyService.ChapterRepository.GetAllChaptersBySubjectId(subjectId);
-
-                if (chapters.Count == 0)
-                    return NotFound();
-
                 await _sudyService.Delete(subject);
-                await _sudyService.DeleteMany(chapters);
 
                 return Ok();
             }

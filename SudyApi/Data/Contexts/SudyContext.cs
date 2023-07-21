@@ -36,7 +36,20 @@ namespace StudandoApi.Data.Contexts
                 .IsUnique();
 
             modelBuilder.Entity<UserInformation>()
-                .HasIndex(x => x.Cpf).IsUnique();
+                .HasIndex(x => x.Cpf)
+                .IsUnique();
+
+            modelBuilder.Entity<DisciplineNameModel>()
+                .HasIndex(x => x.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<InstitutionModel>()
+                .HasIndex(x => x.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<CourseModel>()
+                        .HasIndex(a => new { a.Name, a.Level })
+                        .IsUnique();
 
             #endregion
 
@@ -77,6 +90,15 @@ namespace StudandoApi.Data.Contexts
             List<CourseModel> courses = DefaultValues.GenerateCourses();
 
             modelBuilder.Entity<CourseModel>().HasData(courses);
+
+            List<InstitutionModel> institutions = DefaultValues.GenerateInstitutions();
+
+            modelBuilder.Entity<InstitutionModel>().HasData(institutions);
+
+            List<DisciplineNameModel> names = DefaultValues.GenerateDisciplineNames();
+
+            modelBuilder.Entity<DisciplineNameModel>()
+                .HasData(names);
 
             #endregion
         }

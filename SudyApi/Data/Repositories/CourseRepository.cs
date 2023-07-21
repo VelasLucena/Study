@@ -32,7 +32,7 @@ namespace SudyApi.Data.Repositories
 
         #region GetAllCourses
 
-        async Task<List<CourseModel>> ICourseRepository.GetAllCourses(Ordering ordering = Ordering.Asc, string attributeName = nameof(CourseModel.CourseName))
+        async Task<List<CourseModel>> ICourseRepository.GetAllCourses(Ordering ordering = Ordering.Asc, string attributeName = nameof(CourseModel.Name))
         {
             switch (ordering)
             {
@@ -45,7 +45,7 @@ namespace SudyApi.Data.Repositories
             return null;
         }
 
-        async Task<List<CourseModel>> ICourseRepository.GetAllCoursesNoTracking(Ordering ordering = Ordering.Asc, string attributeName = nameof(CourseModel.CourseName))
+        async Task<List<CourseModel>> ICourseRepository.GetAllCoursesNoTracking(Ordering ordering = Ordering.Asc, string attributeName = nameof(CourseModel.Name))
         {
             switch (ordering)
             {
@@ -62,12 +62,12 @@ namespace SudyApi.Data.Repositories
 
         async Task<List<CourseModel>> ICourseRepository.GetCourseByName(string courseName)
         {
-            return await _sudyContext.Courses.Where(x => x.CourseName.Contains(courseName)).ToListAsync();
+            return await _sudyContext.Courses.Where(x => x.Name.Contains(courseName)).ToListAsync();
         }
 
         async Task<List<CourseModel>> ICourseRepository.GetCourseByNameNoTracking(string courseName)
         {
-            return await _sudyContext.Courses.AsNoTracking().Where(x => x.CourseName.Contains(courseName)).ToListAsync();
+            return await _sudyContext.Courses.AsNoTracking().Where(x => x.Name.Contains(courseName)).ToListAsync();
         }
 
         #endregion

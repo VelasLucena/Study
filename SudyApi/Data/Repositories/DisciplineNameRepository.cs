@@ -23,14 +23,14 @@ namespace SudyApi.Data.Repositories
 
         #region GetDisciplineNameByName
 
-        async Task<List<string>> IDisciplineNameRepository.GetDisciplineNameByName(string name)
+        async Task<List<DisciplineNameModel>> IDisciplineNameRepository.GetDisciplineNameByName(string name)
         {
-            return await _sudyContext.DisciplinesName.Where(x => x.Name.Contains(name)).Select(x => x.Name).ToListAsync();
+            return await _sudyContext.DisciplinesName.Where(x => x.Name.Contains(name)).ToListAsync();
         }
 
-        async Task<List<string>> IDisciplineNameRepository.GetDisciplineNameByNameNoTracking(string name)
+        async Task<List<DisciplineNameModel>> IDisciplineNameRepository.GetDisciplineNameByNameNoTracking(string name)
         {
-            return await _sudyContext.DisciplinesName.AsNoTracking().Where(x => x.Name.Contains(name)).Select(x => x.Name).ToListAsync();
+            return await _sudyContext.DisciplinesName.AsNoTracking().Where(x => x.Name.Contains(name)).ToListAsync();
         }
 
         #endregion
