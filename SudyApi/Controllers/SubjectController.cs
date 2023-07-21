@@ -50,7 +50,7 @@ namespace SudyApi.Controllers
 
                 if (subjectId.HasValue)
                     subject = await _sudyService.SubjectRepository.GetSubjectBySubjectIdNoTracking(Convert.ToInt32(subjectId));
-                else if (string.IsNullOrEmpty(name))
+                else if (!string.IsNullOrEmpty(name))
                     subject = await _sudyService.SubjectRepository.GetSubjectByNameFirstNoTracking(name);
                 else
                     return BadRequest();
