@@ -239,7 +239,7 @@ namespace SudyApi.Data.Services
                             _cacheService.Remove(item.ReflectedType.Name + p);
 
                             if (!removeCache)
-                                _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
+                                _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(objItem));
                         }
 
                     }

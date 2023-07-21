@@ -19,5 +19,13 @@ namespace SudyApi.Data.Interfaces
         Task<List<ChapterModel>> GetAllChaptersBySubjectIdNoTracking(int subjectId);
 
         #endregion
+
+        #region GetChapterByName
+
+        Task<List<ChapterModel>> GetChapterByName(string name);
+
+        Task<List<ChapterModel>> GetChapterByNameNoTracking(string name);
+
+        #endregion
     }
 }

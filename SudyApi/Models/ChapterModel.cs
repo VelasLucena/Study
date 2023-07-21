@@ -24,23 +24,14 @@ namespace SudyApi.Models
 
         public ChapterModel() { }
 
-        public ChapterModel(RegisterChapterViewModel viewModel, SubjectModel subject)
+        public ChapterModel(RegisterChapterViewModel viewModel)
         {
             Name = viewModel.Name;
             ModulesCount = viewModel.ModulesCount;
             CreationDate = DateTime.Now;
-            Subject = subject;
+            SubjectId = viewModel.SubjectId;
         }
 
-        public ChapterModel(EditChapterViewModel viewModel, SubjectModel subject)
-        {
-            ChapterId = viewModel.ChapterId;
-            SubjectId = subject.SubjectId;
-            Subject = subject;
-            Name = viewModel.Name;
-            ModulesCount = viewModel.ModulesCount;
-            UpdateDate = DateTime.Now;
-        }
 
         public void Update(EditChapterViewModel viewModel)
         {

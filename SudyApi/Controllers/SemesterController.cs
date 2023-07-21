@@ -34,7 +34,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
 
@@ -54,7 +54,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
 
@@ -91,7 +91,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
 
@@ -130,7 +130,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
 
@@ -177,11 +177,11 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Delete(semester);
 
-                return Ok();
+                return NoContent();
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
     }

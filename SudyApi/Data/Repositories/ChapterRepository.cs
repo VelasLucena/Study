@@ -31,12 +31,12 @@ namespace SudyApi.Data.Repositories
 
         #region GetChapterByChapterId
 
-        public async Task<ChapterModel> GetChapterById(int chapterId)
+        async Task<ChapterModel> IChapterRepository.GetChapterById(int chapterId)
         {
             return await _sudyContext.Chapters.FirstOrDefaultAsync(x => x.ChapterId == chapterId);
         }
 
-        public async Task<ChapterModel> GetChapterByIdNoTracking(int chapterId)
+        async Task<ChapterModel> IChapterRepository.GetChapterByIdNoTracking(int chapterId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
                 return await _sudyContext.Chapters.AsNoTracking().FirstOrDefaultAsync(x => x.ChapterId == chapterId);
@@ -58,28 +58,28 @@ namespace SudyApi.Data.Repositories
 
         #region GetChapterBySubjectId
 
-        public async Task<List<ChapterModel>> GetAllChaptersBySubjectId(int subjectId)
+        async Task<List<ChapterModel>> IChapterRepository.GetAllChaptersBySubjectId(int subjectId)
         {
-            return await _sudyContext.Chapters.Where(x => x.Subject.SubjectId == subjectId).ToListAsync();
+            return await _sudyContext.Chapters.Where(x => x.SubjectId == subjectId).ToListAsync();
         }
 
-        public async Task<List<ChapterModel>> GetAllChaptersBySubjectIdNoTracking(int subjectId)
+        async Task<List<ChapterModel>> IChapterRepository.GetAllChaptersBySubjectIdNoTracking(int subjectId)
         {
-            return await _sudyContext.Chapters.AsNoTracking().Where(x => x.Subject.SubjectId == subjectId).ToListAsync();
+            return await _sudyContext.Chapters.AsNoTracking().Where(x => x.SubjectId == subjectId).ToListAsync();
         }
 
         #endregion
 
-        #region GetChaptersByIds
+        #region GetChapterByName
 
-        public async Task<List<ChapterModel>> GetChaptersByIds(int?[] chapterIds)
+        async Task<List<ChapterModel>> IChapterRepository.GetChapterByName(string name)
         {
-            return await _sudyContext.Chapters.Where(x => chapterIds.Contains(x.ChapterId)).ToListAsync();
+            return await _sudyContext.Chapters.Where(x => x.Name.Contains(name)).ToListAsync();
         }
 
-        public async Task<List<ChapterModel>> GetChaptersByIdsNoTracking(int?[] chapterIds)
+        async Task<List<ChapterModel>> IChapterRepository.GetChapterByNameNoTracking(string name)
         {
-            return await _sudyContext.Chapters.AsNoTracking().Where(x => chapterIds.Contains(x.ChapterId)).ToListAsync();
+            return await _sudyContext.Chapters.AsNoTracking().Where(x => x.Name.Contains(name)).ToListAsync();
         }
 
         #endregion

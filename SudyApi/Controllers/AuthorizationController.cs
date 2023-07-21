@@ -44,7 +44,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return Problem(ex.Message);
             }
         }
 
@@ -64,11 +64,11 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Update(user);
 
-                return Ok();
+                return NoContent();
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return Problem(ex.Message);
             }
         }
     }

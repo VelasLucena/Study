@@ -35,7 +35,7 @@ namespace StudandoApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
 
@@ -62,7 +62,7 @@ namespace StudandoApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
 
@@ -83,7 +83,7 @@ namespace StudandoApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
 
@@ -110,7 +110,7 @@ namespace StudandoApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
 
@@ -129,11 +129,11 @@ namespace StudandoApi.Controllers
                 await _sudyService.Delete(user.UserInformation);
                 await _sudyService.Delete(user);
 
-                return Ok();
+                return NoContent();
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
     }
