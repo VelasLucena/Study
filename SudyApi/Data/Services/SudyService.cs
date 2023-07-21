@@ -88,13 +88,15 @@ namespace SudyApi.Data.Services
             }
         }
 
-        public ICollegeSubjectRepository CollegeSubjectRepository
+        public IDisciplineRepository DisciplineRepository
         {
             get
             {
-                return new CollegeSubjectRepository(_sudyContext, _cacheService);
+                return new DisciplineRepository(_sudyContext, _cacheService);
             }
         }
+
+        public IDisciplineNameRepository DisciplineNameRepository
 
         #endregion
 

@@ -18,7 +18,7 @@ namespace StudandoApi.Data.Interfaces
 
         public IInstitutionRepository InstitutionRepository { get; }
 
-        public ICollegeSubjectRepository collegeSubjectRepository { get; }
+        public IDisciplineRepository DisciplineRepository { get; }
 
         Task Create<T>(T user, bool removeCache = false, bool manualDesactiveCache = false);
 

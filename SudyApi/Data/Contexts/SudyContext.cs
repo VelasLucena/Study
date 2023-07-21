@@ -22,7 +22,9 @@ namespace StudandoApi.Data.Contexts
 
         public DbSet<SemesterModel> Semesters { get; set; }
 
-        public DbSet<CollegeSubjectModel> CollegeSubjects { get; set; }
+        public DbSet<DisciplineModel> Disciplines { get; set; }
+
+        public DbSet<DisciplineNameModel> DisciplinesName { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,23 +44,23 @@ namespace StudandoApi.Data.Contexts
             modelBuilder.Entity<UserInformation>()
                 .ToTable("Users_Information");
 
-            modelBuilder.Entity<CollegeSubjectModel>()
-                .ToTable("College_Subjects");
+            modelBuilder.Entity<DisciplineNameModel>()
+                .ToTable("Discipline_Name");
 
             #endregion
 
             #region ForeignKey
 
             modelBuilder.Entity<SemesterModel>()
-                .HasMany(x => x.CollegeSubjects)
+                .HasMany(x => x.Disciplines)
                 .WithOne(x => x.Semester)
                 .HasForeignKey(x => x.SemesterId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<CollegeSubjectModel>()
+            modelBuilder.Entity<DisciplineModel>()
                 .HasMany(x => x.Subjects)
-                .WithOne(x => x.CollegeSubject)
-                .HasForeignKey(x => x.CollegeSubjectId)
+                .WithOne(x => x.Discipline)
+                .HasForeignKey(x => x.DisciplineId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SubjectModel>()

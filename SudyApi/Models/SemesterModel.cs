@@ -20,7 +20,7 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
-        public ICollection<CollegeSubjectModel> CollegeSubjects { get; set; }
+        public ICollection<DisciplineModel> Disciplines { get; set; }
 
         public SemesterModel() { }
 

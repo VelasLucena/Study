@@ -10,9 +10,9 @@ namespace SudyApi.Models
 
         public string? Name { get; set; }
 
-        public int? CollegeSubjectId { get; set; }
+        public int? DisciplineId { get; set; }
 
-        public CollegeSubjectModel CollegeSubject { get; set; }
+        public DisciplineModel Discipline { get; set; }
 
         public DateTime? CreationDate { get; set; }
 

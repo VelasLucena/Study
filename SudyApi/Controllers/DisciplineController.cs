@@ -5,23 +5,23 @@ using SudyApi.Models;
 
 namespace SudyApi.Controllers
 {
-    public class CollegeSubjectController : Controller
+    public class DisciplineController : Controller
     {
         private readonly ISudyService _sudyService;
 
-        public CollegeSubjectController(ISudyService schoolService)
+        public DisciplineController(ISudyService schoolService)
         {
             _sudyService = schoolService;
         }
 
         [HttpGet]
-        [ActionName(nameof(GetAllCollegeSubjects))]
+        [ActionName(nameof(GetAllDisciplines))]
         [Authorize]
-        public async Task<IActionResult> GetAllCollegeSubjects(int semesterId)
+        public async Task<IActionResult> GetAllDisciplines(int semesterId)
         {
             try
             {
-                List<CollegeSubjectModel> semesters = await _sudyService.collegeSubjectRepository.GetAllCollegeSubjectsNoTracking(semesterId);
+                List<DisciplineModel> semesters = await _sudyService.DisciplineRepository.GetAllDisciplinesNoTracking(semesterId);
 
                 if (semesters.Count == 0)
                     return NotFound();
@@ -35,13 +35,13 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetCollegeSubject))]
+        [ActionName(nameof(GetDiscipline))]
         [Authorize]
-        public async Task<IActionResult> GetCollegeSubject(string? name)
+        public async Task<IActionResult> GetDiscipline(string? name)
         {
             try
             {
-                SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterByIdNoTracking(semesterId);
+                List<SemesterModel> semester = await _sudyService.DisciplineRepository.
 
                 if (semester == null)
                     return NotFound();

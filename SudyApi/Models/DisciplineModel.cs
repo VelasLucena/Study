@@ -2,16 +2,16 @@
 
 namespace SudyApi.Models
 {
-    public class CollegeSubjectModel
+    public class DisciplineModel
     {
         [Key]
-        public int CollegeSubjectId { get; set; }
+        public int DisciplineId { get; set; }
 
         public int? SemesterId { get; set; }
 
         public SemesterModel? Semester { get; set; }
 
-        public string Name { get; set; }
+        public DisciplineNameModel? Name { get; set; }
 
         public DateTime CreationDate { get; set; }
 
