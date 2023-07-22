@@ -39,5 +39,39 @@ namespace SudyApi.Controllers
                 return Problem(ex.Message);
             }
         }
+
+        [HttpPut]
+        [ActionName(nameof(EditImportantDate))]
+        [Authorize]
+        public async Task<IActionResult> EditImportantDate(List<EditChapterViewModel> chapters)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
+
+                List<ChapterModel> editChapters = new List<ChapterModel>();
+
+                foreach (var chapter in chapters)
+                {
+                    ChapterModel chapterOld = await _sudyService.ChapterRepository.GetChapterById(chapter.ChapterId);
+
+                    if (chapterOld == null)
+                        return NotFound();
+
+                    chapterOld.Update(chapter);
+
+                    editChapters.Add(chapterOld);
+                }
+
+                await _sudyService.UpdateMany(editChapters);
+
+                return Ok(editChapters);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
     }
 }
