@@ -10,7 +10,7 @@ namespace StudandoApi.Controllers
 {
     [ApiController]
     [Route("{controller}/{action}")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly ISudyService _sudyService;
 

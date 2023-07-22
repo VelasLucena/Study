@@ -41,6 +41,7 @@ namespace SudyApi.ViewModels
         [DataType(DataType.PostalCode, ErrorMessageResourceName = nameof(MessageClient.MC0014), ErrorMessageResourceType = typeof(MessageClient))]
         public string? Cep { get; set; }
 
-        public Gender? Gender { get; set; }
+        [Required]
+        public GenderType? Gender { get; set; }
     }
 }

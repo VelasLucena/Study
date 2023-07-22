@@ -9,7 +9,7 @@ namespace SudyApi.Controllers
 {
     [ApiController]
     [Route("{controller}/{action}")]
-    public class SemesterController : Controller
+    public class SemesterController : ControllerBase
     {
         private readonly ISudyService _sudyService;
 
