@@ -113,11 +113,11 @@ namespace SudyApi.Controllers
                     if (InappropriateWords.WordIsInappropriate(discipline.DisciplineName))
                     {
                         disciplineName.Update(discipline.DisciplineName);
-                        _sudyService.Create<DisciplineNameModel>(disciplineName);
+                        await _sudyService.Create(disciplineName);
                     }
                 }
 
-                DisciplineModel newDiscipline = new DisciplineModel(semester, disciplineName);
+                DisciplineModel newDiscipline = new DisciplineModel(semester, disciplineName, discipline);
 
                 await _sudyService.Create(newDiscipline);
 
@@ -148,13 +148,13 @@ namespace SudyApi.Controllers
                     if (InappropriateWords.WordIsInappropriate(discipline.DisciplineName))
                     {
                         disciplineName.Update(discipline.DisciplineName);
-                        _sudyService.Create<DisciplineNameModel>(disciplineName);
+                        await _sudyService.Create(disciplineName);
                     }
                 }
 
                 DisciplineModel editDiscipline = await _sudyService.DisciplineRepository.GetDisciplineById(discipline.DisciplineId);
 
-                editDiscipline.Update(semester, disciplineName);
+                editDiscipline.Update(semester, disciplineName, discipline);
 
                 await _sudyService.Update(editDiscipline);
 

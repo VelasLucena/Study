@@ -16,6 +16,10 @@ namespace SudyApi.Models
 
         public string? CurrentSemester { get; set; }
 
+        public DateOnly? SemesterStart { get; set; }
+
+        public DateOnly? SemesterEnd { get; set; }
+
         public DateTime? CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
@@ -30,6 +34,8 @@ namespace SudyApi.Models
             Course = course;
             Institution = institution;
             CurrentSemester = viewModel.CurrentSemester;
+            SemesterEnd = viewModel.SemesterEnd;
+            SemesterStart = viewModel.SemesterStart;
             CreationDate = DateTime.Now;
         }
 
@@ -39,6 +45,8 @@ namespace SudyApi.Models
             Course = course;
             Institution = institution;
             CurrentSemester = viewModel.CurrentSemester;
+            SemesterEnd = viewModel.SemesterEnd;
+            SemesterStart = viewModel.SemesterStart;
             UpdateDate = DateTime.Now;
         }
     }

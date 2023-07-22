@@ -149,7 +149,6 @@ namespace SudyApi.Data.Services
 
             foreach (T objItem in obj)
             {
-
                 foreach (PropertyInfo item in objItem.GetType().GetProperties())
                 {
                     if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
@@ -171,7 +170,7 @@ namespace SudyApi.Data.Services
                             _cacheService.Remove(item.ReflectedType.Name + p);
 
                             if (!removeCache)
-                                _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
+                                _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(objItem));
                         }
                     }
                 }

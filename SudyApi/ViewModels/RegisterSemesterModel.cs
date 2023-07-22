@@ -16,5 +16,11 @@ namespace SudyApi.ViewModels
 
         [Required]
         public string CurrentSemester { get; set; }
+
+        [Required]
+        public DateOnly SemesterStart { get; set; }
+
+        [Required]
+        public DateOnly SemesterEnd { get; set; }
     }
 }

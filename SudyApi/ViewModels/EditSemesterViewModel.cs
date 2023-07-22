@@ -9,5 +9,9 @@
         public int? InstitutionId { get; set; }
 
         public string? CurrentSemester { get; set; }
+
+        public DateOnly? SemesterStart { get; set; }
+
+        public DateOnly? SemesterEnd { get; set; }
     }
 }
