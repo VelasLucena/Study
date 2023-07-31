@@ -40,7 +40,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddControllers();
     
-    //.AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+//.AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 {

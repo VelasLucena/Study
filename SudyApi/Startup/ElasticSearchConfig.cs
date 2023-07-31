@@ -25,7 +25,7 @@ namespace SudyApi.Startup
 
             services.AddSingleton<IElasticClient>(client);
 
-            var createIndexResponse = client.Indices.Create("Teste", index => index.Map<InputModel>(x => x.AutoMap()));
+            CreateIndexResponse createIndexResponse = client.Indices.Create("Teste", index => index.Map<InputModel>(x => x.AutoMap()));
         }
 
         //private static void AddDefaultMappings(ConnectionSettings settings)
