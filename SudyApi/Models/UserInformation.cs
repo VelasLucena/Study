@@ -18,7 +18,7 @@ namespace SudyApi.Models
 
         public string? Rg { get; set; }
 
-        public Gender? Gender { get; set; }
+        public GenderType? Gender { get; set; }
 
         public DateTime? Birthday { get; set; }
 
