@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
+using Nest;
+using SudyApi.Models;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +13,11 @@ namespace SudyApi.Middlewares
     public class InputMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IElasticClient _elasticClient;
 
-        public InputMiddleware(RequestDelegate next)
+        public InputMiddleware(RequestDelegate next, IElasticClient elasticClient)
         {
+            _elasticClient = elasticClient;
             _next = next;
         }
 
@@ -52,11 +56,7 @@ namespace SudyApi.Middlewares
                     responseBody = new StreamReader(memStream).ReadToEnd();
                 }
 
-                //IMongoCollection<InputLogModel> collection = MongoDbUtility.GetCollection<InputLogModel>(MongoDbCollection.InputLog);
-
-                //InputLogModel input = new InputLogModel(requestBody, responseBody, url, timer.Elapsed.Seconds, httpContext.Request.Method, httpContext.Response.StatusCode.ToString());
-
-                //collection.InsertOne(input);
+                await _elasticClient.IndexDocumentAsync(new InputModel(requestBody, responseBody, timer.Elapsed));
 
                 var buffer = Encoding.UTF8.GetBytes(responseBody);
 

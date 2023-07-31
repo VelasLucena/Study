@@ -14,7 +14,8 @@
     public enum ConfigKeys
     {
         RedisCache = 1,
-        JwtKey = 2
+        JwtKey = 2,
+        ElasticSearchUrl = 3
     }
 
     public enum ClaimTypeToken
