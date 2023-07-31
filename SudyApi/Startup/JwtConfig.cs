@@ -9,7 +9,7 @@ namespace SudyApi.Startup
 {
     public static class JwtConfig
     {
-        public static void AddLoggerSystem(this IServiceCollection services)
+        public static void AddJwt(this IServiceCollection services)
         {
             var key = Encoding.ASCII.GetBytes(AppSettings.AppSetting["Settings:JwtKey"]);
 

@@ -34,7 +34,7 @@ builder.Services.AddRedis();
 
 builder.AddLoggerSystem();
 
-builder.Services.AddLoggerSystem();
+builder.Services.AddJwt();
 
 builder.Services.AddControllers();
 
