@@ -4,7 +4,7 @@ namespace SudyApi.ViewModels
 {
     public class EditImportantDateViewModel
     {
-        public int? ImportantDateId { get; set; }
+        public int ImportantDateId { get; set; }
 
         public ImportantDateType? ImportantDateType { get; set; }
 

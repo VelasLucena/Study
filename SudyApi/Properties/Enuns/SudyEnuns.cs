@@ -25,4 +25,11 @@
         Custom = 6
     }
 
+    public enum DayOfWeekType
+    {
+        Monday = 1,
+        Tuesday = 2,
+        Wednesday = 3,
+    }
+
 }

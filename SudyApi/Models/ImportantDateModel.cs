@@ -9,6 +9,8 @@ namespace SudyApi.Models
         [Key]
         public int ImportantDateId { get; set; }
 
+        public SchuduleModel
+
         public ImportantDateType ImportantDateType { get; set; }
 
         public DateOnly Date { get; set; }
@@ -30,5 +32,12 @@ namespace SudyApi.Models
                 Observation = viewModel.Observation;
         }
 
+        public void Update(EditImportantDateViewModel viewModel)
+        {
+            ImportantDateType = viewModel.ImportantDateType != null ? viewModel.ImportantDateType.Value : ImportantDateType;
+            Date = viewModel.Date != null ? viewModel.Date.Value : Date;
+            Observation = viewModel.Observation != null ? viewModel.Observation : Observation;
+            UpdateDate = DateTime.Now;
+        }
     }
 }

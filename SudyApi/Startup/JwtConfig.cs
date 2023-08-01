@@ -17,8 +17,9 @@ namespace SudyApi.Startup
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
+            })
+                .AddJwtBearer(x =>
+                {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
@@ -28,8 +29,8 @@ namespace SudyApi.Startup
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = true
-                };
-            });
+                };}
+            );
         }
     }
 }

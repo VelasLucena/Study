@@ -56,7 +56,7 @@ namespace SudyApi.Middlewares
                     responseBody = new StreamReader(memStream).ReadToEnd();
                 }
 
-                await _elasticClient.IndexDocumentAsync(new InputModel(requestBody, responseBody, timer.Elapsed));
+                await _elasticClient.IndexDocumentAsync(new InputModel(requestBody, responseBody, timer.Elapsed, url));
 
                 var buffer = Encoding.UTF8.GetBytes(responseBody);
 

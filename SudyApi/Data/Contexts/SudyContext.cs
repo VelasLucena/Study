@@ -27,6 +27,8 @@ namespace StudandoApi.Data.Contexts
 
         public DbSet<DisciplineNameModel> DisciplinesName { get; set; }
 
+        public DbSet<ImportantDateModel> ImportantDates { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Index

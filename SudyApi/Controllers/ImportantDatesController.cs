@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudandoApi.Data.Interfaces;
 using SudyApi.Models;
+using SudyApi.Properties.Enuns;
 using SudyApi.ViewModels;
 
 namespace SudyApi.Controllers
@@ -16,6 +17,53 @@ namespace SudyApi.Controllers
         public ImportantDatesController(ISudyService schoolService)
         {
             _sudyService = schoolService;
+        }
+
+        [HttpGet]
+        [ActionName(nameof(GetAllImportantDate))]
+        [Authorize]
+        public async Task<IActionResult> GetAllImportantDate(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(UserModel.UserId))
+        {
+            try
+            {
+                List<ImportantDateModel> importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateById
+
+                if (users.Count == 0)
+                    return NotFound();
+
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [ActionName(nameof(GetImportantDate))]
+        [Authorize]
+        public async Task<IActionResult> GetImportantDate(int? importantDateId, DateOnly? date)
+        {
+            try
+            {
+                ImportantDateModel importantDate = new ImportantDateModel();
+
+                if (importantDateId != null)
+                    importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId.Value);
+                else if (date != null)
+                    importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);
+                else
+                    return BadRequest();
+
+                if (importantDate == null)
+                    return NotFound();
+
+                return Ok(importantDate);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -43,30 +91,23 @@ namespace SudyApi.Controllers
         [HttpPut]
         [ActionName(nameof(EditImportantDate))]
         [Authorize]
-        public async Task<IActionResult> EditImportantDate(List<EditChapterViewModel> chapters)
+        public async Task<IActionResult> EditImportantDate(EditImportantDateViewModel importanteDate)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                List<ChapterModel> editChapters = new List<ChapterModel>();
+                ImportantDateModel importanteDateOld = await _sudyService.ImportanteDateRepository.GetImportantDateById(importanteDate.ImportantDateId);
 
-                foreach (var chapter in chapters)
-                {
-                    ChapterModel chapterOld = await _sudyService.ChapterRepository.GetChapterById(chapter.ChapterId);
+                if (importanteDateOld == null)
+                    return NotFound();
 
-                    if (chapterOld == null)
-                        return NotFound();
+                importanteDateOld.Update(importanteDate);
 
-                    chapterOld.Update(chapter);
+                await _sudyService.Update(importanteDateOld);
 
-                    editChapters.Add(chapterOld);
-                }
-
-                await _sudyService.UpdateMany(editChapters);
-
-                return Ok(editChapters);
+                return Ok(importanteDateOld);
             }
             catch (Exception ex)
             {
