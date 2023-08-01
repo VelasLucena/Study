@@ -29,6 +29,8 @@ namespace StudandoApi.Data.Contexts
 
         public DbSet<ImportantDateModel> ImportantDates { get; set; }
 
+        public DbSet<DayOfWeekModel> DaysOfWeek { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Index

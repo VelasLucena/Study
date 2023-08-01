@@ -2,7 +2,7 @@
 
 namespace SudyApi.Models
 {
-    public class SheduleModel
+    public class ScheduleModel
     {
         [Key]
         public int ScheduleId { get; set; }
@@ -10,8 +10,6 @@ namespace SudyApi.Models
         public UserModel User { get; set; }
 
         public SemesterModel Semester { get; set; }
-
-
 
         public DateTime CreationDate { get; set; }
 

@@ -9,7 +9,7 @@ namespace SudyApi.Models
         [Key]
         public int ImportantDateId { get; set; }
 
-        public SchuduleModel
+        public ScheduleModel ScheduleId { get; set; }
 
         public ImportantDateType ImportantDateType { get; set; }
 
