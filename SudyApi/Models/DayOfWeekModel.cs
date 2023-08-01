@@ -14,7 +14,7 @@ namespace SudyApi.Models
 
         public TimeOnly? Hour { get; set; }
         
-        public int ModulesCount { get; set; }
+        public int? ModulesCount { get; set; }
 
         public DateTime? CreationDate { get; set; }
 
