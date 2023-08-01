@@ -87,6 +87,8 @@ namespace StudandoApi.Data.Contexts
                 .HasForeignKey(x => x.SubjectId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBui
+
             #endregion
 
             #region Default Data
