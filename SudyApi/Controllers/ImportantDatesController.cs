@@ -26,14 +26,14 @@ namespace SudyApi.Controllers
         {
             try
             {
-                List<ImportantDateModel> importantDates = new List<ImportantDateModel>();
-
                 if (importantDateId != null)
                 {
                     ImportantDateModel importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId.Value);
 
-                    if(importantDate != null)
-                        importantDates.Add(await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId.Value));
+                    if(importantDate == null)
+                        return NotFound();
+
+                    return Ok(importantDate);
                 }
                 else if (date != null)
                     importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);

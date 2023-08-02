@@ -41,7 +41,32 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetDiscipline))]
         [Authorize]
-        public async Task<IActionResult> GetDiscipline(string? name, int? semesterId, int? discplineId, int? disciplineNameId)
+        public async Task<IActionResult> GetDiscipline(int? semesterId, int? discplineId, int? disciplineNameId)
+        {
+            try
+            {
+                DisciplineModel discipline = new DisciplineModel();
+
+                if (discplineId != null)
+                    discipline = await _sudyService.DisciplineRepository.GetDisciplineByIdNoTracking(discplineId.Value);
+                else if (disciplineNameId != null && semesterId != null)
+                    discipline = await _sudyService.DisciplineRepository.GetDisciplineByNameNoTracking(discplineId.Value, semesterId.Value);
+                
+                if (discipline != null)
+                    return NotFound();
+
+                return Ok(discipline);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [ActionName(nameof(GetDisciplinesFilter))]
+        [Authorize]
+        public async Task<IActionResult> GetDisciplinesFilter(string? name, int? semesterId, int? discplineId, int? disciplineNameId)
         {
             try
             {
@@ -63,26 +88,7 @@ namespace SudyApi.Controllers
                     }
                 }
                 else if (semesterId != null)
-                {
-                    List<DisciplineModel> discipline = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterIdNoTracking(semesterId.Value);
-
-                    if (discipline != null)
-                        disciplines.AddRange(discipline);
-                }
-                else if (discplineId != null)
-                {
-                    DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByIdNoTracking(discplineId.Value);
-
-                    if (discipline != null)
-                        disciplines.Add(discipline);
-                }
-                else if (disciplineNameId != null && semesterId != null)
-                {
-                    DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByNameNoTracking(discplineId.Value, semesterId.Value);
-
-                    if (discipline != null)
-                        disciplines.Add(discipline);
-                }
+                    disciplines = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterIdNoTracking(semesterId.Value);                 
                 else
                     return BadRequest();
 

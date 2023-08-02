@@ -4,6 +4,7 @@ using StudandoApi.Data.Interfaces;
 using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 using SudyApi.ViewModels;
+using System.Collections.Generic;
 
 namespace SudyApi.Controllers
 {
@@ -16,26 +17,6 @@ namespace SudyApi.Controllers
         public ChapterController(ISudyService schoolService)
         {
             _sudyService = schoolService;
-        }
-
-        [HttpGet]
-        [ActionName(nameof(GetAllChapters))]
-        [Authorize]
-        public async Task<IActionResult> GetAllChapters(int subjectId)
-        {
-            try
-            {
-                List<ChapterModel> chapters = await _sudyService.ChapterRepository.GetAllChaptersBySubjectIdNoTracking(subjectId);
-
-                if (chapters.Count == 0)
-                    return NotFound();
-
-                return Ok(chapters);
-            }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
-            }
         }
 
         [HttpGet]
@@ -59,13 +40,20 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetChapterListByName))]
+        [ActionName(nameof(GetChaptersFilter))]
         [Authorize]
-        public async Task<IActionResult> GetChapterListByName(string name)
+        public async Task<IActionResult> GetChaptersFilter(int? subjectId, string? name)
         {
             try
             {
-                List<ChapterModel> chapters = await _sudyService.ChapterRepository.GetChapterByNameNoTracking(name);
+                List<ChapterModel> chapters = new List<ChapterModel>();
+
+                if (subjectId != null)
+                    chapters = await _sudyService.ChapterRepository.GetAllChaptersBySubjectIdNoTracking(subjectId);
+                else if (!string.IsNullOrEmpty(name))
+                    chapters = await _sudyService.ChapterRepository.GetChapterByNameNoTracking(name);
+                else
+                    return BadRequest();
 
                 if (chapters.Count == 0)
                     return NotFound();
@@ -90,7 +78,7 @@ namespace SudyApi.Controllers
 
                 List<ChapterModel> newChapters = new List<ChapterModel>();
 
-                foreach(var chapter in chapters)
+                foreach (var chapter in chapters)
                 {
                     newChapters.Add(new ChapterModel(chapter));
                 }
