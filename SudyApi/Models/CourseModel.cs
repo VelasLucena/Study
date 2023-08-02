@@ -6,13 +6,13 @@ namespace SudyApi.Models
     public class CourseModel
     {
         [Key]
-        public int? CourseId { get; set; }
+        public int CourseId { get; set; }
 
         public string? Name { get; set; }
 
-        public GraduationType? Level { get; set; }
+        public GraduationType Level { get; set; }
 
-        public int? SemestersCount { get; set; }
+        public int SemestersCount { get; set; }
 
         public CourseModel() { }
 

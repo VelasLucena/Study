@@ -9,7 +9,9 @@ namespace SudyApi.Models
         [Key]
         public int ImportantDateId { get; set; }
 
-        public ScheduleModel ScheduleId { get; set; }
+        public int ScheduleId { get; set; }
+
+        public ScheduleModel Schedule { get; set; }
 
         public ImportantDateType ImportantDateType { get; set; }
 
@@ -19,7 +21,7 @@ namespace SudyApi.Models
 
         public DateTime CreationDate { get; set; }
 
-        public DateTime UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
 
         public ImportantDateModel() { }
 

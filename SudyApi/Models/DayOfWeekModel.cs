@@ -8,15 +8,17 @@ namespace SudyApi.Models
         [Key]
         public int DayOfWeekId { get; set; }
 
-        public DisciplineModel? Discipline { get; set; }
+        public int DisciplineId { get; set; }
 
-        public DayOfWeek? DayOfWeekType { get; set; }
+        public DisciplineModel Discipline { get; set; }
 
-        public TimeOnly? Hour { get; set; }
+        public DayOfWeek DayOfWeekType { get; set; }
+
+        public TimeOnly Hour { get; set; }
         
-        public int? ModulesCount { get; set; }
+        public int ModulesCount { get; set; }
 
-        public DateTime? CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
     }

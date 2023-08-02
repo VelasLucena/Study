@@ -70,24 +70,34 @@ namespace StudandoApi.Data.Contexts
             #region ForeignKey
 
             modelBuilder.Entity<SemesterModel>()
-                .HasMany(x => x.Disciplines)
+                .HasMany<DisciplineModel>()
                 .WithOne(x => x.Semester)
                 .HasForeignKey(x => x.SemesterId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<DisciplineModel>()
-                .HasMany(x => x.Subjects)
+                .HasMany<SubjectModel>()
                 .WithOne(x => x.Discipline)
                 .HasForeignKey(x => x.DisciplineId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<SubjectModel>()
-                .HasMany(x => x.Chapters)
+                .HasMany<ChapterModel>()
                 .WithOne(x => x.Subject)
                 .HasForeignKey(x => x.SubjectId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBui
+            modelBuilder.Entity<DisciplineModel>()
+                .HasMany<DayOfWeekModel>()
+                .WithOne(x => x.Discipline)
+                .HasForeignKey(x => x.DisciplineId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ScheduleModel>()
+                .HasMany<ImportantDateModel>()
+                .WithOne(x => x.Schedule)
+                .HasForeignKey(x => x.ScheduleId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             #endregion
 

@@ -8,18 +8,15 @@ namespace SudyApi.Models
         [Key]
         public int SubjectId { get; set; }
 
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
-        public int? DisciplineId { get; set; }
+        public int DisciplineId { get; set; }
 
-        public DisciplineModel? Discipline { get; set; }
+        public DisciplineModel Discipline { get; set; }
 
-        public DateTime? CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
-
-        public ICollection<ChapterModel>? Chapters { get; set; }
-
 
         public SubjectModel() { }
 
@@ -32,7 +29,7 @@ namespace SudyApi.Models
 
         public void Update(EditSubjectViewModel viewModel)
         {
-            Name = viewModel.Name;
+            Name = viewModel.Name != null ? viewModel.Name : Name;
             UpdateDate = DateTime.Now;
         }
     }

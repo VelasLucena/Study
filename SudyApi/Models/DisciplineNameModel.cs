@@ -7,7 +7,7 @@ namespace SudyApi.Models
         [Key]
         public int DisciplineNameId { get; set; }
 
-        public string? Name { get; set; }
+        public string Name { get; set; }
         
         public DisciplineNameModel() { }
 
@@ -18,7 +18,7 @@ namespace SudyApi.Models
 
         public void Update(string disciplineName)
         {
-            Name = disciplineName;
+            Name = disciplineName != null ? disciplineName : Name;
         }
     }
 }
