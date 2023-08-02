@@ -1,12 +1,13 @@
 ﻿using SudyApi.Models;
+using SudyApi.Properties.Enuns;
 
 namespace SudyApi.Data.Interfaces
 {
     public interface IImportantDateRepository
     {
-        Task<ImportantDateModel> GetAllImportantDateById(int importantDateId);
+        Task<List<ImportantDateModel>> GetAllImportantDateByScheduleId(int scheduleId);
 
-        Task<ImportantDateModel> GetAllImportantDateById(int importantDateId);
+        Task<List<ImportantDateModel>> GetAllImportantDateByScheduleIdNoTracking(int scheduleId);
 
         Task<ImportantDateModel> GetImportantDateById(int importantDateId);
 

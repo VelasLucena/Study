@@ -20,39 +20,20 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetAllImportantDate))]
-        [Authorize]
-        public async Task<IActionResult> GetAllImportantDate(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(UserModel.UserId))
-        {
-            try
-            {
-                List<ImportantDateModel> importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateById
-
-                if (users.Count == 0)
-                    return NotFound();
-
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
-            }
-        }
-
-        [HttpGet]
         [ActionName(nameof(GetImportantDate))]
         [Authorize]
-        public async Task<IActionResult> GetImportantDate(int? importantDateId, DateOnly? date)
+        public async Task<IActionResult> GetImportantDate(int? importantDateId, DateOnly? date, int scheduleId)
         {
             try
             {
-                ImportantDateModel importantDate = new ImportantDateModel();
+                List<ImportantDateModel> importantDates = new List<ImportantDateModel>();
 
                 if (importantDateId != null)
-                    importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId.Value);
+                    importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId.Value);
                 else if (date != null)
-                    importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);
-                else
+                    importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);
+                else if(scheduleId != null)
+
                     return BadRequest();
 
                 if (importantDate == null)
