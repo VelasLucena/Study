@@ -29,17 +29,23 @@ namespace SudyApi.Controllers
                 List<ImportantDateModel> importantDates = new List<ImportantDateModel>();
 
                 if (importantDateId != null)
-                    importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId.Value);
+                {
+                    ImportantDateModel importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId.Value);
+
+                    if(importantDate != null)
+                        importantDates.Add(await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId.Value));
+                }
                 else if (date != null)
                     importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);
-                else if(scheduleId != null)
-
+                else if (scheduleId != 0)
+                    importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateByScheduleIdNoTracking(scheduleId);
+                else
                     return BadRequest();
 
-                if (importantDate == null)
+                if (importantDates == null)
                     return NotFound();
 
-                return Ok(importantDate);
+                return Ok(importantDates);
             }
             catch (Exception ex)
             {
@@ -89,6 +95,28 @@ namespace SudyApi.Controllers
                 await _sudyService.Update(importanteDateOld);
 
                 return Ok(importanteDateOld);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [ActionName(nameof(DeleteImportantDate))]
+        [Authorize]
+        public async Task<IActionResult> DeleteImportantDate(int importantDateId)
+        {
+            try
+            {
+                ImportantDateModel importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId);
+
+                if (importantDate == null)
+                    return NotFound();
+
+                await _sudyService.Delete(importantDate);
+
+                return NoContent();
             }
             catch (Exception ex)
             {

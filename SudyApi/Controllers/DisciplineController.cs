@@ -19,26 +19,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetAllDisciplines))]
-        [Authorize]
-        public async Task<IActionResult> GetAllDisciplines(int semesterId)
-        {
-            try
-            {
-                List<DisciplineModel> disciplines = await _sudyService.DisciplineRepository.GetAllDisciplinesNoTracking(semesterId);
-
-                if (disciplines.Count == 0)
-                    return NotFound();
-
-                return Ok(disciplines);
-            }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
-            }
-        }
-
-        [HttpGet]
         [ActionName(nameof(GetNameDisciplineList))]
         [Authorize]
         public async Task<IActionResult> GetNameDisciplineList(string name)
@@ -59,26 +39,52 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetDisciplineByName))]
+        [ActionName(nameof(GetDiscipline))]
         [Authorize]
-        public async Task<IActionResult> GetDisciplineByName(string name, int semesterId)
+        public async Task<IActionResult> GetDiscipline(string? name, int? semesterId, int? discplineId, int? disciplineNameId)
         {
             try
             {
-                List<DisciplineNameModel> disciplinesnames = await _sudyService.DisciplineNameRepository.GetDisciplineNameByNameNoTracking(name);
-
-                if (disciplinesnames.Count == 0)
-                    return NotFound();
-
                 List<DisciplineModel> disciplines = new List<DisciplineModel>();
 
-                foreach (DisciplineNameModel item in disciplinesnames)
+                if (discplineId != null && semesterId != null)
                 {
-                    DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByNameNoTracking(item.DisciplineNameId, semesterId);
+                    List<DisciplineNameModel> disciplinesnames = await _sudyService.DisciplineNameRepository.GetDisciplineNameByNameNoTracking(name);
 
-                    if(discipline != null)
+                    if (disciplinesnames.Count == 0)
+                        return NotFound();
+
+                    foreach (DisciplineNameModel item in disciplinesnames)
+                    {
+                        DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByNameNoTracking(item.DisciplineNameId, semesterId.Value);
+
+                        if (discipline != null)
+                            disciplines.Add(discipline);
+                    }
+                }
+                else if (semesterId != null)
+                {
+                    List<DisciplineModel> discipline = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterIdNoTracking(semesterId.Value);
+
+                    if (discipline != null)
+                        disciplines.AddRange(discipline);
+                }
+                else if (discplineId != null)
+                {
+                    DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByIdNoTracking(discplineId.Value);
+
+                    if (discipline != null)
                         disciplines.Add(discipline);
                 }
+                else if (disciplineNameId != null && semesterId != null)
+                {
+                    DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByNameNoTracking(discplineId.Value, semesterId.Value);
+
+                    if (discipline != null)
+                        disciplines.Add(discipline);
+                }
+                else
+                    return BadRequest();
 
                 if (disciplines.Count == 0)
                     return NotFound();

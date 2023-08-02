@@ -13,9 +13,9 @@ namespace SudyApi.Data.Interfaces
 
         Task<ImportantDateModel> GetImportantDateByIdNoTracking(int importantDateId);
 
-        Task<ImportantDateModel> GetImportantDateByDate(DateOnly date);
+        Task<List<ImportantDateModel>> GetImportantDateByDate(DateOnly date);
 
-        Task<ImportantDateModel> GetImportantDateByDateNoTracking(DateOnly date);
+        Task<List<ImportantDateModel>> GetImportantDateByDateNoTracking(DateOnly date);
 
     }
 }

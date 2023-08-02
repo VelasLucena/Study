@@ -21,19 +21,19 @@ namespace SudyApi.Controllers
 
         [HttpPost]
         [ActionName(nameof(Login))]
-        public async Task<IActionResult> Login([FromBody] LoginUserViewModel userLogin)
+        public async Task<IActionResult> Login(LoginUserViewModel loginUser)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                UserModel user = await _sudyService.UserRepository.GetUserByEmail(userLogin.Email);
+                UserModel user = await _sudyService.UserRepository.GetUserByEmail(loginUser.Email);
 
                 if (user == null)
                     return NotFound();
 
-                if (!EncryptPassord.VerifyHashedPassword(user.PasswordHash, userLogin.Password))
+                if (!EncryptPassord.VerifyHashedPassword(user.PasswordHash, loginUser.Password))
                     return BadRequest();
 
                 user.Login();

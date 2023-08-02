@@ -7,10 +7,10 @@ namespace SudyApi.ViewModels
     {
         [DataType(DataType.EmailAddress, ErrorMessageResourceName = nameof(MessageClient.MC0003), ErrorMessageResourceType = typeof(MessageClient))]
         [Required(ErrorMessageResourceName = nameof(MessageClient.MC0004), ErrorMessageResourceType = typeof(MessageClient))]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [DataType(DataType.Password, ErrorMessageResourceName = nameof(MessageClient.MC0018), ErrorMessageResourceType = typeof(MessageClient))]
         [Required(ErrorMessageResourceName = nameof(MessageClient.MC0006), ErrorMessageResourceType = typeof(MessageClient))]
-        public string? Password { get; set; }
+        public string Password { get; set; }
     }
 }
