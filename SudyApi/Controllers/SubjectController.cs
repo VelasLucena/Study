@@ -20,9 +20,9 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetAllSubjects))]
+        [ActionName(nameof(GetSubjectList))]
         [Authorize]
-        public async Task<IActionResult> GetAllSubjects(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(SubjectModel.SubjectId))
+        public async Task<IActionResult> GetSubjectList(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(SubjectModel.SubjectId))
         {
             try
             {

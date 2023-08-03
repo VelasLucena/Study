@@ -20,9 +20,9 @@ namespace StudandoApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetAllUsers))]
+        [ActionName(nameof(GetUserList))]
         [Authorize]
-        public async Task<IActionResult> GetAllUsers(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(UserModel.UserId))
+        public async Task<IActionResult> GetUserList(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(UserModel.UserId))
         {
             try
             {

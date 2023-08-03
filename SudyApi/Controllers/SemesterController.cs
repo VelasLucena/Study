@@ -19,9 +19,9 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetAllSemestersByUserId))]
+        [ActionName(nameof(GetSemestersList))]
         [Authorize]
-        public async Task<IActionResult> GetAllSemestersByUserId(int userId)
+        public async Task<IActionResult> GetSemestersList(int userId)
         {
             try
             {

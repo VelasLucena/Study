@@ -40,16 +40,16 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetChaptersFilter))]
+        [ActionName(nameof(GetChapterList))]
         [Authorize]
-        public async Task<IActionResult> GetChaptersFilter(int? subjectId, string? name)
+        public async Task<IActionResult> GetChapterList(int? subjectId, string? name)
         {
             try
             {
                 List<ChapterModel> chapters = new List<ChapterModel>();
 
                 if (subjectId != null)
-                    chapters = await _sudyService.ChapterRepository.GetAllChaptersBySubjectIdNoTracking(subjectId);
+                    chapters = await _sudyService.ChapterRepository.GetAllChaptersBySubjectIdNoTracking(subjectId.Value);
                 else if (!string.IsNullOrEmpty(name))
                     chapters = await _sudyService.ChapterRepository.GetChapterByNameNoTracking(name);
                 else

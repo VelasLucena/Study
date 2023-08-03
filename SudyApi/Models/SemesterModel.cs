@@ -24,6 +24,8 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
+        public ICollection<DisciplineModel> Disciplines { get; set; }
+
         public SemesterModel() { }
 
         public SemesterModel(RegisterSemesterModel viewModel, UserModel user, CourseModel course, InstitutionModel institution)

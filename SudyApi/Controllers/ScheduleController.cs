@@ -20,14 +20,7 @@ namespace SudyApi.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(new { Error = ModelState });
 
-                UserModel newUser = new UserModel(user);
-
-                await _sudyService.Create(newUser);
-
-                return Ok(newUser);
             }
             catch (Exception ex)
             {

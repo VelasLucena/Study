@@ -22,6 +22,10 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
+        public ICollection<SubjectModel> Subjects { get; set; }
+
+        public ICollection<DayOfWeekModel> DayOfWeeks { get; set; }
+
         public DisciplineModel() { }
 
         public DisciplineModel(SemesterModel semester, DisciplineNameModel disciplineName, RegisterDisciplineViewModel viewModel)

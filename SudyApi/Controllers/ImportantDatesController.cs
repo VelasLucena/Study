@@ -22,23 +22,36 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetImportantDate))]
         [Authorize]
-        public async Task<IActionResult> GetImportantDate(int? importantDateId, DateOnly? date, int scheduleId)
+        public async Task<IActionResult> GetImportantDate(int importantDateId)
         {
             try
             {
-                if (importantDateId != null)
-                {
-                    ImportantDateModel importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId.Value);
+                ImportantDateModel importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId);
 
-                    if(importantDate == null)
-                        return NotFound();
+                if (importantDate == null)
+                    return NotFound();
 
-                    return Ok(importantDate);
-                }
-                else if (date != null)
+                return Ok(importantDate);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [ActionName(nameof(GetImportantDateList))]
+        [Authorize]
+        public async Task<IActionResult> GetImportantDateList(DateOnly? date, int? scheduleId)
+        {
+            try
+            {
+                List<ImportantDateModel> importantDates = new List<ImportantDateModel>();
+
+                if (date != null)
                     importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);
                 else if (scheduleId != 0)
-                    importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateByScheduleIdNoTracking(scheduleId);
+                    importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateByScheduleIdNoTracking(scheduleId.Value);
                 else
                     return BadRequest();
 

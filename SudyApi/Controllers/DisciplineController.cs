@@ -64,9 +64,9 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetDisciplinesFilter))]
+        [ActionName(nameof(GetDisciplinesList))]
         [Authorize]
-        public async Task<IActionResult> GetDisciplinesFilter(string? name, int? semesterId, int? discplineId, int? disciplineNameId)
+        public async Task<IActionResult> GetDisciplinesList(string? name, int? semesterId, int? discplineId, int? disciplineNameId)
         {
             try
             {
