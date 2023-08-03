@@ -20,14 +20,14 @@ namespace SudyApi.Data.Repositories
             _cacheService = cacheService;
         }
 
-        async Task<List<ImportantDateModel>> IImportantDateRepository.GetAllImportantDateByScheduleId(int scheduleid)
+        async Task<List<ImportantDateModel>> IImportantDateRepository.GetAllImportantDateBySemesterId(int semesterId)
         {
-            return await _sudyContext.ImportantDates.Where(x => x.ScheduleId == scheduleid).ToListAsync();
+            return await _sudyContext.ImportantDates.Where(x => x.SemesterId == semesterId).ToListAsync();
         }
 
-        async Task<List<ImportantDateModel>> IImportantDateRepository.GetAllImportantDateByScheduleIdNoTracking(int scheduleid)
+        async Task<List<ImportantDateModel>> IImportantDateRepository.GetAllImportantDateBySemesterIdNoTracking(int semesterId)
         {
-            return await _sudyContext.ImportantDates.AsNoTracking().Where(x => x.ScheduleId == scheduleid).ToListAsync();
+            return await _sudyContext.ImportantDates.AsNoTracking().Where(x => x.SemesterId == semesterId).ToListAsync();
         }
 
         async Task<List<ImportantDateModel>> IImportantDateRepository.GetImportantDateByDate(DateOnly date)

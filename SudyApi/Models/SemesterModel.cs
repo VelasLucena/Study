@@ -14,6 +14,8 @@ namespace SudyApi.Models
 
         public InstitutionModel Institution { get; set; }
 
+        public ConfigSemesterModel ConfigSemester { get; set; }
+
         public string CurrentSemester { get; set; }
 
         public DateOnly SemesterStart { get; set; }
@@ -26,6 +28,8 @@ namespace SudyApi.Models
 
         public ICollection<DisciplineModel> Disciplines { get; set; }
 
+        public ICollection<ImportantDateModel>? ImportantDates { get; set; }
+
         public SemesterModel() { }
 
         public SemesterModel(RegisterSemesterModel viewModel, UserModel user, CourseModel course, InstitutionModel institution)
@@ -33,6 +37,7 @@ namespace SudyApi.Models
             User = user;
             Course = course;
             Institution = institution;
+            ConfigSemester = new ConfigSemesterModel(viewModel);
             CurrentSemester = viewModel.CurrentSemester;
             SemesterEnd = viewModel.SemesterEnd;
             SemesterStart = viewModel.SemesterStart;
@@ -48,6 +53,8 @@ namespace SudyApi.Models
             SemesterEnd = viewModel.SemesterEnd != null ? viewModel.SemesterEnd.Value : SemesterEnd;
             SemesterStart = viewModel.SemesterStart != null ? viewModel.SemesterStart.Value : SemesterStart;
             UpdateDate = DateTime.Now;
+
+            ConfigSemester.Update(viewModel);
         }
     }
 }

@@ -9,9 +9,9 @@ namespace SudyApi.Models
         [Key]
         public int ImportantDateId { get; set; }
 
-        public int ScheduleId { get; set; }
+        public int SemesterId { get; set; }
 
-        public ScheduleModel Schedule { get; set; }
+        public SemesterModel Semester { get; set; }
 
         public ImportantDateType ImportantDateType { get; set; }
 

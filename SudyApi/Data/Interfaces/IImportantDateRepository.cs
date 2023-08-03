@@ -5,9 +5,9 @@ namespace SudyApi.Data.Interfaces
 {
     public interface IImportantDateRepository
     {
-        Task<List<ImportantDateModel>> GetAllImportantDateByScheduleId(int scheduleId);
+        Task<List<ImportantDateModel>> GetAllImportantDateBySemesterId(int semesterId);
 
-        Task<List<ImportantDateModel>> GetAllImportantDateByScheduleIdNoTracking(int scheduleId);
+        Task<List<ImportantDateModel>> GetAllImportantDateBySemesterIdNoTracking(int semesterId);
 
         Task<ImportantDateModel> GetImportantDateById(int importantDateId);
 

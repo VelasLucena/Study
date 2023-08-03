@@ -51,7 +51,7 @@ namespace SudyApi.Controllers
                 if (date != null)
                     importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);
                 else if (scheduleId != 0)
-                    importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateByScheduleIdNoTracking(scheduleId.Value);
+                    importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateBySemesterIdNoTracking(scheduleId.Value);
                 else
                     return BadRequest();
 

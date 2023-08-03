@@ -7,8 +7,6 @@ namespace SudyApi.Models
         [Key]
         public int ScheduleId { get; set; }
 
-        public UserModel User { get; set; }
-
         public SemesterModel Semester { get; set; }
 
         public DateTime CreationDate { get; set; }

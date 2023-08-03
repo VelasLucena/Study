@@ -31,6 +31,8 @@ namespace StudandoApi.Data.Contexts
 
         public DbSet<DayOfWeekModel> DaysOfWeek { get; set; }
 
+        public DbSet<ConfigSemesterModel> ConfigSemesters { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Index
@@ -65,6 +67,9 @@ namespace StudandoApi.Data.Contexts
             modelBuilder.Entity<DisciplineNameModel>()
                 .ToTable("Discipline_Name");
 
+            modelBuilder.Entity<ConfigSemesterModel>()
+                .ToTable("Config_Semesters");
+
             #endregion
 
             #region ForeignKey
@@ -93,10 +98,10 @@ namespace StudandoApi.Data.Contexts
                 .HasForeignKey(x => x.DisciplineId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ScheduleModel>()
+            modelBuilder.Entity<SemesterModel>()
                 .HasMany(x => x.ImportantDates)
-                .WithOne(x => x.Schedule)
-                .HasForeignKey(x => x.ScheduleId)
+                .WithOne(x => x.Semester)
+                .HasForeignKey(x => x.SemesterId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             #endregion

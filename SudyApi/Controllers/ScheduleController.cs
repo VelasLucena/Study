@@ -16,7 +16,7 @@ namespace SudyApi.Controllers
 
         [HttpPost]
         [ActionName(nameof(CreateSchedule))]
-        public async Task<IActionResult> CreateSchedule(RegisterUserViewModel user)
+        public async Task<IActionResult> CreateSchedule()
         {
             try
             {
@@ -24,7 +24,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Error = ex.Message });
+                return Problem(ex.Message);
             }
         }
     }

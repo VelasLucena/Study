@@ -13,5 +13,9 @@
         public DateOnly? SemesterStart { get; set; }
 
         public DateOnly? SemesterEnd { get; set; }
+
+        public int? HoursForStudy { get; set; }
+
+        public string? DaysForStudy { get; set; }
     }
 }
