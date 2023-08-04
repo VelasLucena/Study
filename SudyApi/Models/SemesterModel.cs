@@ -28,6 +28,8 @@ namespace SudyApi.Models
 
         public ICollection<DisciplineModel> Disciplines { get; set; }
 
+        public ICollection<DayOfWeekModel>? DaysOfWeek { get; set; }
+
         public ICollection<ImportantDateModel>? ImportantDates { get; set; }
 
         public SemesterModel() { }
@@ -55,6 +57,39 @@ namespace SudyApi.Models
             UpdateDate = DateTime.Now;
 
             ConfigSemester.Update(viewModel);
+        }
+
+        public static bool ScheduleIsPossible(SemesterModel semester)
+        {
+            if (semester.ConfigSemester.HoursForStudy == null)
+                return true;
+
+            int daysForStudyCount = Convert.ToInt32((
+                semester.SemesterStart
+                .ToDateTime(TimeOnly.MinValue).Date 
+                - 
+                semester.SemesterEnd
+                .ToDateTime(TimeOnly.MinValue).Date)
+                .TotalDays);
+            int totalModulesCount = 0;         
+
+            foreach(DisciplineModel discipline in semester.Disciplines)
+            {
+                foreach(SubjectModel subject in discipline.Subjects)
+                {
+                    foreach(ChapterModel chapter in subject.Chapters)
+                    {
+                        totalModulesCount = totalModulesCount + chapter.ModulesCount;
+                    }
+                }
+            }
+
+            int modulesCountHasPossible = daysForStudyCount * semester.ConfigSemester.HoursForStudy.Value;
+
+            if (modulesCountHasPossible < totalModulesCount)
+                return false;
+            else
+                return true;
         }
     }
 }

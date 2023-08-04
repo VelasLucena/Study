@@ -10,7 +10,11 @@ namespace SudyApi.Models
 
         public int DisciplineId { get; set; }
 
-        public DisciplineModel Discipline { get; set; }
+        public DisciplineModel? Discipline { get; set; }
+
+        public int SemesterId { get; set; }
+
+        public SemesterModel? Semester { get; set; }
 
         public DayOfWeek DayOfWeekType { get; set; }
 
@@ -21,5 +25,10 @@ namespace SudyApi.Models
         public DateTime CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
+
+        public DayOfWeekModel(SemesterModel semester)
+        {
+
+        }
     }
 }

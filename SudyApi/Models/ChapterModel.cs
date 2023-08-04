@@ -16,7 +16,7 @@ namespace SudyApi.Models
 
         public string Name { get; set; }
 
-        public int? ModulesCount { get; set; }
+        public int ModulesCount { get; set; }
 
         public DateTime CreationDate { get; set; }
 

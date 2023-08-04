@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudandoApi.Data.Interfaces;
+using SudyApi.Code;
 using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 using SudyApi.ViewModels;
@@ -88,6 +89,38 @@ namespace SudyApi.Controllers
                 await _sudyService.Create(newSemester);
 
                 return Ok(newSemester);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [ActionName(nameof(CreateScheduleSemester))]
+        [Authorize]
+        public async Task<IActionResult> CreateScheduleSemester(int semesterId)
+        {
+            try
+            {
+                SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
+
+                if (!SemesterModel.ScheduleIsPossible(semester))
+                    return BadRequest();
+
+                List<string> daysForStudy = new List<string>();
+
+                if (semester.ConfigSemester.DaysForStudy != null)
+                    daysForStudy = semester.ConfigSemester.DaysForStudy.Split(",").ToList();
+
+                List<DayOfWeekModel> days = new List<DayOfWeekModel>();
+
+                foreach(string day in daysForStudy)
+                {
+                    if (!string.IsNullOrEmpty(day))
+                        days.Add(new DayOfWeekModel(semester));
+
+                }
             }
             catch (Exception ex)
             {
