@@ -54,6 +54,10 @@ namespace SudyApi.Data.Services
             {
                 return new SubjectRepository(_sudyContext, _cacheService);
             }
+            set
+            {
+
+            }
         }
 
         public IUserInformationRepository UserInformationRepository

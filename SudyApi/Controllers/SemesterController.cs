@@ -76,7 +76,7 @@ namespace SudyApi.Controllers
 
                 CourseModel course = await _sudyService.CourseRepository.GetCourseById(semester.CourseId);
 
-                if(course == null)
+                if (course == null)
                     return NotFound();
 
                 InstitutionModel institution = await _sudyService.InstitutionRepository.GetInstitutionById(semester.InstitutionId);
@@ -106,7 +106,24 @@ namespace SudyApi.Controllers
                 SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
 
                 if (!SemesterModel.ScheduleIsPossible(semester))
-                    return BadRequest();
+                {
+                    int hourForStudyPossible;
+
+                    for (int y = 1; y <= 5; y++)
+                    {
+                        semester.ConfigSemester.HoursForStudy = y;
+
+                        if (SemesterModel.ScheduleIsPossible(semester))
+                        {
+                            hourForStudyPossible = y;
+
+                            await _sudyService.Update(semester);
+                        }
+                    }
+
+                    if (semester.ConfigSemester.HoursForStudy == null)
+                        return BadRequest();
+                }
 
                 List<string> daysForStudy = new List<string>();
 
@@ -115,11 +132,41 @@ namespace SudyApi.Controllers
 
                 List<DayOfWeekModel> days = new List<DayOfWeekModel>();
 
-                foreach(string day in daysForStudy)
-                {
-                    if (!string.IsNullOrEmpty(day))
-                        days.Add(new DayOfWeekModel(semester));
+                int DayDisciplineCount = 1;
+                int DaySubjectCount = 1;
+                int disciplinesCount = semester.Disciplines.Count;
+                int subjectCount
 
+                foreach (string day in daysForStudy)
+                {
+                    for (DayDisciplineCount = DayDisciplineCount; DayDisciplineCount > 0; DayDisciplineCount++)
+                    {
+                        if(DayDisciplineCount > disciplinesCount)
+                            DayDisciplineCount = 1;
+
+                        if(DaySubjectCount)
+
+                        if (string.IsNullOrEmpty(day))
+                            continue;
+
+                        int totalModulesCountDiscipline;
+
+                        for()
+
+                        foreach(SubjectModel subject in semester.Disciplines.ToList()[DayDisciplineCount].Subjects)
+                        {
+                            foreach(ChapterModel chapter in subject.Chapters)
+                            {
+
+                            }
+                        }
+
+                        DayOfWeekModel dayCreate = new DayOfWeekModel(semester.Disciplines.ToList()[i], day, semester.ConfigSemester.HourBeginStudy);
+
+                        await _sudyService.Create(dayCreate);
+
+                        days.Add(dayCreate);
+                    }
                 }
             }
             catch (Exception ex)
@@ -192,9 +239,9 @@ namespace SudyApi.Controllers
                         subjects.AddRange(await _sudyService.SubjectRepository.GetSubjectByDisciplineId(item.DisciplineId));
                     }
 
-                    if(subjects.Count > 0)
+                    if (subjects.Count > 0)
                     {
-                        foreach(SubjectModel item in subjects)
+                        foreach (SubjectModel item in subjects)
                         {
                             chapters.AddRange(await _sudyService.ChapterRepository.GetAllChaptersBySubjectId(item.SubjectId));
                         }

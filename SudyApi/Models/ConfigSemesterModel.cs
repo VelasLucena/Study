@@ -9,6 +9,8 @@ namespace SudyApi.Models
         public int? HoursForStudy { get; set; }
 
         public string? DaysForStudy { get; set; }
+            
+        public int HourBeginStudy { get; set; }
 
         public DateTime CreationDate { get; set; }
 

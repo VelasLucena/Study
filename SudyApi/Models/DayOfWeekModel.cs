@@ -12,10 +12,6 @@ namespace SudyApi.Models
 
         public DisciplineModel? Discipline { get; set; }
 
-        public int SemesterId { get; set; }
-
-        public SemesterModel? Semester { get; set; }
-
         public DayOfWeek DayOfWeekType { get; set; }
 
         public TimeOnly Hour { get; set; }
@@ -26,9 +22,12 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
-        public DayOfWeekModel(SemesterModel semester)
+        public DayOfWeekModel(DisciplineModel discipline, string day, int hourBeginStudy)
         {
-
+            Discipline = discipline;
+            DisciplineId = discipline.DisciplineId;
+            DayOfWeekType = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day, true);
+            Hour = TimeOnly.Parse(hourBeginStudy.ToString());
         }
     }
 }
