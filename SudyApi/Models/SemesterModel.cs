@@ -62,7 +62,7 @@ namespace SudyApi.Models
         public static bool ScheduleIsPossible(SemesterModel semester)
         {
             if (semester.ConfigSemester.HoursForStudy == null)
-                return true;
+                return false;
 
             int daysForStudyCount = Convert.ToInt32((
                 semester.SemesterStart

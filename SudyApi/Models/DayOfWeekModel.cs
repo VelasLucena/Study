@@ -15,6 +15,8 @@ namespace SudyApi.Models
         public DayOfWeek DayOfWeekType { get; set; }
 
         public TimeOnly Hour { get; set; }
+
+        public int TotalDaysToStudy { get; set; }
         
         public int ModulesCount { get; set; }
 
@@ -22,12 +24,19 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
-        public DayOfWeekModel(DisciplineModel discipline, string day, int hourBeginStudy)
+        public DayOfWeekModel(DisciplineModel discipline, DayOfWeek day, int hourBeginStudy, int totalModulesCount, int totalDaysToStudy)
         {
             Discipline = discipline;
             DisciplineId = discipline.DisciplineId;
-            DayOfWeekType = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day, true);
+            DayOfWeekType = day;
+            ModulesCount = totalModulesCount;
+            TotalDaysToStudy = totalDaysToStudy;
             Hour = TimeOnly.Parse(hourBeginStudy.ToString());
+        }
+
+        public DayOfWeekModel CreateDayToStudy(string day)
+        {
+
         }
     }
 }

@@ -135,38 +135,34 @@ namespace SudyApi.Controllers
                 int DayDisciplineCount = 1;
                 int DaySubjectCount = 1;
                 int disciplinesCount = semester.Disciplines.Count;
-                int subjectCount
 
                 foreach (string day in daysForStudy)
                 {
-                    for (DayDisciplineCount = DayDisciplineCount; DayDisciplineCount > 0; DayDisciplineCount++)
+                    DayOfWeek today = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day);
+
+                    if (DayDisciplineCount > semester.Disciplines.Count)
+                        DayDisciplineCount = 1;
+
+                    DisciplineModel disciplineToday = semester.Disciplines.ToList()[DayDisciplineCount];
+
+                    int totalModulesCount = 0;
+
+                    foreach(var subject in disciplineToday.Subjects)
                     {
-                        if(DayDisciplineCount > disciplinesCount)
-                            DayDisciplineCount = 1;
-
-                        if(DaySubjectCount)
-
-                        if (string.IsNullOrEmpty(day))
-                            continue;
-
-                        int totalModulesCountDiscipline;
-
-                        for()
-
-                        foreach(SubjectModel subject in semester.Disciplines.ToList()[DayDisciplineCount].Subjects)
+                        foreach(var chapter in subject.Chapters)
                         {
-                            foreach(ChapterModel chapter in subject.Chapters)
-                            {
-
-                            }
+                            totalModulesCount = chapter.ModulesCount + totalModulesCount;
                         }
-
-                        DayOfWeekModel dayCreate = new DayOfWeekModel(semester.Disciplines.ToList()[i], day, semester.ConfigSemester.HourBeginStudy);
-
-                        await _sudyService.Create(dayCreate);
-
-                        days.Add(dayCreate);
                     }
+
+                    int totalDaysToStudy = 0;
+
+                    if (semester.ConfigSemester.HoursForStudy != null)
+                        totalDaysToStudy = totalModulesCount / semester.ConfigSemester.HoursForStudy.Value;
+                    else
+                        return Problem();
+
+                    await _sudyService.Create(new DayOfWeekModel(disciplineToday, today, semester.ConfigSemester.HourBeginStudy, totalModulesCount, totalDaysToStudy));
                 }
             }
             catch (Exception ex)
