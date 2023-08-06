@@ -18,13 +18,17 @@ namespace SudyApi.Models
 
         public DateOnly DisciplineEnd { get; set; }
 
+        public int TotalDaysToStudy { get; set; }
+
+        public int TotalModulesCount { get; set; }
+
         public DateTime CreationDate { get; set; }
 
         public DateTime? UpdateDate { get; set; }
 
         public ICollection<SubjectModel> Subjects { get; set; }
 
-        public ICollection<DayOfWeekModel> DayOfWeeks { get; set; }
+        public ICollection<DayOfWeekModel> DaysOfWeeks { get; set; }
 
         public DisciplineModel() { }
 

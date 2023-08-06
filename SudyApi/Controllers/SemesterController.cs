@@ -125,10 +125,12 @@ namespace SudyApi.Controllers
                         return BadRequest();
                 }
 
-                List<string> daysForStudy = new List<string>();
-
                 if (semester.ConfigSemester.DaysForStudy != null)
                     daysForStudy = semester.ConfigSemester.DaysForStudy.Split(",").ToList();
+
+                if()
+
+                List<string> daysForStudy = new List<string>();
 
                 List<DayOfWeekModel> days = new List<DayOfWeekModel>();
 

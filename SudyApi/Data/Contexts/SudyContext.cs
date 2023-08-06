@@ -29,7 +29,7 @@ namespace StudandoApi.Data.Contexts
 
         public DbSet<ImportantDateModel> ImportantDates { get; set; }
 
-        public DbSet<DayOfWeekModel> DaysOfWeek { get; set; }
+        public DbSet<DayOfWeekModel> DaysOfWeeks { get; set; }
 
         public DbSet<ConfigSemesterModel> ConfigSemesters { get; set; }
 
@@ -93,7 +93,7 @@ namespace StudandoApi.Data.Contexts
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<DisciplineModel>()
-                .HasMany(x => x.DayOfWeeks)
+                .HasMany(x => x.DaysOfWeeks)
                 .WithOne(x => x.Discipline)
                 .HasForeignKey(x => x.DisciplineId)
                 .OnDelete(DeleteBehavior.Cascade);
