@@ -129,7 +129,7 @@ namespace SudyApi.Controllers
                 if (semester.ConfigSemester.DaysForStudy == null)
                     return BadRequest();
 
-                foreach(var day in semester.ConfigSemester.DaysForStudy.Split(","))
+                foreach(string day in semester.ConfigSemester.DaysForStudy.Split(","))
                 {
 
                 }
