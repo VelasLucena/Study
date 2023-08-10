@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudandoApi.Data.Interfaces;
-using SudyApi.Code;
 using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 using SudyApi.ViewModels;
@@ -125,46 +124,14 @@ namespace SudyApi.Controllers
                         return BadRequest();
                 }
 
-                if (semester.ConfigSemester.DaysForStudy != null)
-                    daysForStudy = semester.ConfigSemester.DaysForStudy.Split(",").ToList();
-
-                if()
-
-                List<string> daysForStudy = new List<string>();
-
                 List<DayOfWeekModel> days = new List<DayOfWeekModel>();
 
-                int DayDisciplineCount = 1;
-                int DaySubjectCount = 1;
-                int disciplinesCount = semester.Disciplines.Count;
+                if (semester.ConfigSemester.DaysForStudy == null)
+                    return BadRequest();
 
-                foreach (string day in daysForStudy)
+                foreach(var day in semester.ConfigSemester.DaysForStudy.Split(","))
                 {
-                    DayOfWeek today = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), day);
 
-                    if (DayDisciplineCount > semester.Disciplines.Count)
-                        DayDisciplineCount = 1;
-
-                    DisciplineModel disciplineToday = semester.Disciplines.ToList()[DayDisciplineCount];
-
-                    int totalModulesCount = 0;
-
-                    foreach(var subject in disciplineToday.Subjects)
-                    {
-                        foreach(var chapter in subject.Chapters)
-                        {
-                            totalModulesCount = chapter.ModulesCount + totalModulesCount;
-                        }
-                    }
-
-                    int totalDaysToStudy = 0;
-
-                    if (semester.ConfigSemester.HoursForStudy != null)
-                        totalDaysToStudy = totalModulesCount / semester.ConfigSemester.HoursForStudy.Value;
-                    else
-                        return Problem();
-
-                    await _sudyService.Create(new DayOfWeekModel(disciplineToday, today, semester.ConfigSemester.HourBeginStudy, totalModulesCount, totalDaysToStudy));
                 }
             }
             catch (Exception ex)
@@ -245,12 +212,12 @@ namespace SudyApi.Controllers
                         }
 
                         if (chapters.Count > 0)
-                            await _sudyService.DeleteMany(chapters);
+                            await _sudyService.Delete(chapters);
 
-                        await _sudyService.DeleteMany(subjects);
+                        await _sudyService.Delete(subjects);
                     }
 
-                    await _sudyService.DeleteMany(disciplines);
+                    await _sudyService.Delete(disciplines);
                 }
 
                 await _sudyService.Delete(semester);

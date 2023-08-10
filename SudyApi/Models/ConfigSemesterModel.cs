@@ -4,8 +4,6 @@ namespace SudyApi.Models
 {
     public class ConfigSemesterModel
     {
-        public int ConfigSemesterId { get; set; }
-
         public int? HoursForStudy { get; set; }
 
         public string? DaysForStudy { get; set; }

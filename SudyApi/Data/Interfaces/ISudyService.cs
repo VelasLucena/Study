@@ -26,14 +26,14 @@ namespace StudandoApi.Data.Interfaces
 
         Task Create<T>(T user, bool removeCache = false, bool manualDesactiveCache = false);
 
-        Task CreateMany<T>(List<T> user, bool removeCache = false, bool manualDesactiveCache = false);
+        Task Create<T>(List<T> user, bool removeCache = false, bool manualDesactiveCache = false);
 
         Task Update<T>(T obj, bool removeCache = false, bool manualDesactiveCache = false);
 
-        Task UpdateMany<T>(List<T> obj, bool removeCache = false, bool manualDesactiveCache = false);
+        Task Update<T>(List<T> obj, bool removeCache = false, bool manualDesactiveCache = false);
 
         Task Delete<T>(T obj, bool manualDesactiveCache = false);
 
-        Task DeleteMany<T>(List<T> obj, bool manualDesactiveCache = false);
+        Task Delete<T>(List<T> obj, bool manualDesactiveCache = false);
     }
 }

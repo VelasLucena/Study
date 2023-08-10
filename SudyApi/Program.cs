@@ -37,14 +37,11 @@ builder.AddLoggerSystem();
 builder.Services.AddJwt();
 
 builder.Services.AddControllers();
-
-builder.Services.AddControllers();
     
-//.AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
 JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 {
-    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+    NullValueHandling = NullValueHandling.Ignore
 };
 
 var app = builder.Build();
