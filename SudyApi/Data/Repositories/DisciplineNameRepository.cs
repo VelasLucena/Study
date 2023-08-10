@@ -39,20 +39,20 @@ namespace SudyApi.Data.Repositories
 
         async Task<DisciplineNameModel> IDisciplineNameRepository.GetDisciplineNameById(int disciplineNameId)
         {
-            return await _sudyContext.DisciplinesName.FirstOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
+            return await _sudyContext.DisciplinesName.SingleOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
         }
 
         async Task<DisciplineNameModel> IDisciplineNameRepository.GetDisciplineNameByIdNoTracking(int disciplineNameId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.DisciplinesName.FirstOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
+                return await _sudyContext.DisciplinesName.SingleOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
 
             string resultCache = await _cachingService.Get(nameof(DisciplineNameModel) + disciplineNameId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<DisciplineNameModel>(resultCache);
 
-            DisciplineNameModel discplineName = await _sudyContext.DisciplinesName.FirstOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
+            DisciplineNameModel discplineName = await _sudyContext.DisciplinesName.SingleOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
 
             if (discplineName != null)
                 await _cachingService.Set(nameof(DisciplineNameModel) + disciplineNameId, JsonConvert.SerializeObject(discplineName));

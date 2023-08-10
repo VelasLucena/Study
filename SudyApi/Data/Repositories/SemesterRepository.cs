@@ -65,20 +65,20 @@ namespace SudyApi.Data.Repositories
                 .Include(x => x.Course)
                 .Include(x => x.Institution)
                 .Include(x => x.User.UserInformation)
-                .FirstOrDefaultAsync(x => x.SemesterId == semesterId);
+                .SingleOrDefaultAsync(x => x.SemesterId == semesterId);
         }
 
         async Task<SemesterModel> ISemesterRepository.GetSemesterByIdNoTracking(int semesterId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Semesters.Include(x => x.User).Include(x => x.User.UserInformation).Include(x => x.Course).Include(x => x.Institution).FirstOrDefaultAsync(x => x.SemesterId == semesterId);
+                return await _sudyContext.Semesters.Include(x => x.User).Include(x => x.User.UserInformation).Include(x => x.Course).Include(x => x.Institution).SingleOrDefaultAsync(x => x.SemesterId == semesterId);
 
             string resultCache = await _cachingService.Get(nameof(SemesterModel) + semesterId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<SemesterModel>(resultCache);
 
-            SemesterModel semester = await _sudyContext.Semesters.Include(x => x.User.UserInformation).Include(x => x.User).Include(x => x.Course).Include(x => x.Institution).FirstOrDefaultAsync(x => x.SemesterId == semesterId);
+            SemesterModel semester = await _sudyContext.Semesters.Include(x => x.User.UserInformation).Include(x => x.User).Include(x => x.Course).Include(x => x.Institution).SingleOrDefaultAsync(x => x.SemesterId == semesterId);
 
             if (semester != null)
                 await _cachingService.Set(nameof(SemesterModel) + semesterId, JsonConvert.SerializeObject(semester));

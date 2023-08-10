@@ -12,7 +12,8 @@ namespace SudyApi.Data.Configurations
             builder.HasMany(x => x.Chapters)
                 .WithOne(x => x.Subject)
                 .HasForeignKey(x => x.SubjectId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
         }
     }
 }

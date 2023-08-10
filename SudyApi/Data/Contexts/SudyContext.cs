@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver.Core.Configuration;
 using SudyApi.Data.Configurations;
 using SudyApi.Models;
 using SudyApi.Utility;
@@ -32,18 +33,18 @@ namespace StudandoApi.Data.Contexts
 
         public DbSet<DayOfWeekModel> DaysOfWeeks { get; set; }
 
-        public DbSet<ConfigSemesterModel> ConfigSemesters { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder, DbContextOptionsBuilder optionsBuilder)
         {
-            new UserEntityTypeConfiguration();
-            new UserInformationEntityTypeConfiguration();
-            new InstitutionEntityTypeConfiguration();
-            new CourseEntityTypeConfiguration();
-            new SemesterEntityTypeConfiguration();
-            new DisciplineEntityTypeConfiguration();
-            new DisciplineNameEntityTypeConfiguration();
-            new SubjectEntityTypeConfiguration();
+            modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new UserInformationEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new InstitutionEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SemesterEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new DisciplineEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new DisciplineNameEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SubjectEntityTypeConfiguration());
+
+            optionsBuilder.UseLazyLoadingProxies();
         }
     }
 }

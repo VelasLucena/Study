@@ -62,20 +62,20 @@ namespace SudyApi.Data.Repositories
 
         async Task<InstitutionModel> IInstitutionRepository.GetInstitutionById(int institutionId)
         {
-            return await _sudyContext.Institutions.FirstOrDefaultAsync(x => x.institutionId == institutionId);
+            return await _sudyContext.Institutions.SingleOrDefaultAsync(x => x.institutionId == institutionId);
         }
 
         async Task<InstitutionModel> IInstitutionRepository.GetInstitutionByIdNoTracking(int institutionId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Institutions.AsNoTracking().FirstOrDefaultAsync(x => x.institutionId == institutionId);
+                return await _sudyContext.Institutions.AsNoTracking().SingleOrDefaultAsync(x => x.institutionId == institutionId);
 
             string resultCache = await _cachingService.Get(nameof(InstitutionModel) + institutionId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<InstitutionModel>(resultCache);
 
-            InstitutionModel institution = await _sudyContext.Institutions.AsNoTracking().FirstOrDefaultAsync(x => x.institutionId == institutionId);
+            InstitutionModel institution = await _sudyContext.Institutions.AsNoTracking().SingleOrDefaultAsync(x => x.institutionId == institutionId);
             if (institution != null)
                 await _cachingService.Set(nameof(InstitutionModel) + institutionId, JsonConvert.SerializeObject(institution));
 

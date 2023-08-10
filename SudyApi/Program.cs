@@ -37,7 +37,7 @@ builder.AddLoggerSystem();
 builder.Services.AddJwt();
 
 builder.Services.AddControllers();
-    
+
 JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 {
     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,

@@ -13,12 +13,14 @@ namespace SudyApi.Data.Configurations
             builder.HasMany(x => x.Disciplines)
                 .WithOne(x => x.Semester)
                 .HasForeignKey(x => x.SemesterId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
 
             builder.HasMany(x => x.ImportantDates)
                 .WithOne(x => x.Semester)
                 .HasForeignKey(x => x.SemesterId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
 
             builder.Property(e => e.ConfigSemester)
                 .HasConversion(x => JsonConvert.SerializeObject(x),

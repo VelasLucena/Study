@@ -42,20 +42,20 @@ namespace SudyApi.Data.Repositories
 
         async Task<ImportantDateModel> IImportantDateRepository.GetImportantDateById(int importantDateId)
         {
-            return await _sudyContext.ImportantDates.FirstOrDefaultAsync(x => x.ImportantDateId == importantDateId);
+            return await _sudyContext.ImportantDates.SingleOrDefaultAsync(x => x.ImportantDateId == importantDateId);
         }
 
         async Task<ImportantDateModel> IImportantDateRepository.GetImportantDateByIdNoTracking(int importantDateId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.ImportantDates.FirstOrDefaultAsync(x => x.ImportantDateId == importantDateId);
+                return await _sudyContext.ImportantDates.SingleOrDefaultAsync(x => x.ImportantDateId == importantDateId);
 
             string resultCache = await _cacheService.Get(nameof(ImportantDateModel) + importantDateId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<ImportantDateModel>(resultCache);
 
-            ImportantDateModel user = await _sudyContext.ImportantDates.FirstOrDefaultAsync(x => x.ImportantDateId == importantDateId);
+            ImportantDateModel user = await _sudyContext.ImportantDates.SingleOrDefaultAsync(x => x.ImportantDateId == importantDateId);
 
             if (user != null)
                 await _cacheService.Set(nameof(ImportantDateModel) + importantDateId, JsonConvert.SerializeObject(user));

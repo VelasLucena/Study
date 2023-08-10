@@ -26,9 +26,9 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
-        public ICollection<SubjectModel> Subjects { get; set; }
+        public ICollection<SubjectModel>? Subjects { get; set; }
 
-        public ICollection<DayOfWeekModel> DaysOfWeeks { get; set; }
+        public ICollection<DayOfWeekModel>? DaysOfWeeks { get; set; }
 
         public DisciplineModel() { }
 

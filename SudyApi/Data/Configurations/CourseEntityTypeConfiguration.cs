@@ -13,7 +13,9 @@ namespace SudyApi.Data.Configurations
             List<CourseModel> courses = DefaultValues.GenerateCourses();
 
             builder.HasData(courses);
-            builder.HasIndex(a => new { a.Name, a.Level }).IsUnique();
+            builder.HasIndex(a => new { a.Name, a.Level })
+                .IsUnique()
+                .IsDescending();
         }
     }
 }

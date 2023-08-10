@@ -12,12 +12,14 @@ namespace SudyApi.Data.Configurations
             builder.HasMany(x => x.Subjects)
                 .WithOne(x => x.Discipline)
                 .HasForeignKey(x => x.DisciplineId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
 
             builder.HasMany(x => x.DaysOfWeeks)
                 .WithOne(x => x.Discipline)
                 .HasForeignKey(x => x.DisciplineId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
         }
     }
 }

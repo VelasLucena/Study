@@ -48,12 +48,12 @@ namespace SudyApi.Data.Repositories
 
         async Task<DisciplineModel> IDisciplineRepository.GetDisciplineByName(int disciplineNameId, int semesterId)
         {
-            return await _sudyContext.Disciplines.Include(x => x.Name).FirstOrDefaultAsync(x => x.Name.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
+            return await _sudyContext.Disciplines.Include(x => x.Name).SingleOrDefaultAsync(x => x.Name.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
         }
 
         async Task<DisciplineModel> IDisciplineRepository.GetDisciplineByNameNoTracking(int disciplineNameId, int semesterId)
         {
-            return await _sudyContext.Disciplines.AsNoTracking().Include(x => x.Name).FirstOrDefaultAsync(x => x.Name.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
+            return await _sudyContext.Disciplines.AsNoTracking().Include(x => x.Name).SingleOrDefaultAsync(x => x.Name.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
         }
 
         #endregion
@@ -62,20 +62,20 @@ namespace SudyApi.Data.Repositories
 
         async Task<DisciplineModel> IDisciplineRepository.GetDisciplineById(int disciplineid)
         {
-            return await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).FirstOrDefaultAsync(x => x.DisciplineId == disciplineid);
+            return await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
         }
 
         async Task<DisciplineModel> IDisciplineRepository.GetDisciplineByIdNoTracking(int disciplineid)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).FirstOrDefaultAsync(x => x.DisciplineId == disciplineid);
+                return await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
 
             string resultCache = await _cacheService.Get(nameof(DisciplineModel) + disciplineid);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<DisciplineModel>(resultCache);
 
-            DisciplineModel discipline = await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).FirstOrDefaultAsync(x => x.DisciplineId == disciplineid);
+            DisciplineModel discipline = await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
 
             if (discipline != null)
                 await _cacheService.Set(nameof(DisciplineModel) + disciplineid, JsonConvert.SerializeObject(discipline));

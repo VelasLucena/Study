@@ -20,7 +20,7 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
-        public ICollection<ChapterModel> Chapters { get; set; }
+        public ICollection<ChapterModel>? Chapters { get; set; }
 
         public SubjectModel() { }
 

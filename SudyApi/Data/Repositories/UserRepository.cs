@@ -63,20 +63,20 @@ namespace SudyApi.Data.Repositories
 
         public async Task<UserModel> GetUserById(int userId)
         {
-            return await _sudyContext.Users.Include(x => x.UserInformation).FirstOrDefaultAsync(x => x.UserId == userId);
+            return await _sudyContext.Users.Include(x => x.UserInformation).SingleOrDefaultAsync(x => x.UserId == userId);
         }
 
         public async Task<UserModel> GetUserByIdNoTracking(int userId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Users.Include(x => x.UserInformation).AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userId);
+                return await _sudyContext.Users.Include(x => x.UserInformation).AsNoTracking().SingleOrDefaultAsync(x => x.UserId == userId);
 
             string resultCache = await _cachingService.Get(nameof(UserModel) + userId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<UserModel>(resultCache);
 
-            UserModel user = await _sudyContext.Users.Include(x => x.UserInformation).AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userId);
+            UserModel user = await _sudyContext.Users.Include(x => x.UserInformation).AsNoTracking().SingleOrDefaultAsync(x => x.UserId == userId);
 
             if (user != null)
                 await _cachingService.Set(nameof(UserModel) + userId, JsonConvert.SerializeObject(user));
@@ -95,12 +95,12 @@ namespace SudyApi.Data.Repositories
 
         public async Task<UserModel> GetUserByEmail(string email)
         {
-            return await _sudyContext.Users.Where(x => x.Email.Contains(email)).Include(x => x.UserInformation).FirstOrDefaultAsync();
+            return await _sudyContext.Users.Where(x => x.Email.Contains(email)).Include(x => x.UserInformation).SingleOrDefaultAsync();
         }
 
         public async Task<UserModel> GetUserByEmailNotracking(string email)
         {
-            return await _sudyContext.Users.Where(x => x.Email.Contains(email)).Include(x => x.UserInformation).AsNoTracking().FirstOrDefaultAsync();
+            return await _sudyContext.Users.Where(x => x.Email.Contains(email)).Include(x => x.UserInformation).AsNoTracking().SingleOrDefaultAsync();
         }
 
         public async Task<UserModel> GetUserByEmailSql(string email)
@@ -114,12 +114,12 @@ namespace SudyApi.Data.Repositories
 
         public async Task<UserModel> GetUserByNameFirst(string name)
         {
-            return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).FirstOrDefaultAsync();
+            return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).SingleOrDefaultAsync();
         }
 
         public async Task<UserModel> GetUserByNameFirstNoTracking(string name)
         {
-            return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).AsNoTracking().FirstOrDefaultAsync();
+            return await _sudyContext.Users.Where(x => x.Name.Contains(name)).Include(x => x.UserInformation).AsNoTracking().SingleOrDefaultAsync();
         }
 
         #endregion

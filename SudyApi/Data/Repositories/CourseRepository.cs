@@ -76,20 +76,20 @@ namespace SudyApi.Data.Repositories
 
         async Task<CourseModel> ICourseRepository.GetCourseById(int courseId)
         {
-            return await _sudyContext.Courses.FirstOrDefaultAsync(x => x.CourseId == courseId);
+            return await _sudyContext.Courses.SingleOrDefaultAsync(x => x.CourseId == courseId);
         }
 
         async Task<CourseModel> ICourseRepository.GetCourseByIdNoTracking(int courseId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Courses.AsNoTracking().FirstOrDefaultAsync(x => x.CourseId == courseId);
+                return await _sudyContext.Courses.AsNoTracking().SingleOrDefaultAsync(x => x.CourseId == courseId);
 
             string resultCache = await _cachingService.Get(nameof(CourseModel) + courseId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<CourseModel>(resultCache);
 
-            CourseModel course = await _sudyContext.Courses.AsNoTracking().FirstOrDefaultAsync(x => x.CourseId == courseId);
+            CourseModel course = await _sudyContext.Courses.AsNoTracking().SingleOrDefaultAsync(x => x.CourseId == courseId);
             if (course != null)
                 await _cachingService.Set(nameof(CourseModel) + courseId, JsonConvert.SerializeObject(course));
 
