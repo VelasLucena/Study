@@ -6,9 +6,9 @@ using System.Reflection.Emit;
 
 namespace SudyApi.Data.Configurations
 {
-    public class DisciplineNameEntityTypeConfiguration : IEntityTypeConfiguration<DisciplineModel>
+    public class DisciplineNameEntityTypeConfiguration : IEntityTypeConfiguration<DisciplineNameModel>
     {
-        public void Configure(EntityTypeBuilder<DisciplineModel> builder)
+        public void Configure(EntityTypeBuilder<DisciplineNameModel> builder)
         {
             List<DisciplineNameModel> names = DefaultValues.GenerateDisciplineNames();
 

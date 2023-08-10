@@ -22,11 +22,11 @@ namespace StudandoApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetUserList))]
         [Authorize]
-        public async Task<IActionResult> GetUserList(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(UserModel.UserId))
+        public async Task<IActionResult> GetUserList(int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
-                List<UserModel> users = await _sudyService.UserRepository.GetAllUsersNoTracking(limit, ordering, attributeName);
+                List<UserModel> users = await _sudyService.UserRepository.GetAllUsers(ordering, attributeName, false, take);
 
                 if (users.Count == 0)
                     return NotFound();

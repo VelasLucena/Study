@@ -2,6 +2,7 @@ using Elastic.Apm.NetCoreAll;
 using Elastic.Apm.SerilogEnricher;
 using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -22,7 +23,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 string connectStringSudyData = builder.Configuration.GetConnectionString(nameof(Database.SudyData));
 
-builder.Services.AddDbContext<SudyContext>(options => options.UseMySql(connectStringSudyData, new MySqlServerVersion(new Version(8, 0, 31))));
+builder.Services.AddDbContext<SudyContext>(options => options.UseMySql(connectStringSudyData
+    , new MySqlServerVersion(new Version(8, 0, 31))
+    , x => x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
 builder.Services.AddScoped<ISudyService, SudyService>();
 
@@ -38,11 +41,11 @@ builder.Services.AddJwt();
 
 builder.Services.AddControllers();
 
-JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+builder.Services.AddControllers().AddNewtonsoftJson(x => 
 {
-    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-    NullValueHandling = NullValueHandling.Ignore
-};
+    x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    x.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+    });
 
 var app = builder.Build();
 
@@ -50,7 +53,7 @@ app.UseAllElasticApm(builder.Configuration);
 
 app.UseMiddleware<AuthorizationTokenMiddleware>();
 
-app.UseMiddleware<InputMiddleware>();
+//app.UseMiddleware<InputMiddleware>();
 
 app.UseHttpsRedirection();
 

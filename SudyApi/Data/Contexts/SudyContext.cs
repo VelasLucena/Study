@@ -33,7 +33,7 @@ namespace StudandoApi.Data.Contexts
 
         public DbSet<DayOfWeekModel> DaysOfWeeks { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder, DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserInformationEntityTypeConfiguration());
@@ -43,8 +43,12 @@ namespace StudandoApi.Data.Contexts
             modelBuilder.ApplyConfiguration(new DisciplineEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new DisciplineNameEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SubjectEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new DayOfWeekEntityTypeConfiguration());
+        }
 
-            optionsBuilder.UseLazyLoadingProxies();
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //optionsBuilder.UseLazyLoadingProxies();
         }
     }
 }

@@ -20,32 +20,50 @@ namespace SudyApi.Data.Repositories
             _cacheService = cacheService;
         }
 
-        async Task<List<ImportantDateModel>> IImportantDateRepository.GetAllImportantDateBySemesterId(int semesterId)
+        public async Task<List<ImportantDateModel>> GetAllImportantDateBySemesterId(int semesterId, int take = 10, int skip = 0)
         {
-            return await _sudyContext.ImportantDates.Where(x => x.SemesterId == semesterId).ToListAsync();
+            return await _sudyContext.ImportantDates
+                .Where(x => x.SemesterId == semesterId)
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
 
-        async Task<List<ImportantDateModel>> IImportantDateRepository.GetAllImportantDateBySemesterIdNoTracking(int semesterId)
+        public async Task<List<ImportantDateModel>> GetAllImportantDateBySemesterIdNoTracking(int semesterId, int take = 10, int skip = 0)
         {
-            return await _sudyContext.ImportantDates.AsNoTracking().Where(x => x.SemesterId == semesterId).ToListAsync();
+            return await _sudyContext.ImportantDates
+                .AsNoTracking()
+                .Where(x => x.SemesterId == semesterId)
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
 
-        async Task<List<ImportantDateModel>> IImportantDateRepository.GetImportantDateByDate(DateOnly date)
+        public async Task<List<ImportantDateModel>> GetImportantDateByDate(DateOnly date, int take = 10, int skip = 0)
         {
-            return await _sudyContext.ImportantDates.Where(x => x.Date == date).ToListAsync();
+            return await _sudyContext.ImportantDates
+                .Where(x => x.Date == date)
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
 
-        async Task<List<ImportantDateModel>> IImportantDateRepository.GetImportantDateByDateNoTracking(DateOnly date)
+        public async Task<List<ImportantDateModel>> GetImportantDateByDateNoTracking(DateOnly date, int take = 10, int skip = 0)
         {
-            return await _sudyContext.ImportantDates.AsNoTracking().Where(x => x.Date == date).ToListAsync();
+            return await _sudyContext.ImportantDates
+                .AsNoTracking()
+                .Where(x => x.Date == date)
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
 
-        async Task<ImportantDateModel> IImportantDateRepository.GetImportantDateById(int importantDateId)
+        public async Task<ImportantDateModel> GetImportantDateById(int importantDateId)
         {
             return await _sudyContext.ImportantDates.SingleOrDefaultAsync(x => x.ImportantDateId == importantDateId);
         }
 
-        async Task<ImportantDateModel> IImportantDateRepository.GetImportantDateByIdNoTracking(int importantDateId)
+        public async Task<ImportantDateModel> GetImportantDateByIdNoTracking(int importantDateId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
                 return await _sudyContext.ImportantDates.SingleOrDefaultAsync(x => x.ImportantDateId == importantDateId);
@@ -55,7 +73,7 @@ namespace SudyApi.Data.Repositories
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<ImportantDateModel>(resultCache);
 
-            ImportantDateModel user = await _sudyContext.ImportantDates.SingleOrDefaultAsync(x => x.ImportantDateId == importantDateId);
+            ImportantDateModel? user = await _sudyContext.ImportantDates.SingleOrDefaultAsync(x => x.ImportantDateId == importantDateId);
 
             if (user != null)
                 await _cacheService.Set(nameof(ImportantDateModel) + importantDateId, JsonConvert.SerializeObject(user));

@@ -31,8 +31,6 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
-        public ICollection<SubjectModel> Subjects { get; set; }
-
         #region Constructor
 
         public UserModel() { }

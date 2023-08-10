@@ -21,28 +21,31 @@ namespace SudyApi.Data.Repositories
 
         #region methods
 
-        #region GetDisciplineNameByName
-
-        async Task<List<DisciplineNameModel>> IDisciplineNameRepository.GetDisciplineNameByName(string name)
+        public async Task<List<DisciplineNameModel>> GetDisciplineNameByName(string name, int take = 10, int skip = 0)
         {
-            return await _sudyContext.DisciplinesName.Where(x => x.Name.Contains(name)).ToListAsync();
+            return await _sudyContext.DisciplinesName
+                .Where(x => x.Name.Contains(name))
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
 
-        async Task<List<DisciplineNameModel>> IDisciplineNameRepository.GetDisciplineNameByNameNoTracking(string name)
+        public async Task<List<DisciplineNameModel>> GetDisciplineNameByNameNoTracking(string name, int take = 10, int skip = 0)
         {
-            return await _sudyContext.DisciplinesName.AsNoTracking().Where(x => x.Name.Contains(name)).ToListAsync();
+            return await _sudyContext.DisciplinesName
+                .AsNoTracking()
+                .Where(x => x.Name.Contains(name))
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
 
-        #endregion
-
-        #region GetDisciplineNameById
-
-        async Task<DisciplineNameModel> IDisciplineNameRepository.GetDisciplineNameById(int disciplineNameId)
+        public async Task<DisciplineNameModel> GetDisciplineNameById(int disciplineNameId)
         {
             return await _sudyContext.DisciplinesName.SingleOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
         }
 
-        async Task<DisciplineNameModel> IDisciplineNameRepository.GetDisciplineNameByIdNoTracking(int disciplineNameId)
+        public async Task<DisciplineNameModel> GetDisciplineNameByIdNoTracking(int disciplineNameId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
                 return await _sudyContext.DisciplinesName.SingleOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
@@ -52,15 +55,13 @@ namespace SudyApi.Data.Repositories
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<DisciplineNameModel>(resultCache);
 
-            DisciplineNameModel discplineName = await _sudyContext.DisciplinesName.SingleOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
+            DisciplineNameModel? discplineName = await _sudyContext.DisciplinesName.SingleOrDefaultAsync(x => x.DisciplineNameId == disciplineNameId);
 
             if (discplineName != null)
                 await _cachingService.Set(nameof(DisciplineNameModel) + disciplineNameId, JsonConvert.SerializeObject(discplineName));
 
             return discplineName;
         }
-
-        #endregion
 
         #endregion
     }

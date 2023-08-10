@@ -28,11 +28,5 @@ namespace SudyApi.ViewModels
 
         [Required]
         public string? DaysForStudy { get; set; }
-
-        [Required]
-        public DateTime CreationDate { get; set; }
-
-        [Required]
-        public DateTime? UpdateDate { get; set; }
     }
 }

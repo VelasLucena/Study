@@ -6,9 +6,9 @@ namespace SudyApi.Data.Interfaces
     {
         #region GetAllDisciplines
 
-        Task<List<DisciplineModel>> GetAllDisciplines(int semesterId);
+        Task<List<DisciplineModel>> GetAllDisciplines(int semesterId, int take = 10, int skip = 0);
 
-        Task<List<DisciplineModel>> GetAllDisciplinesNoTracking(int semesterId);
+        Task<List<DisciplineModel>> GetAllDisciplinesNoTracking(int semesterId, int take = 10, int skip = 0);
 
         #endregion
 
@@ -30,9 +30,9 @@ namespace SudyApi.Data.Interfaces
 
         #region GetDisciplinesBySemesterId
 
-        Task<List<DisciplineModel>> GetDisciplinesBySemesterId(int semesterId);
+        Task<List<DisciplineModel>> GetDisciplinesBySemesterId(int semesterId, int take = 10, int skip = 0);
 
-        Task<List<DisciplineModel>> GetDisciplinesBySemesterIdNoTracking(int semesterId);
+        Task<List<DisciplineModel>> GetDisciplinesBySemesterIdNoTracking(int semesterId, int take = 10, int skip = 0);
 
         #endregion
     }

@@ -193,7 +193,7 @@ namespace SudyApi.Controllers
                 List<SubjectModel> subjects = await _sudyService.SubjectRepository.GetSubjectByDisciplineId(disciplineId);
 
                 if (subjects.Count > 0)
-                    await _sudyService.DeleteMany(subjects);
+                    await _sudyService.Delete(subjects);
 
                 await _sudyService.Delete(discipline);
 

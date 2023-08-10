@@ -29,60 +29,71 @@ namespace SudyApi.Data.Repositories
 
         #region Methods
 
-        #region GetChapterByChapterId
-
-        async Task<ChapterModel> IChapterRepository.GetChapterById(int chapterId)
+        public async Task<ChapterModel> GetChapterById(int chapterId)
         {
-            return await _sudyContext.Chapters.SingleOrDefaultAsync(x => x.ChapterId == chapterId);
+            return await _sudyContext.Chapters
+                .SingleOrDefaultAsync(x => x.ChapterId == chapterId);
         }
 
-        async Task<ChapterModel> IChapterRepository.GetChapterByIdNoTracking(int chapterId)
+        public async Task<ChapterModel> GetChapterByIdNoTracking(int chapterId)
         {
             if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Chapters.AsNoTracking().SingleOrDefaultAsync(x => x.ChapterId == chapterId);
+                return await _sudyContext.Chapters
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(x => x.ChapterId == chapterId);
 
             string resultCache = await _cachingService.Get(nameof(ChapterModel) + chapterId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<ChapterModel>(resultCache);
 
-            ChapterModel chapter = await _sudyContext.Chapters.AsNoTracking().SingleOrDefaultAsync(x => x.ChapterId == chapterId);
+            ChapterModel? chapter = await _sudyContext.Chapters.AsNoTracking().SingleOrDefaultAsync(x => x.ChapterId == chapterId);
 
             if (chapter != null)
                 await _cachingService.Set(nameof(ChapterModel) + chapterId, JsonConvert.SerializeObject(chapter));
+            else
+                return null;
 
             return chapter;
         }
 
-        #endregion
-
-        #region GetChapterBySubjectId
-
-        async Task<List<ChapterModel>> IChapterRepository.GetAllChaptersBySubjectId(int subjectId)
+        public async Task<List<ChapterModel>> GetAllChaptersBySubjectId(int subjectId, int take = 10, int skip = 0)
         {
-            return await _sudyContext.Chapters.Where(x => x.SubjectId == subjectId).ToListAsync();
+            return await _sudyContext.Chapters
+                .Where(x => x.SubjectId == subjectId)
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
 
-        async Task<List<ChapterModel>> IChapterRepository.GetAllChaptersBySubjectIdNoTracking(int subjectId)
+        public async Task<List<ChapterModel>> GetAllChaptersBySubjectIdNoTracking(int subjectId, int take = 10, int skip = 0)
         {
-            return await _sudyContext.Chapters.AsNoTracking().Where(x => x.SubjectId == subjectId).ToListAsync();
+            return await _sudyContext.Chapters
+                .AsNoTracking()
+                .Where(x => x.SubjectId == subjectId)
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
 
-        #endregion
-
-        #region GetChapterByName
-
-        async Task<List<ChapterModel>> IChapterRepository.GetChapterByName(string name)
+        public async Task<List<ChapterModel>> GetChapterByName(string name, int take = 10, int skip = 0)
         {
-            return await _sudyContext.Chapters.Where(x => x.Name.Contains(name)).ToListAsync();
+            return await _sudyContext.Chapters
+                .Where(x => x.Name.Contains(name))
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
 
-        async Task<List<ChapterModel>> IChapterRepository.GetChapterByNameNoTracking(string name)
+        public async Task<List<ChapterModel>> GetChapterByNameNoTracking(string name, int take = 10, int skip = 0)
         {
-            return await _sudyContext.Chapters.AsNoTracking().Where(x => x.Name.Contains(name)).ToListAsync();
+            return await _sudyContext.Chapters
+                .AsNoTracking()
+                .Where(x => x.Name.Contains(name))
+                .Take(take)
+                .Skip(skip)
+                .ToListAsync();
         }
-
-        #endregion
 
         #endregion
     }

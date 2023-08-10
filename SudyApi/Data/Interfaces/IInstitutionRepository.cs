@@ -7,7 +7,7 @@ namespace SudyApi.Data.Interfaces
     {
         #region GetAllInstitutions
 
-        Task<List<InstitutionModel>> GetAllInstitutions(Ordering ordering = Ordering.Asc, string attributeName = nameof(InstitutionModel.Name));
+        Task<List<InstitutionModel>> GetAllInstitutions(Ordering ordering = Ordering.Asc, string keySelector = nameof(InstitutionModel.Name), bool isTracking = true, int take = 10, int skip = 0);
 
         Task<List<InstitutionModel>> GetAllInstitutionsNoTracking(Ordering ordering = Ordering.Asc, string attributeName = nameof(InstitutionModel.Name));
 

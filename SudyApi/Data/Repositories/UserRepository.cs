@@ -31,19 +31,17 @@ namespace SudyApi.Data.Repositories
 
         #region GetUsers
 
-        public async Task<List<UserModel>> GetAllUsers(int limit, Ordering ordering, string attributeName)
+        public async Task<List<UserModel>> GetAllUsers(Ordering ordering = Ordering.Asc, string keySelector = nameof(UserModel.UserId), bool isTracking = true, int take = 10, int skip = 0)
         {
-            switch (ordering)
-            {
-                case Ordering.Asc:
-                    return await _sudyContext.Users.Include(x => x.UserInformation).OrderBy(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
-                case Ordering.Desc:
-                    return await _sudyContext.Users.Include(x => x.UserInformation).OrderByDescending(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
-            }
-
-            return null;
+            return await _sudyContext.Users
+                .Include(x => x.UserInformation)
+                .Take(take)
+                .Skip(skip)
+                .ApplyOrderBy(keySelector, ordering)
+                .ApplyTracking(isTracking)
+                .ToListAsync();
         }
-
+        
         public async Task<List<UserModel>> GetAllUsersNoTracking(int limit, Ordering ordering, string attributeName)
         {
             switch (ordering)

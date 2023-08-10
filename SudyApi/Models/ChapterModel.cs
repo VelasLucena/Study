@@ -35,9 +35,9 @@ namespace SudyApi.Models
 
         public void Update(EditChapterViewModel viewModel)
         {
-            Name = viewModel.Name != null ? viewModel.Name : Name;
-            ModulesCount = viewModel.ModulesCount != null ? viewModel.ModulesCount : ModulesCount;
-            UpdateDate = DateTime.Now;
+            //Name = viewModel.Name != null ? viewModel.Name : Name;
+            //ModulesCount = viewModel.ModulesCount != null ? viewModel.ModulesCount : ModulesCount;
+            //UpdateDate = DateTime.Now;
         }
     }
 }

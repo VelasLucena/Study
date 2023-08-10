@@ -95,50 +95,50 @@ namespace SudyApi.Controllers
             }
         }
 
-        [HttpPost]
-        [ActionName(nameof(CreateScheduleSemester))]
-        [Authorize]
-        public async Task<IActionResult> CreateScheduleSemester(int semesterId)
-        {
-            try
-            {
-                SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
+        //[HttpPost]
+        //[ActionName(nameof(CreateScheduleSemester))]
+        //[Authorize]
+        //public async Task<IActionResult> CreateScheduleSemester(int semesterId)
+        //{
+        //    try
+        //    {
+        //        SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
 
-                if (!SemesterModel.ScheduleIsPossible(semester))
-                {
-                    int hourForStudyPossible;
+        //        if (!SemesterModel.ScheduleIsPossible(semester))
+        //        {
+        //            int hourForStudyPossible;
 
-                    for (int y = 1; y <= 5; y++)
-                    {
-                        semester.ConfigSemester.HoursForStudy = y;
+        //            for (int y = 1; y <= 5; y++)
+        //            {
+        //                semester.ConfigSemester.HoursForStudy = y;
 
-                        if (SemesterModel.ScheduleIsPossible(semester))
-                        {
-                            hourForStudyPossible = y;
+        //                if (SemesterModel.ScheduleIsPossible(semester))
+        //                {
+        //                    hourForStudyPossible = y;
 
-                            await _sudyService.Update(semester);
-                        }
-                    }
+        //                    await _sudyService.Update(semester);
+        //                }
+        //            }
 
-                    if (semester.ConfigSemester.HoursForStudy == null)
-                        return BadRequest();
-                }
+        //            if (semester.ConfigSemester.HoursForStudy == null)
+        //                return BadRequest();
+        //        }
 
-                List<DayOfWeekModel> days = new List<DayOfWeekModel>();
+        //        List<DayOfWeekModel> days = new List<DayOfWeekModel>();
 
-                if (semester.ConfigSemester.DaysForStudy == null)
-                    return BadRequest();
+        //        if (semester.ConfigSemester.DaysForStudy == null)
+        //            return BadRequest();
 
-                foreach(string day in semester.ConfigSemester.DaysForStudy.Split(","))
-                {
+        //        foreach(string day in semester.ConfigSemester.DaysForStudy.Split(","))
+        //        {
 
-                }
-            }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
-            }
-        }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Problem(ex.Message);
+        //    }
+        //}
 
         [HttpPut]
         [ActionName(nameof(EditSemester))]

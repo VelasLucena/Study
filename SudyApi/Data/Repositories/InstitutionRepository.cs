@@ -30,30 +30,23 @@ namespace SudyApi.Data.Repositories
 
         #region GetAllInstitutions
 
-        async Task<List<InstitutionModel>> IInstitutionRepository.GetAllInstitutions(Ordering ordering = Ordering.Asc, string attributeName = nameof(InstitutionModel.Name))
+        public async Task<List<InstitutionModel>> GetAllInstitutions(Ordering ordering = Ordering.Asc, string keySelector = nameof(InstitutionModel.Name), bool isTracking = true, int take = 10, int skip = 0)
         {
-            switch (ordering)
-            {
-                case Ordering.Asc:
-                    return await _sudyContext.Institutions.OrderBy(x => EF.Property<object>(x, attributeName)).ToListAsync();
-                case Ordering.Desc:
-                    return await _sudyContext.Institutions.OrderByDescending(x => EF.Property<object>(x, attributeName)).ToListAsync();
-            }
-
-            return null;
+            return await _sudyContext.Institutions
+                .Take(take)
+                .Skip(skip)
+                .ApplyOrderBy(keySelector, ordering)
+                .ApplyTracking(isTracking)
+                .ToListAsync();
         }
 
         async Task<List<InstitutionModel>> IInstitutionRepository.GetAllInstitutionsNoTracking(Ordering ordering = Ordering.Asc, string attributeName = nameof(InstitutionModel.Name))
         {
-            switch (ordering)
-            {
-                case Ordering.Asc:
-                    return await _sudyContext.Institutions.OrderBy(x => EF.Property<object>(x, attributeName)).ToListAsync();
-                case Ordering.Desc:
-                    return await _sudyContext.Institutions.OrderByDescending(x => EF.Property<object>(x, attributeName)).ToListAsync();
-            }
-
-            return null;
+            return await _sudyContext.Institutions
+                //.Take(take)
+                //.Skip(skip)
+                //.ApplyOrderBy(keySelector, ordering)
+                .ToListAsync();
         }
 
         #endregion

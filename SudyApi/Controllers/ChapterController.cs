@@ -83,7 +83,7 @@ namespace SudyApi.Controllers
                     newChapters.Add(new ChapterModel(chapter));
                 }
 
-                await _sudyService.CreateMany(newChapters);
+                await _sudyService.Create(newChapters);
 
                 return Ok(newChapters);
             }
@@ -117,7 +117,7 @@ namespace SudyApi.Controllers
                     editChapters.Add(chapterOld);
                 }
 
-                await _sudyService.UpdateMany(editChapters);
+                await _sudyService.Update(editChapters);
 
                 return Ok(editChapters);
             }
@@ -149,7 +149,7 @@ namespace SudyApi.Controllers
                     deleteChapters.Add(chapter);
                 }
 
-                await _sudyService.DeleteMany(deleteChapters);
+                await _sudyService.Delete(deleteChapters);
 
                 return NoContent();
             }

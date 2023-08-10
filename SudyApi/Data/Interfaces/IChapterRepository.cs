@@ -14,17 +14,17 @@ namespace SudyApi.Data.Interfaces
 
         #region GetAllChaptersBySubjectId
 
-        Task<List<ChapterModel>> GetAllChaptersBySubjectId(int subjectId);
+        Task<List<ChapterModel>> GetAllChaptersBySubjectId(int subjectId, int take = 10, int skip = 0);
 
-        Task<List<ChapterModel>> GetAllChaptersBySubjectIdNoTracking(int subjectId);
+        Task<List<ChapterModel>> GetAllChaptersBySubjectIdNoTracking(int subjectId, int take = 10, int skip = 0);
 
         #endregion
 
         #region GetChapterByName
 
-        Task<List<ChapterModel>> GetChapterByName(string name);
+        Task<List<ChapterModel>> GetChapterByName(string name, int take = 10, int skip = 0);
 
-        Task<List<ChapterModel>> GetChapterByNameNoTracking(string name);
+        Task<List<ChapterModel>> GetChapterByNameNoTracking(string name, int take = 10, int skip = 0);
 
         #endregion
     }

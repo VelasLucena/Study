@@ -24,6 +24,8 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
+        public DayOfWeekModel(){ }
+
         public DayOfWeekModel(DisciplineModel discipline, DayOfWeek day, int hourBeginStudy, int totalModulesCount, int totalDaysToStudy)
         {
             Discipline = discipline;
@@ -34,9 +36,9 @@ namespace SudyApi.Models
             Hour = TimeOnly.Parse(hourBeginStudy.ToString());
         }
 
-        public DayOfWeekModel CreateDayToStudy(string day)
-        {
+        //public DayOfWeekModel CreateDayToStudy(string day)
+        //{
 
-        }
+        //}
     }
 }

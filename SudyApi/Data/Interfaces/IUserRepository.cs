@@ -7,7 +7,7 @@ namespace SudyApi.Data.Interfaces
     {
         #region GetUsers
 
-        Task<List<UserModel>> GetAllUsers(int limit, Ordering ordering, string order);
+        Task<List<UserModel>> GetAllUsers(Ordering ordering = Ordering.Asc, string keySelector = nameof(UserModel.UserId), bool isTracking = true, int take = 10, int skip = 0);
 
         Task<List<UserModel>> GetAllUsersNoTracking(int limit, Ordering ordering, string order);
 
