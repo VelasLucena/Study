@@ -28,6 +28,8 @@ namespace SudyApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
+                _sudyService.DataOptions.IsTracking = true;
+
                 UserModel user = await _sudyService.UserRepository.GetUserByEmail(loginUser.Email);
 
                 if (user == null)
@@ -55,6 +57,8 @@ namespace SudyApi.Controllers
         {
             try
             {
+                _sudyService.DataOptions.IsTracking = true;
+
                 UserModel user = await _sudyService.UserRepository.GetUserById(UserLogged.UserId);
 
                 if (user == null)

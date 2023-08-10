@@ -28,7 +28,6 @@ builder.Services.AddDbContext<SudyContext>(options => options.UseMySql(connectSt
     , x => x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
 builder.Services.AddScoped<ISudyService, SudyService>();
-
 builder.Services.AddScoped<ICacheService, CacheService>();
 
 builder.Services.AddElasticSearch();

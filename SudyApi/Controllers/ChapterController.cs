@@ -67,25 +67,20 @@ namespace SudyApi.Controllers
         }
 
         [HttpPost]
-        [ActionName(nameof(CreateChapters))]
+        [ActionName(nameof(CreateChapter))]
         [Authorize]
-        public async Task<IActionResult> CreateChapters(RegisterChapterViewModel[] chapters)
+        public async Task<IActionResult> CreateChapter(RegisterChapterViewModel chapter)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState });
 
-                List<ChapterModel> newChapters = new List<ChapterModel>();
+                ChapterModel newChapter = new ChapterModel(chapter);
 
-                foreach (var chapter in chapters)
-                {
-                    newChapters.Add(new ChapterModel(chapter));
-                }
+                await _sudyService.Create(newChapter);
 
-                await _sudyService.Create(newChapters);
-
-                return Ok(newChapters);
+                return Ok(newChapter);
             }
             catch (Exception ex)
             {

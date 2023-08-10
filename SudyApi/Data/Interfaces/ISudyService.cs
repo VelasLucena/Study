@@ -1,9 +1,12 @@
 ﻿using SudyApi.Data.Interfaces;
+using SudyApi.Models;
 
 namespace StudandoApi.Data.Interfaces
 {
     public interface ISudyService
     {
+        public DataOptionsModel DataOptions { get; set; }
+
         public IUserRepository UserRepository { get; }
 
         public IChapterRepository ChapterRepository { get; }

@@ -14,15 +14,21 @@ namespace SudyApi.Data.Repositories
 
         private readonly SudyContext _sudyContext;
         private readonly ICacheService _cachingService;
+        private readonly int _skip;
+        private readonly int _take;
+        private readonly bool _isTracking;
 
         #endregion
 
         #region Constructor
 
-        public ChapterRepository(SudyContext sudyContext, ICacheService cacheService)
+        public ChapterRepository(SudyContext sudyContext, ICacheService cacheService, DataOptionsModel dataOptions)
         {
             _sudyContext = sudyContext;
             _cachingService = cacheService;
+            _skip = dataOptions.Skip;
+            _take = dataOptions.Take;
+            _isTracking = dataOptions.IsTracking;
         }
 
         #endregion
@@ -31,8 +37,24 @@ namespace SudyApi.Data.Repositories
 
         public async Task<ChapterModel> GetChapterById(int chapterId)
         {
-            return await _sudyContext.Chapters
+            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
+                return await _sudyContext.Chapters
+                    .ApplyTracking()
+                    .SingleOrDefaultAsync(x => x.ChapterId == chapterId);
+
+            string resultCache = await _cachingService.Get(nameof(ChapterModel) + chapterId);
+
+            if (!string.IsNullOrEmpty(resultCache))
+                return JsonConvert.DeserializeObject<ChapterModel>(resultCache);
+
+            ChapterModel? chapter = await _sudyContext.Chapters
+                .ApplyTracking()
                 .SingleOrDefaultAsync(x => x.ChapterId == chapterId);
+
+            if (chapter != null)
+                await _cachingService.Set(nameof(ChapterModel) + chapterId, JsonConvert.SerializeObject(chapter));
+
+            return chapter;
         }
 
         public async Task<ChapterModel> GetChapterByIdNoTracking(int chapterId)

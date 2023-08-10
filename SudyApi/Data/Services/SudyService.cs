@@ -4,6 +4,7 @@ using StudandoApi.Data.Contexts;
 using StudandoApi.Data.Interfaces;
 using SudyApi.Data.Interfaces;
 using SudyApi.Data.Repositories;
+using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 using SudyApi.Utility;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,7 @@ namespace SudyApi.Data.Services
         #region Field
 
         private readonly SudyContext _sudyContext;
+
         private readonly ICacheService _cacheService;
 
         #endregion
@@ -30,13 +32,19 @@ namespace SudyApi.Data.Services
 
         #endregion
 
+        #region DefaultValues
+
+        public DataOptionsModel DataOptions { get; set; }
+
+        #endregion
+
         #region Repositories
 
         public IUserRepository UserRepository
         {
             get
             {
-                return new UserRepository(_sudyContext, _cacheService);
+                return new UserRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -44,7 +52,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new ChapterRepository(_sudyContext, _cacheService);
+                return new ChapterRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -52,11 +60,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new SubjectRepository(_sudyContext, _cacheService);
-            }
-            set
-            {
-
+                return new SubjectRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -64,7 +68,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new UserInformationRepository(_sudyContext, _cacheService);
+                return new UserInformationRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -72,7 +76,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new CourseRepository(_sudyContext, _cacheService);
+                return new CourseRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -80,7 +84,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new InstitutionRepository(_sudyContext, _cacheService);
+                return new InstitutionRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -88,7 +92,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new ImportanteDateRepository(_sudyContext, _cacheService);
+                return new ImportanteDateRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -96,7 +100,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new SemesterRepository(_sudyContext, _cacheService);
+                return new SemesterRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -104,7 +108,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new DisciplineRepository(_sudyContext, _cacheService);
+                return new DisciplineRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -112,7 +116,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new DisciplineNameRepository(_sudyContext, _cacheService);
+                return new DisciplineNameRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
@@ -120,7 +124,7 @@ namespace SudyApi.Data.Services
         {
             get
             {
-                return new ImportanteDateRepository(_sudyContext, _cacheService);
+                return new ImportanteDateRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 
