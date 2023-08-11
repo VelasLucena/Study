@@ -26,7 +26,11 @@ namespace StudandoApi.Controllers
         {
             try
             {
-                List<UserModel> users = await _sudyService.UserRepository.GetAllUsers(ordering, attributeName, false, take);
+                _sudyService.DataOptions.KeyOrder = attributeName;
+                _sudyService.DataOptions.Take = take;
+                _sudyService.DataOptions.Ordering = ordering;
+
+                List<UserModel> users = await _sudyService.UserRepository.GetAllUsers();
 
                 if (users.Count == 0)
                     return NotFound();
@@ -49,9 +53,9 @@ namespace StudandoApi.Controllers
                 UserModel user = new UserModel();
 
                 if (userId != null)
-                    user = await _sudyService.UserRepository.GetUserByIdNoTracking(Convert.ToInt32(userId));
+                    user = await _sudyService.UserRepository.GetUserById(Convert.ToInt32(userId));
                 else if (name != null)
-                    user = await _sudyService.UserRepository.GetUserByNameFirstNoTracking(name);
+                    user = await _sudyService.UserRepository.GetUserByNameFirst(name);
                 else
                     return BadRequest();
 
@@ -75,6 +79,8 @@ namespace StudandoApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState } );
 
+                _sudyService.DataOptions.IsTracking = true;
+
                 UserModel newUser = new UserModel(user);
 
                 await _sudyService.Create(newUser);
@@ -97,7 +103,9 @@ namespace StudandoApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                UserModel editUser = await _sudyService.UserRepository.GetUserByIdNoTracking(user.UserId);
+                _sudyService.DataOptions.IsTracking = true;
+
+                UserModel editUser = await _sudyService.UserRepository.GetUserById(user.UserId);
 
                 if(editUser == null) 
                     return NotFound();
@@ -121,6 +129,8 @@ namespace StudandoApi.Controllers
         {
             try
             {
+                _sudyService.DataOptions.IsTracking = true;
+
                 UserModel user = await _sudyService.UserRepository.GetUserById(userId);
 
                 if (user == null)

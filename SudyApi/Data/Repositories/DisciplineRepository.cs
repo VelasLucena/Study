@@ -15,67 +15,53 @@ namespace SudyApi.Data.Repositories
 
         private readonly SudyContext _sudyContext;
         private readonly ICacheService _cacheService;
+        private readonly DataOptionsModel _dataOptions;
 
         #endregion
 
         #region Constructor
 
-        public DisciplineRepository(SudyContext sudyContext, ICacheService cacheService)
+        public DisciplineRepository(SudyContext sudyContext, ICacheService cacheService, DataOptionsModel dataOptions)
         {
             _sudyContext = sudyContext;
             _cacheService = cacheService;
+            _dataOptions = dataOptions;
         }
 
         #endregion
 
         #region Methods
 
-        public async Task<List<DisciplineModel>> GetAllDisciplines(int semesterId, int take = 10, int skip = 0)
+        public async Task<List<DisciplineModel>> GetAllDisciplines(int semesterId)
         {
             return await _sudyContext.Disciplines
                 .Include(x => x.Name)
-                .Take(take)
-                .Skip(skip)
+                .Take(_dataOptions.Take)
+                .Skip(_dataOptions.Skip)
+                .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .Where(x => x.SemesterId == semesterId).ToListAsync();
-        }
-
-        public async Task<List<DisciplineModel>> GetAllDisciplinesNoTracking(int semesterId, int take = 10, int skip = 0)
-        {
-            return await _sudyContext.Disciplines
-                .Include(x => x.Name)
-                .AsNoTracking()
-                .Where(x => x.SemesterId == semesterId)
-                .ToListAsync();
         }
 
         public async Task<DisciplineModel> GetDisciplineByName(int disciplineNameId, int semesterId)
         {
             return await _sudyContext.Disciplines
                 .Include(x => x.Name)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .SingleOrDefaultAsync(x => x.Name.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
-        }
-
-        public async Task<DisciplineModel> GetDisciplineByNameNoTracking(int disciplineNameId, int semesterId)
-        {
-            return await _sudyContext.Disciplines
-                .AsNoTracking()
-                .Include(x => x.Name)
-                .SingleOrDefaultAsync(x => x.Name.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
-        }
+        }      
 
         public async Task<DisciplineModel> GetDisciplineById(int disciplineid)
         {
-            return await _sudyContext.Disciplines
-                .Include(x => x.Semester)
-                .Include(x => x.Name)
-                .SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
-        }
+            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
-        async Task<DisciplineModel> IDisciplineRepository.GetDisciplineByIdNoTracking(int disciplineid)
-        {
-            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
+            if (_dataOptions.IsTracking == true)
+                cache = false;
+
+            if (!cache)
                 return await _sudyContext.Disciplines
-                    .Include(x => x.Semester).Include(x => x.Name)
+                    .Include(x => x.Semester)
+                    .Include(x => x.Name)
                     .SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
 
             string resultCache = await _cacheService.Get(nameof(DisciplineModel) + disciplineid);
@@ -83,30 +69,25 @@ namespace SudyApi.Data.Repositories
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<DisciplineModel>(resultCache);
 
-            DisciplineModel? discipline = await _sudyContext.Disciplines.Include(x => x.Semester).Include(x => x.Name).SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
+            DisciplineModel? discipline = await _sudyContext.Disciplines
+                    .Include(x => x.Semester).Include(x => x.Name)
+                    .ApplyTracking(_dataOptions.IsTracking)
+                    .SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
 
             if (discipline != null)
                 await _cacheService.Set(nameof(DisciplineModel) + disciplineid, JsonConvert.SerializeObject(discipline));
 
             return discipline;
-        }
+        }     
 
-        public async Task<List<DisciplineModel>> GetDisciplinesBySemesterId(int semesterId, int take = 10, int skip = 0)
+        public async Task<List<DisciplineModel>> GetDisciplinesBySemesterId(int semesterId)
         {
             return await _sudyContext.Disciplines
                 .Where(x => x.SemesterId == semesterId)
-                .Take(take)
-                .Skip(skip)
-                .ToListAsync();
-        }
-
-        public async Task<List<DisciplineModel>> GetDisciplinesBySemesterIdNoTracking(int semesterId, int take = 10, int skip = 0)
-        {
-            return await _sudyContext.Disciplines
-                .AsNoTracking()
-                .Where(x => x.SemesterId == semesterId)
-                .Take(take)
-                .Skip(skip)
+                .Take(_dataOptions.Take)
+                .Skip(_dataOptions.Skip)
+                .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .ToListAsync();
         }
 

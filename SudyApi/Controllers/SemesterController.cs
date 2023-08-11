@@ -21,11 +21,15 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetSemestersList))]
         [Authorize]
-        public async Task<IActionResult> GetSemestersList(int userId)
+        public async Task<IActionResult> GetSemestersList(int userId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
-                List<SemesterModel> semesters = await _sudyService.SemesterRepository.GetAllSemestersByUserIdNoTracking(userId);
+                _sudyService.DataOptions.KeyOrder = attributeName;
+                _sudyService.DataOptions.Take = take;
+                _sudyService.DataOptions.Ordering = ordering;
+
+                List<SemesterModel> semesters = await _sudyService.SemesterRepository.GetAllSemestersByUserId(userId);
 
                 if (semesters.Count == 0)
                     return NotFound();
@@ -45,7 +49,7 @@ namespace SudyApi.Controllers
         {
             try
             {
-                SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterByIdNoTracking(semesterId);
+                SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
 
                 if (semester == null)
                     return NotFound();
@@ -67,6 +71,8 @@ namespace SudyApi.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState });
+
+                _sudyService.DataOptions.IsTracking = true;
 
                 UserModel user = await _sudyService.UserRepository.GetUserById(semester.UserId);
 
@@ -150,6 +156,8 @@ namespace SudyApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest();
 
+                _sudyService.DataOptions.IsTracking = true;
+
                 SemesterModel editSemester = await _sudyService.SemesterRepository.GetSemesterById(semester.SemesterId);
 
                 UserModel user = await _sudyService.UserRepository.GetUserById(UserLogged.UserId);
@@ -186,6 +194,8 @@ namespace SudyApi.Controllers
         {
             try
             {
+                _sudyService.DataOptions.IsTracking = true;
+
                 SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
 
                 if (semester == null)

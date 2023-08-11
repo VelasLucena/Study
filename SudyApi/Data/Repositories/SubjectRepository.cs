@@ -14,106 +14,83 @@ namespace SudyApi.Data.Repositories
 
         private readonly SudyContext _sudyContext;
         private readonly ICacheService _cachingService;
+        private readonly DataOptionsModel _dataOptions;
 
         #endregion
 
         #region Constructor
 
-        public SubjectRepository(SudyContext sudyContext, ICacheService cacheService)
+        public SubjectRepository(SudyContext sudyContext, ICacheService cacheService, DataOptionsModel dataOptions)
         {
             _sudyContext = sudyContext;
             _cachingService = cacheService;
+            _dataOptions = dataOptions;
         }
 
         #endregion
 
         #region Methods
 
-        #region GetAllSubjects
-
-        public async Task<List<SubjectModel>> GetAllSubjects(int limit, Ordering ordering, string attributeName)
+        public async Task<List<SubjectModel>> GetAllSubjects()
         {
-            switch (ordering)
-            {
-                case Ordering.Asc:
-                    return await _sudyContext.Subjects.Include(x => x.Chapters).OrderBy(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
-                case Ordering.Desc:
-                    return await _sudyContext.Subjects.Include(x => x.Chapters).OrderByDescending(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
-            }
-
-            return null;
+            return await _sudyContext.Subjects
+                .Include(x => x.Chapters)
+                .Take(_dataOptions.Take)
+                .Skip(_dataOptions.Skip)
+                .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
+                .ApplyTracking(_dataOptions.IsTracking)
+                .ToListAsync();
         }
 
-        public async Task<List<SubjectModel>> GetAllSubjectsNoTracking(int limit, Ordering ordering, string attributeName)
+        public async Task<SubjectModel> GetSubjectBySubjectId(int subjectId)
         {
-            switch (ordering)
-            {
-                case Ordering.Asc:
-                    return await _sudyContext.Subjects.Include(x => x.Chapters).AsNoTracking().OrderBy(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
-                case Ordering.Desc:
-                    return await _sudyContext.Subjects.Include(x => x.Chapters).AsNoTracking().OrderByDescending(x => EF.Property<object>(x, attributeName)).Take(limit).ToListAsync();
-            }
+            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
-            return null;
-        }
+            if (_dataOptions.IsTracking == true)
+                cache = false;
 
-        #endregion
-
-        #region GetSubjectBySubjectId
-
-        public async Task<SubjectModel> GetSubjectBySubjectId (int subjectId)
-        {
-            return await _sudyContext.Subjects.Include(x => x.Chapters).SingleOrDefaultAsync(x => x.SubjectId == subjectId);
-        }
-
-        public async Task<SubjectModel> GetSubjectBySubjectIdNoTracking(int subjectId)
-        {
-            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Subjects.Include(x => x.Chapters).AsNoTracking().SingleOrDefaultAsync(x => x.SubjectId == subjectId);
+            if (!cache) 
+                return await _sudyContext.Subjects
+                    .Include(x => x.Chapters)
+                    .SingleOrDefaultAsync(x => x.SubjectId == subjectId);
 
             string resultCache = await _cachingService.Get(nameof(SubjectModel) + subjectId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<SubjectModel>(resultCache);
 
-            SubjectModel subject = await _sudyContext.Subjects.Include(x => x.Chapters).AsNoTracking().SingleOrDefaultAsync(x => x.SubjectId == subjectId);
+            SubjectModel? subject = await _sudyContext.Subjects
+                .Include(x => x.Chapters)
+                .ApplyTracking(_dataOptions.IsTracking)
+                .SingleOrDefaultAsync(x => x.SubjectId == subjectId);
 
             if (subject != null)
                 await _cachingService.Set(nameof(SubjectModel) + subjectId, JsonConvert.SerializeObject(subject));
 
             return subject;
-        }
-
-        #endregion
-
-        #region GetSubjectByCollegeSubjectId
+        }       
 
         public async Task<List<SubjectModel>> GetSubjectByDisciplineId(int disciplineId)
         {
-            return await _sudyContext.Subjects.Include(x => x.Chapters).Where(x => x.DisciplineId == disciplineId).ToListAsync();
-        }
-
-        public async Task<List<SubjectModel>> GetSubjectByDisciplineIdNoTracking(int disciplineId)
-        {
-            return await _sudyContext.Subjects.Include(x => x.Chapters).Where(x => x.DisciplineId == disciplineId).ToListAsync();
-        }
-
-        #endregion
-
-        #region GetSubjectByName
+            return await _sudyContext.Subjects
+                .Include(x => x.Chapters)
+                .Where(x => x.DisciplineId == disciplineId)
+                .Take(_dataOptions.Take)
+                .Skip(_dataOptions.Skip)
+                .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
+                .ApplyTracking(_dataOptions.IsTracking)
+                .ToListAsync();
+        }       
 
         public async Task<SubjectModel> GetSubjectByNameFirst(string name)
         {
-            return await _sudyContext.Subjects.Include(x => x.Chapters).SingleOrDefaultAsync(x => x.Name.Contains(name));
-        }
-
-        public async Task<SubjectModel> GetSubjectByNameFirstNoTracking(string name)
-        {
-            return await _sudyContext.Subjects.Include(x => x.Chapters).SingleOrDefaultAsync(x => x.Name.Contains(name));
+            return await _sudyContext.Subjects
+                .Include(x => x.Chapters)
+                .ApplyTracking(_dataOptions.IsTracking)
+                .SingleOrDefaultAsync(x => x.Name.Contains(name));
         }
 
         #endregion
 
-        #endregion
     }
 }

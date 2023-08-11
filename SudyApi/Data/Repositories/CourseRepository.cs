@@ -15,94 +15,55 @@ namespace SudyApi.Data.Repositories
 
         private readonly SudyContext _sudyContext;
         private readonly ICacheService _cachingService;
+        private readonly DataOptionsModel _dataOptions;
 
         #endregion
 
         #region Constructor
 
-        public CourseRepository(SudyContext sudyContext, ICacheService cacheService)
+        public CourseRepository(SudyContext sudyContext, ICacheService cacheService, DataOptionsModel dataOptions)
         {
             _sudyContext = sudyContext;
             _cachingService = cacheService;
+            _dataOptions = dataOptions;
         }
 
         #endregion
 
         #region Methods
 
-        public async Task<List<CourseModel>> GetAllCourses(Ordering ordering = Ordering.Asc, string attributeName = nameof(CourseModel.Name), int take = 10, int skip = 0)
+        public async Task<List<CourseModel>> GetAllCourses()
         {
-            switch (ordering)
-            {
-                case Ordering.Asc:
-                    return await _sudyContext.Courses
-                        .OrderBy(x => EF.Property<object>(x, attributeName))
-                        .Take(take)
-                        .Skip(skip)
-                        .ToListAsync();
-                case Ordering.Desc:
-                    return await _sudyContext.Courses
-                        .OrderByDescending(x => EF.Property<object>(x, attributeName))
-                        .Take(take)
-                        .Skip(skip)
-                        .ToListAsync();
-            }
 
-            return null;
-        }
-
-        public async Task<List<CourseModel>> GetAllCoursesNoTracking(Ordering ordering = Ordering.Asc, string attributeName = nameof(CourseModel.Name), int take = 10, int skip = 0)
-        {
-            switch (ordering)
-            {
-                case Ordering.Asc:
-                    return await _sudyContext.Courses
-                        .AsNoTracking()
-                        .OrderBy(x => EF.Property<object>(x, attributeName))
-                        .Take(take)
-                        .Skip(skip)
-                        .ToListAsync();
-                case Ordering.Desc:
-                    return await _sudyContext.Courses
-                        .AsNoTracking()
-                        .OrderByDescending(x => EF.Property<object>(x, attributeName))
-                        .Take(take)
-                        .Skip(skip)
-                        .ToListAsync();
-            }
-
-            return null;
-        }
-
-        public async Task<List<CourseModel>> GetCourseByName(string courseName, int take = 10, int skip = 0)
-        {
             return await _sudyContext.Courses
-                .Where(x => x.Name.Contains(courseName))
-                .Take(take)
-                .Skip(skip)
+                .Take(_dataOptions.Take)
+                .Skip(_dataOptions.Skip)
+                .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .ToListAsync();
-        }
 
-        public async Task<List<CourseModel>> GetCourseByNameNoTracking(string courseName, int take = 10, int skip = 0)
+        }     
+
+        public async Task<List<CourseModel>> GetCourseByName(string courseName)
         {
             return await _sudyContext.Courses
-                .AsNoTracking()
                 .Where(x => x.Name.Contains(courseName))
-                .Take(take)
-                .Skip(skip)
+                .Take(_dataOptions.Take)
+                .Skip(_dataOptions.Skip)
+                .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .ToListAsync();
         }
 
         public async Task<CourseModel> GetCourseById(int courseId)
         {
-            return await _sudyContext.Courses.SingleOrDefaultAsync(x => x.CourseId == courseId);
-        }
+            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
-        public async Task<CourseModel> GetCourseByIdNoTracking(int courseId)
-        {
-            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
+            if (_dataOptions.IsTracking == true)
+                cache = false;
+
+            if (!cache)
                 return await _sudyContext.Courses
-                    .AsNoTracking()
                     .SingleOrDefaultAsync(x => x.CourseId == courseId);
 
             string resultCache = await _cachingService.Get(nameof(CourseModel) + courseId);
@@ -110,12 +71,15 @@ namespace SudyApi.Data.Repositories
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<CourseModel>(resultCache);
 
-            CourseModel? course = await _sudyContext.Courses.AsNoTracking().SingleOrDefaultAsync(x => x.CourseId == courseId);
+            CourseModel? course = await _sudyContext.Courses
+                .ApplyTracking(_dataOptions.IsTracking)
+                .SingleOrDefaultAsync(x => x.CourseId == courseId);
+
             if (course != null)
                 await _cachingService.Set(nameof(CourseModel) + courseId, JsonConvert.SerializeObject(course));
 
             return course;
-        }
+        }       
 
         #endregion
     }

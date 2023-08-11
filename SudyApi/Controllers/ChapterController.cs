@@ -26,7 +26,7 @@ namespace SudyApi.Controllers
         {
             try
             {
-                ChapterModel chapter = await _sudyService.ChapterRepository.GetChapterByIdNoTracking(Convert.ToInt32(chapterId));
+                ChapterModel chapter = await _sudyService.ChapterRepository.GetChapterById(Convert.ToInt32(chapterId));
 
                 if (chapter == null)
                     return NotFound();
@@ -42,16 +42,20 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetChapterList))]
         [Authorize]
-        public async Task<IActionResult> GetChapterList(int? subjectId, string? name)
+        public async Task<IActionResult> GetChapterList(int? subjectId, string? name, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
+                _sudyService.DataOptions.KeyOrder = attributeName;
+                _sudyService.DataOptions.Take = take;
+                _sudyService.DataOptions.Ordering = ordering;
+
                 List<ChapterModel> chapters = new List<ChapterModel>();
 
                 if (subjectId != null)
-                    chapters = await _sudyService.ChapterRepository.GetAllChaptersBySubjectIdNoTracking(subjectId.Value);
+                    chapters = await _sudyService.ChapterRepository.GetAllChaptersBySubjectId(subjectId.Value);
                 else if (!string.IsNullOrEmpty(name))
-                    chapters = await _sudyService.ChapterRepository.GetChapterByNameNoTracking(name);
+                    chapters = await _sudyService.ChapterRepository.GetChapterByName(name);
                 else
                     return BadRequest();
 
@@ -76,6 +80,8 @@ namespace SudyApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState });
 
+                _sudyService.DataOptions.IsTracking = true;
+
                 ChapterModel newChapter = new ChapterModel(chapter);
 
                 await _sudyService.Create(newChapter);
@@ -91,30 +97,25 @@ namespace SudyApi.Controllers
         [HttpPut]
         [ActionName(nameof(EditChapters))]
         [Authorize]
-        public async Task<IActionResult> EditChapters(List<EditChapterViewModel> chapters)
+        public async Task<IActionResult> EditChapters(EditChapterViewModel chapter)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                List<ChapterModel> editChapters = new List<ChapterModel>();
+                _sudyService.DataOptions.IsTracking = true;
 
-                foreach (var chapter in chapters)
-                {
-                    ChapterModel chapterOld = await _sudyService.ChapterRepository.GetChapterById(chapter.ChapterId);
+                ChapterModel chapterOld = await _sudyService.ChapterRepository.GetChapterById(chapter.ChapterId);
 
-                    if (chapterOld == null)
-                        return NotFound();
+                if (chapterOld == null)
+                    return NotFound();
 
-                    chapterOld.Update(chapter);
+                chapterOld.Update(chapter);
 
-                    editChapters.Add(chapterOld);
-                }
+                await _sudyService.Update(chapterOld);
 
-                await _sudyService.Update(editChapters);
-
-                return Ok(editChapters);
+                return Ok(chapterOld);
             }
             catch (Exception ex)
             {
@@ -125,26 +126,21 @@ namespace SudyApi.Controllers
         [HttpDelete]
         [ActionName(nameof(DeleteChapters))]
         [Authorize]
-        public async Task<IActionResult> DeleteChapters(List<DeleteChaptersViewModel> chapters)
+        public async Task<IActionResult> DeleteChapters(int chapterId)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                List<ChapterModel> deleteChapters = new List<ChapterModel>();
+                _sudyService.DataOptions.IsTracking = true;
 
-                foreach (DeleteChaptersViewModel item in chapters)
-                {
-                    ChapterModel chapter = await _sudyService.ChapterRepository.GetChapterById(item.ChapterId);
+                ChapterModel chapterOld = await _sudyService.ChapterRepository.GetChapterById(chapterId);
 
-                    if (chapter == null)
-                        return NotFound();
+                if (chapterOld == null)
+                    return NotFound();
 
-                    deleteChapters.Add(chapter);
-                }
-
-                await _sudyService.Delete(deleteChapters);
+                await _sudyService.Delete(chapterOld);
 
                 return NoContent();
             }

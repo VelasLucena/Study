@@ -1,4 +1,7 @@
-﻿using SudyApi.Properties.Enuns;
+﻿using Nest;
+using SudyApi.Properties.Enuns;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace SudyApi.Models
 {
@@ -12,6 +15,6 @@ namespace SudyApi.Models
 
         public Ordering Ordering { get; set; } = Ordering.Desc;
 
-        public string KeyOrder { get; set; }
+        public string? KeyOrder { get; set; }       
     }
 }

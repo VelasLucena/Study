@@ -42,16 +42,20 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetImportantDateList))]
         [Authorize]
-        public async Task<IActionResult> GetImportantDateList(DateOnly? date, int? scheduleId)
+        public async Task<IActionResult> GetImportantDateList(DateOnly? date, int? scheduleId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
+                _sudyService.DataOptions.KeyOrder = attributeName;
+                _sudyService.DataOptions.Take = take;
+                _sudyService.DataOptions.Ordering = ordering;
+
                 List<ImportantDateModel> importantDates = new List<ImportantDateModel>();
 
                 if (date != null)
                     importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);
                 else if (scheduleId != 0)
-                    importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateBySemesterIdNoTracking(scheduleId.Value);
+                    importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateBySemesterId(scheduleId.Value);
                 else
                     return BadRequest();
 
@@ -76,6 +80,8 @@ namespace SudyApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState });
 
+                _sudyService.DataOptions.IsTracking = true;
+
                 ImportantDateModel newImportantDate = new ImportantDateModel(importanteDate);
 
                 await _sudyService.Create(newImportantDate);
@@ -97,6 +103,8 @@ namespace SudyApi.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
+
+                _sudyService.DataOptions.IsTracking = true;
 
                 ImportantDateModel importanteDateOld = await _sudyService.ImportanteDateRepository.GetImportantDateById(importanteDate.ImportantDateId);
 
@@ -122,6 +130,8 @@ namespace SudyApi.Controllers
         {
             try
             {
+                _sudyService.DataOptions.IsTracking = true;
+
                 ImportantDateModel importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId);
 
                 if (importantDate == null)

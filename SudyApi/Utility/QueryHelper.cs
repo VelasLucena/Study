@@ -5,6 +5,7 @@ using Nest;
 using StackExchange.Redis;
 using SudyApi.Properties.Enuns;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -16,8 +17,11 @@ namespace SudyApi.Utility
     {
         internal static readonly MethodInfo AsNoTrackingMethodInfo = typeof(EntityFrameworkQueryableExtensions).GetTypeInfo().GetDeclaredMethod("AsNoTracking")!;
 
-        public static IQueryable<TEntity> ApplyOrderBy<TEntity>(this IQueryable<TEntity> query, string keySelector, Ordering ordering = Ordering.Desc)
+        public static IQueryable<TEntity> ApplyOrderBy<TEntity>(this IQueryable<TEntity> query, string? keySelector, Ordering ordering = Ordering.Desc)
         {
+            if(keySelector == null)
+                keySelector = AttributeIsPrimaryKey(typeof(TEntity));
+
             switch (ordering)
             {
                 case Ordering.Asc:
@@ -37,6 +41,21 @@ namespace SudyApi.Utility
                 query = query.AsNoTracking();
             
             return query;
+        }
+
+        private static string AttributeIsPrimaryKey(Type obj)
+        {
+            PropertyInfo item = obj.GetProperties().FirstOrDefault();
+
+            if (item == null)
+                return null;
+
+            KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+
+            if (attribute == null)
+                return null;
+
+            return item.Name;
         }
     }
 }

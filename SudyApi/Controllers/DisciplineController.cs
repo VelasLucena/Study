@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudandoApi.Data.Interfaces;
 using SudyApi.Models;
+using SudyApi.Properties.Enuns;
 using SudyApi.Utility;
 using SudyApi.ViewModels;
 
@@ -25,7 +26,7 @@ namespace SudyApi.Controllers
         {
             try
             {
-                List<DisciplineNameModel> disciplines = await _sudyService.DisciplineNameRepository.GetDisciplineNameByNameNoTracking(name);
+                List<DisciplineNameModel> disciplines = await _sudyService.DisciplineNameRepository.GetDisciplineNameByName(name);
 
                 if (disciplines.Count == 0)
                     return NotFound();
@@ -48,9 +49,9 @@ namespace SudyApi.Controllers
                 DisciplineModel discipline = new DisciplineModel();
 
                 if (discplineId != null)
-                    discipline = await _sudyService.DisciplineRepository.GetDisciplineByIdNoTracking(discplineId.Value);
+                    discipline = await _sudyService.DisciplineRepository.GetDisciplineById(discplineId.Value);
                 else if (disciplineNameId != null && semesterId != null)
-                    discipline = await _sudyService.DisciplineRepository.GetDisciplineByNameNoTracking(discplineId.Value, semesterId.Value);
+                    discipline = await _sudyService.DisciplineRepository.GetDisciplineByName(discplineId.Value, semesterId.Value);
                 
                 if (discipline != null)
                     return NotFound();
@@ -66,29 +67,33 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetDisciplinesList))]
         [Authorize]
-        public async Task<IActionResult> GetDisciplinesList(string? name, int? semesterId, int? discplineId, int? disciplineNameId)
+        public async Task<IActionResult> GetDisciplinesList(string? name, int? semesterId, int? discplineId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
+                _sudyService.DataOptions.KeyOrder = attributeName;
+                _sudyService.DataOptions.Take = take;
+                _sudyService.DataOptions.Ordering = ordering;
+
                 List<DisciplineModel> disciplines = new List<DisciplineModel>();
 
                 if (discplineId != null && semesterId != null)
                 {
-                    List<DisciplineNameModel> disciplinesnames = await _sudyService.DisciplineNameRepository.GetDisciplineNameByNameNoTracking(name);
+                    List<DisciplineNameModel> disciplinesnames = await _sudyService.DisciplineNameRepository.GetDisciplineNameByName(name);
 
                     if (disciplinesnames.Count == 0)
                         return NotFound();
 
                     foreach (DisciplineNameModel item in disciplinesnames)
                     {
-                        DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByNameNoTracking(item.DisciplineNameId, semesterId.Value);
+                        DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByName(item.DisciplineNameId, semesterId.Value);
 
                         if (discipline != null)
                             disciplines.Add(discipline);
                     }
                 }
                 else if (semesterId != null)
-                    disciplines = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterIdNoTracking(semesterId.Value);                 
+                    disciplines = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterId(semesterId.Value);                 
                 else
                     return BadRequest();
 
@@ -112,6 +117,8 @@ namespace SudyApi.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState });
+
+                _sudyService.DataOptions.IsTracking = true;
 
                 SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(discipline.SemesterId);
 
@@ -148,6 +155,8 @@ namespace SudyApi.Controllers
         {
             try
             {
+                _sudyService.DataOptions.IsTracking = true;
+
                 SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(Convert.ToInt32(discipline.SemesterId));
 
                 if (semester == null)
@@ -185,6 +194,8 @@ namespace SudyApi.Controllers
         {
             try
             {
+                _sudyService.DataOptions.IsTracking = true;
+
                 DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineById(disciplineId);
 
                 if (discipline == null)

@@ -88,7 +88,7 @@ namespace SudyApi.Data.Services
             }
         }
 
-        public IImportantDateRepository ImportanteDate
+        public IImportantDateRepository ImportanteDateRepository
         {
             get
             {
@@ -117,14 +117,6 @@ namespace SudyApi.Data.Services
             get
             {
                 return new DisciplineNameRepository(_sudyContext, _cacheService, DataOptions);
-            }
-        }
-
-        public IImportantDateRepository ImportanteDateRepository
-        {
-            get
-            {
-                return new ImportanteDateRepository(_sudyContext, _cacheService, DataOptions);
             }
         }
 

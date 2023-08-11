@@ -14,68 +14,58 @@ namespace SudyApi.Data.Repositories
 
         private readonly SudyContext _sudyContext;
         private readonly ICacheService _cachingService;
+        private readonly DataOptionsModel _dataOptions;
 
         #endregion
 
         #region Constructor
 
-        public InstitutionRepository(SudyContext sudyContext, ICacheService cacheService)
+        public InstitutionRepository(SudyContext sudyContext, ICacheService cacheService, DataOptionsModel dataOptions)
         {
             _sudyContext = sudyContext;
             _cachingService = cacheService;
+            _dataOptions = dataOptions;
         }
         #endregion
 
         #region Methods
 
-        #region GetAllInstitutions
-
-        public async Task<List<InstitutionModel>> GetAllInstitutions(Ordering ordering = Ordering.Asc, string keySelector = nameof(InstitutionModel.Name), bool isTracking = true, int take = 10, int skip = 0)
+        public async Task<List<InstitutionModel>> GetAllInstitutions()
         {
             return await _sudyContext.Institutions
-                .Take(take)
-                .Skip(skip)
-                .ApplyOrderBy(keySelector, ordering)
-                .ApplyTracking(isTracking)
+                .Take(_dataOptions.Take)
+                .Skip(_dataOptions.Skip)
+                .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .ToListAsync();
         }
 
-        async Task<List<InstitutionModel>> IInstitutionRepository.GetAllInstitutionsNoTracking(Ordering ordering = Ordering.Asc, string attributeName = nameof(InstitutionModel.Name))
+
+        public async Task<InstitutionModel> GetInstitutionById(int institutionId)
         {
-            return await _sudyContext.Institutions
-                //.Take(take)
-                //.Skip(skip)
-                //.ApplyOrderBy(keySelector, ordering)
-                .ToListAsync();
-        }
+            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
-        #endregion
+            if (_dataOptions.IsTracking == true)
+                cache = false;
 
-        #region GetInstitutionById
-
-        async Task<InstitutionModel> IInstitutionRepository.GetInstitutionById(int institutionId)
-        {
-            return await _sudyContext.Institutions.SingleOrDefaultAsync(x => x.institutionId == institutionId);
-        }
-
-        async Task<InstitutionModel> IInstitutionRepository.GetInstitutionByIdNoTracking(int institutionId)
-        {
-            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Institutions.AsNoTracking().SingleOrDefaultAsync(x => x.institutionId == institutionId);
+            if (!cache) 
+                return await _sudyContext.Institutions
+                    .SingleOrDefaultAsync(x => x.institutionId == institutionId);
 
             string resultCache = await _cachingService.Get(nameof(InstitutionModel) + institutionId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<InstitutionModel>(resultCache);
 
-            InstitutionModel institution = await _sudyContext.Institutions.AsNoTracking().SingleOrDefaultAsync(x => x.institutionId == institutionId);
+            InstitutionModel? institution = await _sudyContext.Institutions
+                .ApplyTracking(_dataOptions.IsTracking)
+                .SingleOrDefaultAsync(x => x.institutionId == institutionId);
+
             if (institution != null)
                 await _cachingService.Set(nameof(InstitutionModel) + institutionId, JsonConvert.SerializeObject(institution));
 
             return institution;
-        }
-
-        #endregion
+        }       
 
         #endregion
     }

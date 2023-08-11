@@ -14,24 +14,24 @@ namespace SudyApi.Data.Repositories
 
         private readonly SudyContext _sudyContext;
         private readonly ICacheService _cachingService;
+        private readonly DataOptionsModel _dataOptions;
 
         #endregion
 
         #region Constructor
 
-        public SemesterRepository(SudyContext sudyContext, ICacheService cacheService)
+        public SemesterRepository(SudyContext sudyContext, ICacheService cacheService, DataOptionsModel dataOptions)
         {
             _sudyContext = sudyContext;
             _cachingService = cacheService;
+            _dataOptions = dataOptions;
         }
 
         #endregion
 
         #region Methods
         
-        #region GetAllSemestersByUserId
-
-        async Task<List<SemesterModel>> ISemesterRepository.GetAllSemestersByUserId(int userId)
+        public async Task<List<SemesterModel>> GetAllSemestersByUserId(int userId)
         {
             return await _sudyContext.Semesters
                 .Include(x => x.User)
@@ -39,54 +39,45 @@ namespace SudyApi.Data.Repositories
                 .Include(x => x.Institution)
                 .Include(x => x.User.UserInformation)
                 .Where(x => x.User.UserId == userId)
+                .Take(_dataOptions.Take)
+                .Skip(_dataOptions.Skip)
+                .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .ToListAsync();
         }
-
-        async Task<List<SemesterModel>> ISemesterRepository.GetAllSemestersByUserIdNoTracking(int userId)
-        {
-            return await _sudyContext.Semesters
-                .AsNoTracking()
-                .Include(x => x.User)
-                .Include(x => x.Course)
-                .Include(x => x.Institution)
-                .Include(x => x.User.UserInformation)
-                .Where(x => x.User.UserId == userId)
-                .ToListAsync();
-        }
-
-        #endregion
-
-        #region GetSemesterById
-
+        
         async Task<SemesterModel> ISemesterRepository.GetSemesterById(int semesterId)
         {
-            return await _sudyContext.Semesters
-                .Include(x => x.User)
-                .Include(x => x.Course)
-                .Include(x => x.Institution)
-                .Include(x => x.User.UserInformation)
-                .SingleOrDefaultAsync(x => x.SemesterId == semesterId);
-        }
+            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
-        async Task<SemesterModel> ISemesterRepository.GetSemesterByIdNoTracking(int semesterId)
-        {
-            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
-                return await _sudyContext.Semesters.Include(x => x.User).Include(x => x.User.UserInformation).Include(x => x.Course).Include(x => x.Institution).SingleOrDefaultAsync(x => x.SemesterId == semesterId);
+            if (_dataOptions.IsTracking == true)
+                cache = false;
+
+            if (!cache) return await _sudyContext.Semesters
+                    .Include(x => x.User)
+                    .Include(x => x.User.UserInformation)
+                    .Include(x => x.Course)
+                    .Include(x => x.Institution)
+                    .SingleOrDefaultAsync(x => x.SemesterId == semesterId);
 
             string resultCache = await _cachingService.Get(nameof(SemesterModel) + semesterId);
 
             if (!string.IsNullOrEmpty(resultCache))
                 return JsonConvert.DeserializeObject<SemesterModel>(resultCache);
 
-            SemesterModel semester = await _sudyContext.Semesters.Include(x => x.User.UserInformation).Include(x => x.User).Include(x => x.Course).Include(x => x.Institution).SingleOrDefaultAsync(x => x.SemesterId == semesterId);
+            SemesterModel? semester = await _sudyContext.Semesters
+                    .Include(x => x.User)
+                    .Include(x => x.User.UserInformation)
+                    .Include(x => x.Course)
+                    .Include(x => x.Institution)
+                    .ApplyTracking(_dataOptions.IsTracking)
+                    .SingleOrDefaultAsync(x => x.SemesterId == semesterId);
 
             if (semester != null)
                 await _cachingService.Set(nameof(SemesterModel) + semesterId, JsonConvert.SerializeObject(semester));
 
             return semester;
-        }
-        
-        #endregion
+        }      
 
         #endregion
     }

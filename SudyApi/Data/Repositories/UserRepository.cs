@@ -5,6 +5,7 @@ using SudyApi.Data.Interfaces;
 using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 using SudyApi.Utility;
+using System.Linq;
 
 namespace SudyApi.Data.Repositories
 {
@@ -14,9 +15,8 @@ namespace SudyApi.Data.Repositories
 
         private readonly SudyContext _sudyContext;
         private readonly ICacheService _cachingService;
-        private readonly int _skip;
-        private readonly int _take;
-        private readonly bool _isTracking;
+        private readonly DataOptionsModel _dataOptions;
+
         #endregion
 
         #region Constructor
@@ -25,9 +25,7 @@ namespace SudyApi.Data.Repositories
         {
             _sudyContext = sudyContext;
             _cachingService = cacheService;
-            _skip = dataOptions.Skip;
-            _take = dataOptions.Take;
-            _isTracking = dataOptions.IsTracking;
+            _dataOptions = dataOptions;
         }
 
         #endregion
@@ -38,19 +36,23 @@ namespace SudyApi.Data.Repositories
         {
             return await _sudyContext.Users
                 .Include(x => x.UserInformation)
-                .Take(_take)
-                .Skip(_skip)
-                .ApplyOrderBy(keySelector, ordering)
-                .ApplyTracking(_isTracking)
+                .Take(_dataOptions.Take)
+                .Skip(_dataOptions.Skip)
+                .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .ToListAsync();
         }  
 
         public async Task<UserModel> GetUserById(int userId)
         {
-            if (!bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache)))
+            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+
+            if (_dataOptions.IsTracking == true)
+                cache = false;
+
+            if (!cache) 
                 return await _sudyContext.Users
                 .Include(x => x.UserInformation)
-                .ApplyTracking(_isTracking)
                 .SingleOrDefaultAsync(x => x.UserId == userId);
 
             string resultCache = await _cachingService.Get(nameof(UserModel) + userId);
@@ -60,7 +62,7 @@ namespace SudyApi.Data.Repositories
 
             UserModel? user = await _sudyContext.Users
                                                .Include(x => x.UserInformation)
-                                               .ApplyTracking(_isTracking)
+                                               .ApplyTracking(_dataOptions.IsTracking)
                                                .SingleOrDefaultAsync(x => x.UserId == userId);
 
             if (user != null)
@@ -75,7 +77,7 @@ namespace SudyApi.Data.Repositories
             return await _sudyContext.Users
                 .Where(x => x.Email.Contains(email))
                 .Include(x => x.UserInformation)
-                .ApplyTracking(_isTracking)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .SingleOrDefaultAsync();
         }
 
@@ -84,7 +86,7 @@ namespace SudyApi.Data.Repositories
             return await _sudyContext.Users
                 .Where(x => x.Name.Contains(name))
                 .Include(x => x.UserInformation)
-                .ApplyTracking(_isTracking)
+                .ApplyTracking(_dataOptions.IsTracking)
                 .SingleOrDefaultAsync();
         }
 

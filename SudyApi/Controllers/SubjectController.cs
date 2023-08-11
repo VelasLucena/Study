@@ -22,11 +22,15 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetSubjectList))]
         [Authorize]
-        public async Task<IActionResult> GetSubjectList(int limit = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(SubjectModel.SubjectId))
+        public async Task<IActionResult> GetSubjectList(int take = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(SubjectModel.SubjectId))
         {
             try
             {
-                List<SubjectModel> subjects = await _sudyService.SubjectRepository.GetAllSubjectsNoTracking(limit, ordering, attributeName);
+                _sudyService.DataOptions.KeyOrder = attributeName;
+                _sudyService.DataOptions.Take = take;
+                _sudyService.DataOptions.Ordering = ordering;
+
+                List<SubjectModel> subjects = await _sudyService.SubjectRepository.GetAllSubjects();
 
                 if (subjects.Count == 0)
                     return NotFound();
@@ -49,9 +53,9 @@ namespace SudyApi.Controllers
                 SubjectModel subject = new SubjectModel();
 
                 if (subjectId.HasValue)
-                    subject = await _sudyService.SubjectRepository.GetSubjectBySubjectIdNoTracking(Convert.ToInt32(subjectId));
+                    subject = await _sudyService.SubjectRepository.GetSubjectBySubjectId(Convert.ToInt32(subjectId));
                 else if (!string.IsNullOrEmpty(name))
-                    subject = await _sudyService.SubjectRepository.GetSubjectByNameFirstNoTracking(name);
+                    subject = await _sudyService.SubjectRepository.GetSubjectByNameFirst(name);
                 else
                     return BadRequest();
 
@@ -76,7 +80,9 @@ namespace SudyApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(new { Error = ModelState });
 
-                DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByIdNoTracking(subject.DisciplineId);
+                _sudyService.DataOptions.IsTracking = true;
+
+                DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineById(subject.DisciplineId);
 
                 if(discipline == null)
                     return NotFound();
@@ -101,7 +107,9 @@ namespace SudyApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest();           
+                    return BadRequest();
+
+                _sudyService.DataOptions.IsTracking = true;
 
                 SubjectModel editSubject = await _sudyService.SubjectRepository.GetSubjectBySubjectId(subject.SubjectId);
 
@@ -127,6 +135,8 @@ namespace SudyApi.Controllers
         {
             try
             {
+                _sudyService.DataOptions.IsTracking = true;
+
                 SubjectModel subject = await _sudyService.SubjectRepository.GetSubjectBySubjectId(subjectId);
 
                 if(subject == null)
