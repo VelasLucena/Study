@@ -45,15 +45,23 @@ namespace SudyApi.Utility
 
         private static string AttributeIsPrimaryKey(Type obj)
         {
-            PropertyInfo item = obj.GetProperties().FirstOrDefault();
+            PropertyInfo? item = obj.GetProperties().FirstOrDefault();
 
             if (item == null)
-                return null;
+                return string.Empty;
 
-            KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+            KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
 
             if (attribute == null)
-                return null;
+            {
+                foreach(PropertyInfo property in obj.GetProperties())
+                {
+                    attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+
+                    if(attribute != null)
+                        return property.Name;
+                }
+            }
 
             return item.Name;
         }

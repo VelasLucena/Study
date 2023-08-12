@@ -44,7 +44,7 @@ namespace SudyApi.Security
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
             SecurityToken jsonToken = handler.ReadToken(token);
-            JwtSecurityToken json = jsonToken as JwtSecurityToken;
+            JwtSecurityToken? json = jsonToken as JwtSecurityToken;
 
             return json;
         }
@@ -75,7 +75,7 @@ namespace SudyApi.Security
                     if (tokenExpiresAt < DateTime.Now)
                         return false;
 
-                    string roles = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+                    string? roles = user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
 
                     if (roles != "")
                     {

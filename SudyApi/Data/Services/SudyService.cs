@@ -34,7 +34,7 @@ namespace SudyApi.Data.Services
 
         #region DefaultValues
 
-        public DataOptionsModel DataOptions { get; set; }
+        public DataOptionsModel DataOptions { get; set; } = new DataOptionsModel();
 
         #endregion
 
@@ -128,35 +128,38 @@ namespace SudyApi.Data.Services
         {
             bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
-            foreach (PropertyInfo item in obj.GetType().GetProperties())
+            if(obj != null)
             {
-                if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
+                foreach (PropertyInfo item in obj.GetType().GetProperties())
                 {
-                    var p = typeof(T).GetProperty(item.Name).GetValue(obj);
-
-                    if (p != null)
-                        _sudyContext.Entry(p).State = EntityState.Modified;
-                }
-
-                if (cacheIsActivated && !item.PropertyType.IsClass)
-                {
-                    KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
-
-                    if (attribute != null)
+                    if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
                     {
-                        var p = typeof(T).GetProperty(item.Name).GetValue(obj);
+                        Object? p = typeof(T).GetProperty(item.Name).GetValue(obj);
 
-                        _cacheService.Remove(item.ReflectedType.Name + p);
+                        if (p != null)
+                            _sudyContext.Entry(p).State = EntityState.Modified;
+                    }
 
-                        if (!removeCache)
-                            _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
+                    if (cacheIsActivated && !item.PropertyType.IsClass)
+                    {
+                        KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+
+                        if (attribute != null)
+                        {
+                            var p = typeof(T).GetProperty(item.Name).GetValue(obj);
+
+                            await _cacheService.Remove(item.ReflectedType.Name + p);
+
+                            if (!removeCache)
+                                await _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
+                        }
                     }
                 }
-            }
 
-            _sudyContext.Entry(obj).State = EntityState.Modified;
+                _sudyContext.Entry(obj).State = EntityState.Modified;
 
-            await _sudyContext.SaveChangesAsync();
+                await _sudyContext.SaveChangesAsync();
+            }      
         }
 
         public async Task Update<T>(List<T> obj, bool removeCache = false, bool manualDesactiveCache = false)
@@ -177,16 +180,16 @@ namespace SudyApi.Data.Services
 
                     if (cacheIsActivated && !item.PropertyType.IsClass)
                     {
-                        KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+                        KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
 
                         if (attribute != null)
                         {
                             var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
 
-                            _cacheService.Remove(item.ReflectedType.Name + p);
+                            await _cacheService.Remove(item.ReflectedType.Name + p);
 
                             if (!removeCache)
-                                _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(objItem));
+                                await _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(objItem));
                         }
                     }
                 }
@@ -201,7 +204,8 @@ namespace SudyApi.Data.Services
         {
             bool cacheIsActivated = manualDesactiveCache ? false : bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
-            _sudyContext.Add(obj);
+            if(obj != null)
+                _sudyContext.Add(obj);
 
             await _sudyContext.SaveChangesAsync();
 
@@ -212,16 +216,16 @@ namespace SudyApi.Data.Services
                     if (item.PropertyType.IsClass)
                         continue;
 
-                    KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+                    KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
 
                     if (attribute != null)
                     {
                         var p = typeof(T).GetProperty(item.Name).GetValue(obj);
 
-                        _cacheService.Remove(item.ReflectedType.Name + p);
+                        await _cacheService.Remove(item.ReflectedType.Name + p);
 
                         if (!removeCache)
-                            _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
+                            await _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(obj));
                     }
 
                 }
@@ -245,16 +249,16 @@ namespace SudyApi.Data.Services
                         if (item.PropertyType.IsClass)
                             continue;
 
-                        KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+                        KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
 
                         if (attribute != null)
                         {
                             var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
 
-                            _cacheService.Remove(item.ReflectedType.Name + p);
+                            await _cacheService.Remove(item.ReflectedType.Name + p);
 
                             if (!removeCache)
-                                _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(objItem));
+                                await _cacheService.Set(item.ReflectedType.Name + p, JsonConvert.SerializeObject(objItem));
                         }
 
                     }
@@ -281,13 +285,13 @@ namespace SudyApi.Data.Services
 
                 if (cacheIsActivated && !item.PropertyType.IsClass)
                 {
-                    KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+                    KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
 
                     if (attribute != null)
                     {
                         var p = typeof(T).GetProperty(item.Name).GetValue(obj);
 
-                        _cacheService.Remove(item.ReflectedType.Name + p);
+                        await _cacheService.Remove(item.ReflectedType.Name + p);
                     }
                 }
             }
@@ -319,13 +323,13 @@ namespace SudyApi.Data.Services
 
                     if (cacheIsActivated && !item.PropertyType.IsClass)
                     {
-                        KeyAttribute attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+                        KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
 
                         if (attribute != null)
                         {
                             var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
 
-                            _cacheService.Remove(item.ReflectedType.Name + p);
+                            await _cacheService.Remove(item.ReflectedType.Name + p);
                         }
                     }
                 }
