@@ -51,7 +51,7 @@ namespace SudyApi.Controllers
                 if (discplineId != null)
                     discipline = await _sudyService.DisciplineRepository.GetDisciplineById(discplineId.Value);
                 else if (disciplineNameId != null && semesterId != null)
-                    discipline = await _sudyService.DisciplineRepository.GetDisciplineByName(discplineId.Value, semesterId.Value);
+                    discipline = await _sudyService.DisciplineRepository.GetDisciplineByName(disciplineNameId.Value, semesterId.Value);
                 
                 if (discipline != null)
                     return NotFound();
