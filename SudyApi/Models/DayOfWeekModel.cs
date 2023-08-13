@@ -28,7 +28,7 @@ namespace SudyApi.Models
 
         public DayOfWeekModel(Dictionary<string, DisciplineModel> studyPlan, int hourBeginStudy)
         {
-            Discipline = discipline;
+            Discipline = studyPlan;
             DisciplineId = discipline.DisciplineId;
             DayOfWeekType = day;
             ModulesCount = totalModulesCount;
