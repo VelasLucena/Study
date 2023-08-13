@@ -36,13 +36,13 @@ namespace SudyApi.Middlewares
                 }
 
                 JwtSecurityToken json = Token.ReadToken(formatToken);
-                UserLogged.UserId = Convert.ToInt32(json.Claims.First(claim => claim.Type == ClaimTypeToken.nameid.ToString()).Value);
-                UserModel userLogged = sudyContext.Users.AsNoTracking().FirstOrDefault(x => x.UserId == UserLogged.UserId);
+                UserLogged.UserId = Convert.ToInt32(json.Claims.First(claim => claim.Type == nameof(ClaimSudyType.UserId)).Value);
+                UserModel? userLogged = sudyContext.Users.AsNoTracking().FirstOrDefault(x => x.UserId == UserLogged.UserId);
 
                 if (userLogged == null || userLogged.Token == null)
                 {
                     httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    await httpContext.Response.WriteAsync("");
+                    await httpContext.Response.WriteAsync(string.Empty);
                     return;
                 }
             }

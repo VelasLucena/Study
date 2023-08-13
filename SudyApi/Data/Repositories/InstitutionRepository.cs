@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using StudandoApi.Data.Contexts;
+using SudyApi.Data.Helper;
 using SudyApi.Data.Interfaces;
 using SudyApi.Models;
 using SudyApi.Properties.Enuns;

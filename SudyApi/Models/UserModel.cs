@@ -1,4 +1,5 @@
 ﻿using StudandoApi.Properties.Enuns;
+using SudyApi.Properties.Enuns;
 using SudyApi.Security;
 using SudyApi.ViewModels;
 using System.Collections;
@@ -76,7 +77,7 @@ namespace SudyApi.Models
         {
             var result = new List<Claim>
             {
-                new(ClaimTypes.NameIdentifier, user.UserId.ToString())
+                new(nameof(ClaimSudyType.UserId), user.UserId.ToString())
             };
             return result;
         }

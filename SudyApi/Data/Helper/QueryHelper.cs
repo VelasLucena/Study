@@ -1,17 +1,9 @@
-﻿using Elastic.CommonSchema;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using Nest;
-using StackExchange.Redis;
+﻿using Microsoft.EntityFrameworkCore;
 using SudyApi.Properties.Enuns;
-using System.Collections;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Linq.Expressions;
 using System.Reflection;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace SudyApi.Utility
+namespace SudyApi.Data.Helper
 {
     public static class QueryHelper
     {
@@ -19,7 +11,7 @@ namespace SudyApi.Utility
 
         public static IQueryable<TEntity> ApplyOrderBy<TEntity>(this IQueryable<TEntity> query, string? keySelector, Ordering ordering = Ordering.Desc)
         {
-            if(keySelector == null)
+            if (keySelector == null)
                 keySelector = AttributeIsPrimaryKey(typeof(TEntity));
 
             switch (ordering)
@@ -39,7 +31,7 @@ namespace SudyApi.Utility
         {
             if (!isTracking)
                 query = query.AsNoTracking();
-            
+
             return query;
         }
 
@@ -54,11 +46,11 @@ namespace SudyApi.Utility
 
             if (attribute == null)
             {
-                foreach(PropertyInfo property in obj.GetProperties())
+                foreach (PropertyInfo property in obj.GetProperties())
                 {
                     attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
 
-                    if(attribute != null)
+                    if (attribute != null)
                         return property.Name;
                 }
             }
