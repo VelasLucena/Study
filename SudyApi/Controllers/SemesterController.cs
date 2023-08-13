@@ -101,50 +101,72 @@ namespace SudyApi.Controllers
             }
         }
 
-        //[HttpPost]
-        //[ActionName(nameof(CreateScheduleSemester))]
-        //[Authorize]
-        //public async Task<IActionResult> CreateScheduleSemester(int semesterId)
-        //{
-        //    try
-        //    {
-        //        SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
+        [HttpPost]
+        [ActionName(nameof(CreateScheduleSemester))]
+        [Authorize]
+        public async Task<IActionResult> CreateScheduleSemester(int semesterId)
+        {
+            try
+            {
+                SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
 
-        //        if (!SemesterModel.ScheduleIsPossible(semester))
-        //        {
-        //            int hourForStudyPossible;
+                if (!SemesterModel.ScheduleIsPossible(semester))
+                {
+                    int hourForStudyPossible;
 
-        //            for (int y = 1; y <= 5; y++)
-        //            {
-        //                semester.ConfigSemester.HoursForStudy = y;
+                    for (int y = 1; y <= 5; y++)
+                    {
+                        semester.ConfigSemester.HoursForStudy = y;
 
-        //                if (SemesterModel.ScheduleIsPossible(semester))
-        //                {
-        //                    hourForStudyPossible = y;
+                        if (SemesterModel.ScheduleIsPossible(semester))
+                        {
+                            hourForStudyPossible = y;
 
-        //                    await _sudyService.Update(semester);
-        //                }
-        //            }
+                            await _sudyService.Update(semester);
+                        }
+                    }
 
-        //            if (semester.ConfigSemester.HoursForStudy == null)
-        //                return BadRequest();
-        //        }
+                    if (semester.ConfigSemester.HoursForStudy == null)
+                        return BadRequest();
+                }
 
-        //        List<DayOfWeekModel> days = new List<DayOfWeekModel>();
+                List<DayOfWeekModel> days = new List<DayOfWeekModel>();
 
-        //        if (semester.ConfigSemester.DaysForStudy == null)
-        //            return BadRequest();
+                if (semester.ConfigSemester.DaysForStudy == null)
+                    return BadRequest();
 
-        //        foreach(string day in semester.ConfigSemester.DaysForStudy.Split(","))
-        //        {
+                int disciplinesCount = semester.Disciplines.Count();
 
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Problem(ex.Message);
-        //    }
-        //}
+                List<DisciplineModel> disciplines = semester.Disciplines.ToList();
+
+                Dictionary<string, DisciplineModel> studyPlan = new Dictionary<string, DisciplineModel>();
+
+                int daysRest = semester.ConfigSemester.DaysForStudy.Split(",").Count() - disciplinesCount;
+
+                foreach (string day in semester.ConfigSemester.DaysForStudy.Split(","))
+                {
+                    if (daysRest > 0 && disciplinesCount != semester.Disciplines.Count())
+                    {
+                        daysRest = daysRest - 1;
+                        continue;
+                    }
+
+                    if (disciplinesCount > 0)
+                        disciplinesCount = disciplinesCount - 1;
+
+                    studyPlan.Add(day, disciplines[disciplinesCount]);
+                }
+
+                foreach(var item in studyPlan)
+                {
+                    days.Add(new DayOfWeekModel(item, semester.ConfigSemester.HourBeginStudy, semester.Disciplines))
+                }
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
 
         [HttpPut]
         [ActionName(nameof(EditSemester))]

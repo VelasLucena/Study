@@ -16,7 +16,7 @@ namespace SudyApi.Utility
 
         public static string GetKey(ConfigKeys key)
         {
-            string response = AppSetting["Settings:" + (ConfigKeys)key];
+            string? response = AppSetting["Settings:" + (ConfigKeys)key];
 
             return response;
         }

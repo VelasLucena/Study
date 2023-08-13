@@ -14,13 +14,13 @@ namespace SudyApi.Models
         [Key]
         public int UserId { get; set; }
 
-        public UserInformation UserInformation { get; set; }
+        public UserInformation? UserInformation { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
 
         public DateTime? LastLogin { get; set; }
 

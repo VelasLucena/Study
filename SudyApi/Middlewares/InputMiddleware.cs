@@ -24,7 +24,7 @@ namespace SudyApi.Middlewares
         public async Task Invoke(HttpContext httpContext)
         {
             Stopwatch timer = new Stopwatch();
-            string responseBody = null;
+            string responseBody;
             Stream originalBody = httpContext.Response.Body;
 
             try
