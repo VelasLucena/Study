@@ -29,13 +29,13 @@ namespace SudyApi.Controllers
                 List<DisciplineNameModel> disciplines = await _sudyService.DisciplineNameRepository.GetDisciplineNameByName(name);
 
                 if (disciplines.Count == 0)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(disciplines);
+                return StatusCode(StatusCodes.Status200OK, disciplines);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -54,13 +54,13 @@ namespace SudyApi.Controllers
                     discipline = await _sudyService.DisciplineRepository.GetDisciplineByName(disciplineNameId.Value, semesterId.Value);
                 
                 if (discipline != null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(discipline);
+                return StatusCode(StatusCodes.Status200OK, discipline);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -82,7 +82,7 @@ namespace SudyApi.Controllers
                     List<DisciplineNameModel> disciplinesnames = await _sudyService.DisciplineNameRepository.GetDisciplineNameByName(name);
 
                     if (disciplinesnames.Count == 0)
-                        return NotFound();
+                        return StatusCode(StatusCodes.Status404NotFound);
 
                     foreach (DisciplineNameModel item in disciplinesnames)
                     {
@@ -95,16 +95,16 @@ namespace SudyApi.Controllers
                 else if (semesterId != null)
                     disciplines = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterId(semesterId.Value);                 
                 else
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 if (disciplines.Count == 0)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(disciplines);
+                return StatusCode(StatusCodes.Status200OK, disciplines);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -123,7 +123,7 @@ namespace SudyApi.Controllers
                 SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(discipline.SemesterId);
 
                 if (semester == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 DisciplineNameModel disciplineName = await _sudyService.DisciplineNameRepository.GetDisciplineNameById(discipline.DisciplineNameId);
 
@@ -140,11 +140,11 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Create(newDiscipline);
 
-                return Ok(newDiscipline);
+                return StatusCode(StatusCodes.Status200OK, newDiscipline);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -160,7 +160,7 @@ namespace SudyApi.Controllers
                 SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(Convert.ToInt32(discipline.SemesterId));
 
                 if (semester == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 DisciplineNameModel disciplineName = await _sudyService.DisciplineNameRepository.GetDisciplineNameById(Convert.ToInt32(discipline.DisciplineNameId));
 
@@ -179,11 +179,11 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Update(editDiscipline);
 
-                return Ok(editDiscipline);
+                return StatusCode(StatusCodes.Status200OK, editDiscipline);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -199,7 +199,7 @@ namespace SudyApi.Controllers
                 DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineById(disciplineId);
 
                 if (discipline == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 List<SubjectModel> subjects = await _sudyService.SubjectRepository.GetSubjectByDisciplineId(disciplineId);
 
@@ -212,7 +212,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

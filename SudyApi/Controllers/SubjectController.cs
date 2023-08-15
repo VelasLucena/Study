@@ -33,13 +33,13 @@ namespace SudyApi.Controllers
                 List<SubjectModel> subjects = await _sudyService.SubjectRepository.GetAllSubjects();
 
                 if (subjects.Count == 0)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(subjects);
+                return StatusCode(StatusCodes.Status200OK, subjects);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -57,16 +57,16 @@ namespace SudyApi.Controllers
                 else if (!string.IsNullOrEmpty(name))
                     subject = await _sudyService.SubjectRepository.GetSubjectByNameFirst(name);
                 else
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 if(subject == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(subject);
+                return StatusCode(StatusCodes.Status200OK, subject);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -85,17 +85,17 @@ namespace SudyApi.Controllers
                 DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineById(subject.DisciplineId);
 
                 if(discipline == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 SubjectModel newSubject = new SubjectModel(subject);
 
                 await _sudyService.Create(newSubject);
 
-                return Ok(newSubject);
+                return StatusCode(StatusCodes.Status200OK, newSubject);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -107,24 +107,24 @@ namespace SudyApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 _sudyService.DataOptions.IsTracking = true;
 
                 SubjectModel editSubject = await _sudyService.SubjectRepository.GetSubjectBySubjectId(subject.SubjectId);
 
                 if(editSubject == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 editSubject.Update(subject);
 
                 await _sudyService.Update(editSubject);       
 
-                return Ok(editSubject);
+                return StatusCode(StatusCodes.Status200OK, editSubject);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -140,7 +140,7 @@ namespace SudyApi.Controllers
                 SubjectModel subject = await _sudyService.SubjectRepository.GetSubjectBySubjectId(subjectId);
 
                 if(subject == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 await _sudyService.Delete(subject);
 
@@ -148,7 +148,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

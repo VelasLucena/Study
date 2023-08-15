@@ -9,7 +9,14 @@ namespace SudyApi.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<UserModel> modelBuilder)
         {
-            modelBuilder.HasIndex(x => x.Email).IsUnique();
+            modelBuilder
+                .HasIndex(x => x.Email)
+                .IsUnique();
+
+            modelBuilder
+                .HasOne<UserInformation>()
+                .WithOne)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

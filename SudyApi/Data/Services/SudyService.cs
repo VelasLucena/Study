@@ -132,18 +132,19 @@ namespace SudyApi.Data.Services
             {
                 foreach (PropertyInfo item in obj.GetType().GetProperties())
                 {
+                    KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+
                     if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
                     {
                         Object? p = typeof(T).GetProperty(item.Name).GetValue(obj);
 
-                        if (p != null)
+                        if (p != null && attribute != null)
                             _sudyContext.Entry(p).State = EntityState.Modified;
+                        
                     }
 
                     if (cacheIsActivated && !item.PropertyType.IsClass)
                     {
-                        KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
-
                         if (attribute != null)
                         {
                             var p = typeof(T).GetProperty(item.Name).GetValue(obj);
@@ -170,17 +171,19 @@ namespace SudyApi.Data.Services
             {
                 foreach (PropertyInfo item in objItem.GetType().GetProperties())
                 {
+                    KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+
                     if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
                     {
                         var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
 
-                        if (p != null)
+                        if (p != null && attribute != null)
                             _sudyContext.Entry(p).State = EntityState.Modified;
                     }
 
                     if (cacheIsActivated && !item.PropertyType.IsClass)
                     {
-                        KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+                        attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
 
                         if (attribute != null)
                         {
@@ -272,11 +275,13 @@ namespace SudyApi.Data.Services
 
             foreach (PropertyInfo item in obj.GetType().GetProperties())
             {
+                KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+
                 if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
                 {
                     var p = typeof(T).GetProperty(item.Name).GetValue(obj);
 
-                    if (p != null)
+                    if (p != null && attribute != null)
                     {
                         item.SetValue(obj, null, null);
                         _sudyContext.Entry(obj).State = EntityState.Modified;
@@ -285,8 +290,6 @@ namespace SudyApi.Data.Services
 
                 if (cacheIsActivated && !item.PropertyType.IsClass)
                 {
-                    KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
-
                     if (attribute != null)
                     {
                         var p = typeof(T).GetProperty(item.Name).GetValue(obj);
@@ -310,11 +313,13 @@ namespace SudyApi.Data.Services
             {
                 foreach (PropertyInfo item in objItem.GetType().GetProperties())
                 {
+                    KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
+
                     if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
                     {
                         var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
 
-                        if (p != null)
+                        if (p != null && attribute != null)
                         {
                             item.SetValue(objItem, null, null);
                             _sudyContext.Entry(objItem).State = EntityState.Modified;
@@ -323,8 +328,6 @@ namespace SudyApi.Data.Services
 
                     if (cacheIsActivated && !item.PropertyType.IsClass)
                     {
-                        KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
-
                         if (attribute != null)
                         {
                             var p = typeof(T).GetProperty(item.Name).GetValue(objItem);

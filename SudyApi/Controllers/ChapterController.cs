@@ -29,13 +29,13 @@ namespace SudyApi.Controllers
                 ChapterModel chapter = await _sudyService.ChapterRepository.GetChapterById(Convert.ToInt32(chapterId));
 
                 if (chapter == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(chapter);
+                return StatusCode(StatusCodes.Status200OK, chapter);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -57,16 +57,16 @@ namespace SudyApi.Controllers
                 else if (!string.IsNullOrEmpty(name))
                     chapters = await _sudyService.ChapterRepository.GetChapterByName(name);
                 else
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 if (chapters.Count == 0)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(chapters);
+                return StatusCode(StatusCodes.Status200OK, chapters);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -86,11 +86,11 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Create(newChapter);
 
-                return Ok(newChapter);
+                return StatusCode(StatusCodes.Status200OK, newChapter);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -102,24 +102,24 @@ namespace SudyApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 _sudyService.DataOptions.IsTracking = true;
 
                 ChapterModel chapterOld = await _sudyService.ChapterRepository.GetChapterById(chapter.ChapterId);
 
                 if (chapterOld == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 chapterOld.Update(chapter);
 
                 await _sudyService.Update(chapterOld);
 
-                return Ok(chapterOld);
+                return StatusCode(StatusCodes.Status200OK, chapterOld);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -131,14 +131,14 @@ namespace SudyApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 _sudyService.DataOptions.IsTracking = true;
 
                 ChapterModel chapterOld = await _sudyService.ChapterRepository.GetChapterById(chapterId);
 
                 if (chapterOld == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 await _sudyService.Delete(chapterOld);
 
@@ -146,7 +146,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

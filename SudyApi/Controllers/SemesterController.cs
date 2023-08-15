@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 using StudandoApi.Data.Interfaces;
 using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 using SudyApi.ViewModels;
+using System.Net;
 
 namespace SudyApi.Controllers
 {
@@ -32,13 +34,13 @@ namespace SudyApi.Controllers
                 List<SemesterModel> semesters = await _sudyService.SemesterRepository.GetAllSemestersByUserId(userId);
 
                 if (semesters.Count == 0)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(semesters);
+                return StatusCode(StatusCodes.Status200OK, semesters);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -52,13 +54,13 @@ namespace SudyApi.Controllers
                 SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
 
                 if (semester == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(semester);
+                return StatusCode(StatusCodes.Status200OK, semester);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -77,27 +79,27 @@ namespace SudyApi.Controllers
                 UserModel user = await _sudyService.UserRepository.GetUserById(semester.UserId);
 
                 if (user == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 CourseModel course = await _sudyService.CourseRepository.GetCourseById(semester.CourseId);
 
                 if (course == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 InstitutionModel institution = await _sudyService.InstitutionRepository.GetInstitutionById(semester.InstitutionId);
 
                 if (institution == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 SemesterModel newSemester = new SemesterModel(semester, user, course, institution);
 
                 await _sudyService.Create(newSemester);
 
-                return Ok(newSemester);
+                return StatusCode(StatusCodes.Status200OK, newSemester);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -127,13 +129,11 @@ namespace SudyApi.Controllers
                     }
 
                     if (semester.ConfigSemester.HoursForStudy == null)
-                        return BadRequest();
+                        return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
                 }
 
-                List<DayOfWeekModel> days = new List<DayOfWeekModel>();
-
                 if (semester.ConfigSemester.DaysForStudy == null)
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 int disciplinesCount = semester.Disciplines.Count();
 
@@ -142,29 +142,41 @@ namespace SudyApi.Controllers
                 Dictionary<string, DisciplineModel> studyPlan = new Dictionary<string, DisciplineModel>();
 
                 int daysRest = semester.ConfigSemester.DaysForStudy.Split(",").Count() - disciplinesCount;
+                bool usedDaysRest = true;
 
                 foreach (string day in semester.ConfigSemester.DaysForStudy.Split(","))
                 {
-                    if (daysRest > 0 && disciplinesCount != semester.Disciplines.Count())
+                    if (daysRest > 0 && disciplinesCount != semester.Disciplines.Count() && !usedDaysRest)
                     {
                         daysRest = daysRest - 1;
+                        usedDaysRest = true;
                         continue;
                     }
 
                     if (disciplinesCount > 0)
                         disciplinesCount = disciplinesCount - 1;
+                    else
+                        disciplinesCount = semester.Disciplines.Count();
 
                     studyPlan.Add(day, disciplines[disciplinesCount]);
+
+                    usedDaysRest = false;
                 }
 
-                foreach(var item in studyPlan)
+                List<DayOfWeekModel> days = new List<DayOfWeekModel>();
+
+                foreach (var item in studyPlan)
                 {
-                    days.Add(new DayOfWeekModel(item, semester.ConfigSemester.HourBeginStudy, semester.Disciplines))
+                    days.Add(new DayOfWeekModel(item, semester.ConfigSemester.HourBeginStudy));
                 }
+
+                await _sudyService.Create(days);
+
+                return StatusCode(StatusCodes.Status200OK, days);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -176,7 +188,7 @@ namespace SudyApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 _sudyService.DataOptions.IsTracking = true;
 
@@ -185,27 +197,27 @@ namespace SudyApi.Controllers
                 UserModel user = await _sudyService.UserRepository.GetUserById(UserLogged.UserId);
 
                 if (user == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 CourseModel course = await _sudyService.CourseRepository.GetCourseById(Convert.ToInt32(semester.CourseId));
 
                 if (course == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 InstitutionModel institution = await _sudyService.InstitutionRepository.GetInstitutionById(Convert.ToInt32(semester.InstitutionId));
 
                 if (institution == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 editSemester.Update(semester, user, course, institution);
 
                 await _sudyService.Update(editSemester);
 
-                return Ok(editSemester);
+                return StatusCode(StatusCodes.Status200OK, editSemester);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -221,7 +233,7 @@ namespace SudyApi.Controllers
                 SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(semesterId);
 
                 if (semester == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 List<DisciplineModel> disciplines = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterId(semesterId);
 
@@ -258,7 +270,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

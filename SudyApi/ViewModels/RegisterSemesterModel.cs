@@ -27,6 +27,9 @@ namespace SudyApi.ViewModels
         public int HoursForStudy { get; set; }
 
         [Required]
+        public int HourForStudy { get; set; }
+
+        [Required]
         public string? DaysForStudy { get; set; }
     }
 }

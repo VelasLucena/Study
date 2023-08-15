@@ -33,20 +33,20 @@ namespace SudyApi.Controllers
                 UserModel user = await _sudyService.UserRepository.GetUserByEmail(loginUser.Email);
 
                 if (user == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 if (!EncryptPassord.VerifyHashedPassword(user.PasswordHash, loginUser.Password))
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 user.Login();
 
                 await _sudyService.Update(user);
 
-                return Ok(new { user.Token });
+                return StatusCode(StatusCodes.Status200OK, new { user.Token });
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -62,7 +62,7 @@ namespace SudyApi.Controllers
                 UserModel user = await _sudyService.UserRepository.GetUserById(UserLogged.UserId);
 
                 if (user == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 user.Logout();
 
@@ -72,7 +72,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

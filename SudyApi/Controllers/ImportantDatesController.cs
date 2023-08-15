@@ -29,13 +29,13 @@ namespace SudyApi.Controllers
                 ImportantDateModel importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId);
 
                 if (importantDate == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(importantDate);
+                return StatusCode(StatusCodes.Status200OK, importantDate);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -57,16 +57,16 @@ namespace SudyApi.Controllers
                 else if (scheduleId != null)
                     importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateBySemesterId(scheduleId.Value);
                 else
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 if (importantDates == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(importantDates);
+                return StatusCode(StatusCodes.Status200OK, importantDates);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -86,13 +86,13 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Create(newImportantDate);
 
-                return Ok(newImportantDate);
+                return StatusCode(StatusCodes.Status200OK, newImportantDate);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-        }
+        }   
 
         [HttpPut]
         [ActionName(nameof(EditImportantDate))]
@@ -102,24 +102,24 @@ namespace SudyApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 _sudyService.DataOptions.IsTracking = true;
 
                 ImportantDateModel importanteDateOld = await _sudyService.ImportanteDateRepository.GetImportantDateById(importanteDate.ImportantDateId);
 
                 if (importanteDateOld == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 importanteDateOld.Update(importanteDate);
 
                 await _sudyService.Update(importanteDateOld);
 
-                return Ok(importanteDateOld);
+                return StatusCode(StatusCodes.Status200OK, importanteDateOld);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -135,7 +135,7 @@ namespace SudyApi.Controllers
                 ImportantDateModel importantDate = await _sudyService.ImportanteDateRepository.GetImportantDateById(importantDateId);
 
                 if (importantDate == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 await _sudyService.Delete(importantDate);
 
@@ -143,7 +143,7 @@ namespace SudyApi.Controllers
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

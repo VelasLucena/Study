@@ -9,7 +9,7 @@ using SudyApi.ViewModels;
 namespace StudandoApi.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("[controller]/[action]")]
     public class UserController : ControllerBase
     {
         private readonly ISudyService _sudyService;
@@ -33,13 +33,13 @@ namespace StudandoApi.Controllers
                 List<UserModel> users = await _sudyService.UserRepository.GetAllUsers();
 
                 if (users.Count == 0)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(users);
+                return StatusCode(StatusCodes.Status200OK, users);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -57,16 +57,16 @@ namespace StudandoApi.Controllers
                 else if (name != null)
                     user = await _sudyService.UserRepository.GetUserByNameFirst(name);
                 else
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 if (user == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
-                return Ok(user);
+                return StatusCode(StatusCodes.Status200OK, user);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -77,7 +77,7 @@ namespace StudandoApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest(new { Error = ModelState } );
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 _sudyService.DataOptions.IsTracking = true;
 
@@ -85,11 +85,11 @@ namespace StudandoApi.Controllers
 
                 await _sudyService.Create(newUser);
 
-                return Ok(newUser);
+                return StatusCode(StatusCodes.Status200OK, newUser);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -101,24 +101,24 @@ namespace StudandoApi.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest();
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
 
                 _sudyService.DataOptions.IsTracking = true;
 
                 UserModel editUser = await _sudyService.UserRepository.GetUserById(user.UserId);
 
                 if(editUser == null) 
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 editUser.Update(user);
 
                 await _sudyService.Update(editUser);
 
-                return Ok(editUser);
+                return StatusCode(StatusCodes.Status200OK, editUser);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -134,16 +134,16 @@ namespace StudandoApi.Controllers
                 UserModel user = await _sudyService.UserRepository.GetUserById(userId);
 
                 if (user == null)
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status404NotFound);
 
                 await _sudyService.Delete(user.UserInformation);
                 await _sudyService.Delete(user);
 
-                return NoContent();
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
-                return Problem(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }
