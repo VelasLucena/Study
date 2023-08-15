@@ -10,11 +10,11 @@ namespace SudyApi.Models
         [Key]
         public int ChapterId { get; set; }
 
-        public int SubjectId { get; set; }
+        public int SubjectId { get; set; } = 0;
 
-        public SubjectModel Subject { get; set; }
+        public SubjectModel? Subject { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public int ModulesCount { get; set; }
 

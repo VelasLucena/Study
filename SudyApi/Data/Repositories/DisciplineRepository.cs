@@ -36,7 +36,7 @@ namespace SudyApi.Data.Repositories
         public async Task<List<DisciplineModel>> GetAllDisciplines(int semesterId)
         {
             return await _sudyContext.Disciplines
-                .Include(x => x.Name)
+                .Include(x => x.DisciplineName)
                 .Take(_dataOptions.Take)
                 .Skip(_dataOptions.Skip)
                 .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
@@ -47,9 +47,9 @@ namespace SudyApi.Data.Repositories
         public async Task<DisciplineModel> GetDisciplineByName(int disciplineNameId, int semesterId)
         {
             return await _sudyContext.Disciplines
-                .Include(x => x.Name)
+                .Include(x => x.DisciplineName)
                 .ApplyTracking(_dataOptions.IsTracking)
-                .SingleOrDefaultAsync(x => x.Name.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
+                .SingleOrDefaultAsync(x => x.DisciplineName.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
         }      
 
         public async Task<DisciplineModel> GetDisciplineById(int disciplineid)
@@ -62,7 +62,7 @@ namespace SudyApi.Data.Repositories
             if (!cache)
                 return await _sudyContext.Disciplines
                     .Include(x => x.Semester)
-                    .Include(x => x.Name)
+                    .Include(x => x.DisciplineName)
                     .SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
 
             string resultCache = await _cacheService.Get(nameof(DisciplineModel) + disciplineid);
@@ -71,7 +71,7 @@ namespace SudyApi.Data.Repositories
                 return JsonConvert.DeserializeObject<DisciplineModel>(resultCache);
 
             DisciplineModel? discipline = await _sudyContext.Disciplines
-                    .Include(x => x.Semester).Include(x => x.Name)
+                    .Include(x => x.Semester).Include(x => x.DisciplineName)
                     .ApplyTracking(_dataOptions.IsTracking)
                     .SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
 

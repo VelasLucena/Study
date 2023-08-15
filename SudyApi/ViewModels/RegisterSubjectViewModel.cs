@@ -5,6 +5,6 @@ namespace SudyApi.ViewModels
     {
         public int DisciplineId { get; set; }
 
-        public string Name { get; set;}
+        public string? Name { get; set;}
     }
 }

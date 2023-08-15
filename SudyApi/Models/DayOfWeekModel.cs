@@ -10,7 +10,7 @@ namespace SudyApi.Models
 
         public int DisciplineId { get; set; }
 
-        public DisciplineModel Discipline { get; set; }
+        public DisciplineModel? Discipline { get; set; }
 
         public DayOfWeek DayOfWeekType { get; set; }
 
@@ -29,10 +29,5 @@ namespace SudyApi.Models
             DayOfWeekType = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), studyPlan.Key);
             Hour = TimeOnly.Parse(hourBeginStudy.ToString());
         }
-
-        //public DayOfWeekModel CreateDayToStudy(string day)
-        //{
-
-        //}
     }
 }

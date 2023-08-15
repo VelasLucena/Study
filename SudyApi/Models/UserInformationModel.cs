@@ -1,14 +1,19 @@
 ﻿using StudandoApi.Properties.Enuns;
 using SudyApi.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace SudyApi.Models
 {
-    public class UserInformation
+    public class UserInformationModel
     {
         [Key]
         public int UserInformationId { get; set; }
+
+        public int UserId { get; set; }
+
+        public UserModel? User { get; set; }
 
         public string? PhoneNumber { get; set; }
 
@@ -30,9 +35,9 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
-        public UserInformation() { }
+        public UserInformationModel() { }
 
-        public UserInformation(RegisterUserViewModel viewModel)
+        public UserInformationModel(RegisterUserViewModel viewModel)
         {
             PhoneNumber = viewModel.PhoneNumber;
             Age = viewModel.Age;

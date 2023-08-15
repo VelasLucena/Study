@@ -8,11 +8,11 @@ namespace SudyApi.Models
         [Key]
         public int SubjectId { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public int DisciplineId { get; set; }
 
-        public DisciplineModel Discipline { get; set; }
+        public DisciplineModel? Discipline { get; set; }
 
         public int? TotalModulesCount { get; set; }
 

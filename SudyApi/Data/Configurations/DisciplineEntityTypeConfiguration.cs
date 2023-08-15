@@ -7,19 +7,19 @@ namespace SudyApi.Data.Configurations
 {
     public class DisciplineEntityTypeConfiguration : IEntityTypeConfiguration<DisciplineModel>
     {
-        public void Configure(EntityTypeBuilder<DisciplineModel> builder)
+        public void Configure(EntityTypeBuilder<DisciplineModel> modelBuilder)
         {
-            builder.HasMany(x => x.Subjects)
-                .WithOne(x => x.Discipline)
-                .HasForeignKey(x => x.DisciplineId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired(false);
+            modelBuilder
+                .HasOne(x => x.DisciplineName)
+                .WithMany(x => x.Disciplines)
+                .HasForeignKey(x => x.DisciplineNameId)
+                .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(x => x.DaysOfWeeks)
-                .WithOne(x => x.Discipline)
-                .HasForeignKey(x => x.DisciplineId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired(false);
+            modelBuilder
+                .HasOne(x => x.Semester)
+                .WithMany(x => x.Disciplines)
+                .HasForeignKey(x => x.SemesterId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

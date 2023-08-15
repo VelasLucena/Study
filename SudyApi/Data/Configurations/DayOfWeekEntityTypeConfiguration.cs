@@ -8,7 +8,11 @@ namespace SudyApi.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<DayOfWeekModel> builder)
         {
-
+            builder
+                .HasOne(x => x.Discipline)
+                .WithMany(x => x.DaysOfWeeks)
+                .HasForeignKey(x => x.DisciplineId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

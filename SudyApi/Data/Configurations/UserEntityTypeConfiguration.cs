@@ -14,8 +14,9 @@ namespace SudyApi.Data.Configurations
                 .IsUnique();
 
             modelBuilder
-                .HasOne<UserInformation>()
-                .WithOne)
+                .HasOne(x => x.UserInformation)
+                .WithOne(x => x.User)
+                .HasForeignKey<UserModel>(x => x.UserInformationId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

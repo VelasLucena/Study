@@ -13,7 +13,7 @@ namespace StudandoApi.Data.Contexts
 
         public DbSet<UserModel> Users { get; set; }
 
-        public DbSet<UserInformation> UsersInformation { get; set; }
+        public DbSet<UserInformationModel> UsersInformation { get; set; }
 
         public DbSet<SubjectModel> Subjects { get; set; }
 
@@ -44,6 +44,8 @@ namespace StudandoApi.Data.Contexts
             modelBuilder.ApplyConfiguration(new DisciplineNameEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SubjectEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new DayOfWeekEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ImportantDateTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ChapterEntityTypeConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

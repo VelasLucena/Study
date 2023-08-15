@@ -6,7 +6,7 @@ namespace SudyApi.Properties.Attributes
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     sealed public class ValidationCpf : ValidationAttribute
     {
-        public override bool IsValid(object cpf)
+        public override bool IsValid(object? cpf)
         {
             if (cpf is null)
                 return false;

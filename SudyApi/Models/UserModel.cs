@@ -14,7 +14,9 @@ namespace SudyApi.Models
         [Key]
         public int UserId { get; set; }
 
-        public UserInformation? UserInformation { get; set; }
+        public int? UserInformationId { get; set; }
+
+        public UserInformationModel? UserInformation { get; set; }
 
         public string? Name { get; set; }
 
@@ -32,6 +34,8 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
+        public ICollection<SemesterModel>? Semesters { get; set; }
+
         #region Constructor
 
         public UserModel() { }
@@ -43,7 +47,7 @@ namespace SudyApi.Models
             PasswordHash = EncryptPassord.Hash(viewModel.Password);
             CreationDate = DateTime.Now;
 
-            UserInformation = new UserInformation(viewModel);
+            UserInformation = new UserInformationModel(viewModel);
         }
 
         #endregion

@@ -7,8 +7,10 @@ namespace SudyApi.Models
         [Key]
         public int? institutionId { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string AbbreviationName { get; set; }
+        public string? AbbreviationName { get; set; }
+
+        public ICollection<SemesterModel>? Semesters { get; set; }
     }
 }

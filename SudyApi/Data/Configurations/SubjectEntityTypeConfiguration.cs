@@ -9,11 +9,17 @@ namespace SudyApi.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<SubjectModel> builder)
         {
-            builder.HasMany(x => x.Chapters)
+            builder
+                .HasMany(x => x.Chapters)
                 .WithOne(x => x.Subject)
                 .HasForeignKey(x => x.SubjectId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired(false);
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                .HasOne(x => x.Discipline)
+                .WithMany(x => x.Subjects)
+                .HasForeignKey(x => x.DisciplineId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

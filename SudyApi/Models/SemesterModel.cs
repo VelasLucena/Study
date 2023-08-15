@@ -1,5 +1,6 @@
 ﻿using SudyApi.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SudyApi.Models
 {
@@ -8,15 +9,21 @@ namespace SudyApi.Models
         [Key]
         public int SemesterId { get; set; }
 
-        public UserModel User { get; set; }
+        public int UserId { get; set; }
 
-        public CourseModel Course { get; set; }
+        public UserModel? User { get; set; }
 
-        public InstitutionModel Institution { get; set; }
+        public int CourseId { get; set; }
 
-        public ConfigSemesterModel ConfigSemester { get; set; }
+        public CourseModel? Course { get; set; }
 
-        public string CurrentSemester { get; set; }
+        public int IntitutionId { get; set; }
+
+        public InstitutionModel? Institution { get; set; }
+
+        public ConfigSemesterModel? ConfigSemester { get; set; }
+
+        public string? CurrentSemester { get; set; }
 
         public DateOnly SemesterStart { get; set; }
 
@@ -26,9 +33,7 @@ namespace SudyApi.Models
 
         public DateTime? UpdateDate { get; set; }
 
-        public ICollection<DisciplineModel> Disciplines { get; set; }
-
-        public ICollection<DayOfWeekModel>? DaysOfWeek { get; set; }
+        public ICollection<DisciplineModel>? Disciplines { get; set; }
 
         public ICollection<ImportantDateModel>? ImportantDates { get; set; }
 

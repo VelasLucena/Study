@@ -10,9 +10,11 @@ namespace SudyApi.Models
 
         public int SemesterId { get; set; }
 
-        public SemesterModel Semester { get; set; }
+        public SemesterModel? Semester { get; set; }
 
-        public DisciplineNameModel Name { get; set; }
+        public int DisciplineNameId { get; set; }
+
+        public DisciplineNameModel? DisciplineName { get; set; }
 
         public DateOnly DisciplineStart { get; set; }
 
@@ -35,16 +37,16 @@ namespace SudyApi.Models
         public DisciplineModel(SemesterModel semester, DisciplineNameModel disciplineName, RegisterDisciplineViewModel viewModel)
         {
             SemesterId = semester.SemesterId;
-            Name = disciplineName;
-            DisciplineEnd = viewModel.DisciplineEnd.Value;
-            DisciplineStart = viewModel.DisciplineStart.Value;
+            DisciplineName = disciplineName;
+            DisciplineEnd = viewModel.DisciplineEnd != null ? viewModel.DisciplineEnd.Value : semester.SemesterEnd;
+            DisciplineStart = viewModel.DisciplineStart != null ? viewModel.DisciplineStart.Value : semester.SemesterStart;
             CreationDate = DateTime.Now;
         }
 
         public void Update(SemesterModel semester, DisciplineNameModel disciplineName, EditDisciplineViewModel viewModel)
         {
             Semester = semester != null ? semester : Semester;
-            Name = disciplineName != null ? disciplineName : Name;
+            DisciplineName = disciplineName != null ? disciplineName : DisciplineName;
             DisciplineEnd = viewModel.DisciplineEnd != null ? viewModel.DisciplineEnd.Value : DisciplineEnd;
             DisciplineStart = viewModel.DisciplineStart != null ? viewModel.DisciplineStart.Value : DisciplineStart;
             UpdateDate = DateTime.Now;

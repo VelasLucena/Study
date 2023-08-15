@@ -7,7 +7,9 @@ namespace SudyApi.Models
         [Key]
         public int DisciplineNameId { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
+
+        public ICollection<DisciplineModel>? Disciplines { get; set; }
         
         public DisciplineNameModel() { }
 

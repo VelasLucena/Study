@@ -8,11 +8,13 @@ namespace SudyApi.Models
         [Key]
         public int CourseId { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public GraduationType Level { get; set; }
 
         public int SemestersCount { get; set; }
+
+        public ICollection<SemesterModel>? Semesters { get; set; }
 
         public CourseModel() { }
 

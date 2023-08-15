@@ -5,12 +5,16 @@ using System.Reflection.Emit;
 
 namespace SudyApi.Data.Configurations
 {
-    public class UserInformationEntityTypeConfiguration : IEntityTypeConfiguration<UserInformation>
+    public class UserInformationEntityTypeConfiguration : IEntityTypeConfiguration<UserInformationModel>
     {
-        public void Configure(EntityTypeBuilder<UserInformation> modelBuilder)
+        public void Configure(EntityTypeBuilder<UserInformationModel> modelBuilder)
         {
-            modelBuilder.HasIndex(x => x.Cpf).IsUnique();
-            modelBuilder.ToTable("Users_Information");
+            modelBuilder
+                .HasIndex(x => x.Cpf)
+                .IsUnique();
+
+            modelBuilder
+                .ToTable("Users_Information");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace SudyApi.Models
 
         public int SemesterId { get; set; }
 
-        public SemesterModel Semester { get; set; }
+        public SemesterModel? Semester { get; set; }
 
         public ImportantDateType ImportantDateType { get; set; }
 
