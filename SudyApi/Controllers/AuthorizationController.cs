@@ -68,7 +68,7 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Update(user);
 
-                return NoContent();
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {

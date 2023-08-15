@@ -208,7 +208,7 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Delete(discipline);
 
-                return NoContent();
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {

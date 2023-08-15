@@ -142,7 +142,7 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Delete(chapterOld);
 
-                return NoContent();
+                return StatusCode(StatusCodes.Status204NoContent);
             }
             catch (Exception ex)
             {
