@@ -14,8 +14,6 @@ namespace SudyApi.Models
         [Key]
         public int UserId { get; set; }
 
-        public int? UserInformationId { get; set; }
-
         public UserInformationModel? UserInformation { get; set; }
 
         public string? Name { get; set; }

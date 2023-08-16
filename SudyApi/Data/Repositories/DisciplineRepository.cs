@@ -37,6 +37,7 @@ namespace SudyApi.Data.Repositories
         {
             return await _sudyContext.Disciplines
                 .Include(x => x.DisciplineName)
+                .Include(x => x.Semester)
                 .Take(_dataOptions.Take)
                 .Skip(_dataOptions.Skip)
                 .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
@@ -48,6 +49,7 @@ namespace SudyApi.Data.Repositories
         {
             return await _sudyContext.Disciplines
                 .Include(x => x.DisciplineName)
+                .Include(x => x.Semester)
                 .ApplyTracking(_dataOptions.IsTracking)
                 .SingleOrDefaultAsync(x => x.DisciplineName.DisciplineNameId == disciplineNameId && x.SemesterId == semesterId);
         }      
@@ -71,7 +73,8 @@ namespace SudyApi.Data.Repositories
                 return JsonConvert.DeserializeObject<DisciplineModel>(resultCache);
 
             DisciplineModel? discipline = await _sudyContext.Disciplines
-                    .Include(x => x.Semester).Include(x => x.DisciplineName)
+                    .Include(x => x.Semester)
+                    .Include(x => x.DisciplineName)
                     .ApplyTracking(_dataOptions.IsTracking)
                     .SingleOrDefaultAsync(x => x.DisciplineId == disciplineid);
 
@@ -89,6 +92,8 @@ namespace SudyApi.Data.Repositories
                 .Skip(_dataOptions.Skip)
                 .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
                 .ApplyTracking(_dataOptions.IsTracking)
+                .Include(x => x.DisciplineName)
+                .Include(x => x.Semester)
                 .ToListAsync();
         }
 

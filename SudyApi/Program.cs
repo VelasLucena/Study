@@ -15,8 +15,6 @@ using SudyApi.Data.Services;
 using SudyApi.Middlewares;
 using SudyApi.Properties.Enuns;
 using SudyApi.Startup;
-using SudyApi.Utility;
-using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,13 +36,14 @@ builder.AddLoggerSystem();
 
 builder.Services.AddJwt();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-builder.Services.AddControllers().AddNewtonsoftJson(x => 
+JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 {
-    x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-    x.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-    });
+    Formatting = Formatting.Indented,
+    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+    NullValueHandling = NullValueHandling.Ignore
+};
 
 var app = builder.Build();
 

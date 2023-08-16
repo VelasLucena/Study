@@ -277,17 +277,6 @@ namespace SudyApi.Data.Services
             {
                 KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
 
-                if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
-                {
-                    var p = typeof(T).GetProperty(item.Name).GetValue(obj);
-
-                    if (p != null && attribute != null)
-                    {
-                        item.SetValue(obj, null, null);
-                        _sudyContext.Entry(obj).State = EntityState.Modified;
-                    }
-                }
-
                 if (cacheIsActivated && !item.PropertyType.IsClass)
                 {
                     if (attribute != null)
@@ -314,17 +303,6 @@ namespace SudyApi.Data.Services
                 foreach (PropertyInfo item in objItem.GetType().GetProperties())
                 {
                     KeyAttribute? attribute = Attribute.GetCustomAttribute(item, typeof(KeyAttribute)) as KeyAttribute;
-
-                    if (item.PropertyType.IsClass && Type.GetTypeCode(item.PropertyType) != TypeCode.String)
-                    {
-                        var p = typeof(T).GetProperty(item.Name).GetValue(objItem);
-
-                        if (p != null && attribute != null)
-                        {
-                            item.SetValue(objItem, null, null);
-                            _sudyContext.Entry(objItem).State = EntityState.Modified;
-                        }
-                    }
 
                     if (cacheIsActivated && !item.PropertyType.IsClass)
                     {

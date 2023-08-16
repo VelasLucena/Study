@@ -32,7 +32,6 @@ namespace SudyApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("SubjectId")
@@ -58,7 +57,6 @@ namespace SudyApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("SemestersCount")
@@ -3173,7 +3171,6 @@ namespace SudyApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("DisciplineNameId");
@@ -5459,11 +5456,9 @@ namespace SudyApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AbbreviationName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("institutionId");
@@ -15869,7 +15864,6 @@ namespace SudyApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ConfigSemester")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("CourseId")
@@ -15879,7 +15873,6 @@ namespace SudyApi.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CurrentSemester")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("IntitutionId")
@@ -15921,7 +15914,6 @@ namespace SudyApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int?>("TotalModulesCount")
@@ -15973,9 +15965,6 @@ namespace SudyApi.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserInformationId");
 
                     b.HasIndex("Cpf")
@@ -16022,8 +16011,7 @@ namespace SudyApi.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("UserInformationId")
-                        .IsUnique();
+                    b.HasIndex("UserInformationId");
 
                     b.ToTable("Users");
                 });
@@ -16119,9 +16107,8 @@ namespace SudyApi.Migrations
             modelBuilder.Entity("SudyApi.Models.UserModel", b =>
                 {
                     b.HasOne("SudyApi.Models.UserInformationModel", "UserInformation")
-                        .WithOne("User")
-                        .HasForeignKey("SudyApi.Models.UserModel", "UserInformationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("UserInformationId");
 
                     b.Navigation("UserInformation");
                 });
@@ -16158,11 +16145,6 @@ namespace SudyApi.Migrations
             modelBuilder.Entity("SudyApi.Models.SubjectModel", b =>
                 {
                     b.Navigation("Chapters");
-                });
-
-            modelBuilder.Entity("SudyApi.Models.UserInformationModel", b =>
-                {
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SudyApi.Models.UserModel", b =>

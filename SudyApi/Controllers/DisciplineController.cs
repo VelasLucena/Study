@@ -26,7 +26,7 @@ namespace SudyApi.Controllers
         {
             try
             {
-                List<DisciplineNameModel> disciplines = await _sudyService.DisciplineNameRepository.GetDisciplineNameByName(name);
+                List<DisciplineNameModel> disciplines = await _sudyService.DisciplineNameRepository.GetListDisciplineNameByName(name);
 
                 if (disciplines.Count == 0)
                     return StatusCode(StatusCodes.Status404NotFound);
@@ -42,7 +42,7 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetDiscipline))]
         [Authorize]
-        public async Task<IActionResult> GetDiscipline(int? semesterId, int? discplineId, int? disciplineNameId)
+        public async Task<IActionResult> GetDiscipline(int semesterId, int? discplineId, int? disciplineNameId)
         {
             try
             {
@@ -50,10 +50,12 @@ namespace SudyApi.Controllers
 
                 if (discplineId != null)
                     discipline = await _sudyService.DisciplineRepository.GetDisciplineById(discplineId.Value);
-                else if (disciplineNameId != null && semesterId != null)
-                    discipline = await _sudyService.DisciplineRepository.GetDisciplineByName(disciplineNameId.Value, semesterId.Value);
+                else if (disciplineNameId != null)
+                    discipline = await _sudyService.DisciplineRepository.GetDisciplineByName(disciplineNameId.Value, semesterId);
+                else
+                    return StatusCode(StatusCodes.Status400BadRequest);
                 
-                if (discipline != null)
+                if (discipline == null)
                     return StatusCode(StatusCodes.Status404NotFound);
 
                 return StatusCode(StatusCodes.Status200OK, discipline);
@@ -67,35 +69,33 @@ namespace SudyApi.Controllers
         [HttpGet]
         [ActionName(nameof(GetDisciplinesList))]
         [Authorize]
-        public async Task<IActionResult> GetDisciplinesList(string? name, int? semesterId, int? discplineId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
+        public async Task<IActionResult> GetDisciplinesList(string? name, int semesterId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
-                _sudyService.DataOptions.KeyOrder = attributeName;
-                _sudyService.DataOptions.Take = take;
-                _sudyService.DataOptions.Ordering = ordering;
-
                 List<DisciplineModel> disciplines = new List<DisciplineModel>();
 
-                if (discplineId != null && semesterId != null)
+                if (name != null)
                 {
-                    List<DisciplineNameModel> disciplinesnames = await _sudyService.DisciplineNameRepository.GetDisciplineNameByName(name);
+                    List<DisciplineNameModel> disciplinesnames = await _sudyService.DisciplineNameRepository.GetListDisciplineNameByName(name);
+
+                    _sudyService.DataOptions.KeyOrder = attributeName;
+                    _sudyService.DataOptions.Take = take;
+                    _sudyService.DataOptions.Ordering = ordering;
 
                     if (disciplinesnames.Count == 0)
                         return StatusCode(StatusCodes.Status404NotFound);
 
                     foreach (DisciplineNameModel item in disciplinesnames)
                     {
-                        DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByName(item.DisciplineNameId, semesterId.Value);
+                        DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByName(item.DisciplineNameId, semesterId);
 
                         if (discipline != null)
                             disciplines.Add(discipline);
                     }
                 }
-                else if (semesterId != null)
-                    disciplines = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterId(semesterId.Value);                 
                 else
-                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
+                    disciplines = await _sudyService.DisciplineRepository.GetDisciplinesBySemesterId(semesterId);                 
 
                 if (disciplines.Count == 0)
                     return StatusCode(StatusCodes.Status404NotFound);
@@ -127,18 +127,42 @@ namespace SudyApi.Controllers
 
                 DisciplineNameModel disciplineName = await _sudyService.DisciplineNameRepository.GetDisciplineNameById(discipline.DisciplineNameId);
 
-                if(disciplineName == null)
-                {
-                    if (InappropriateWords.WordIsInappropriate(discipline.DisciplineName))
-                    {
-                        disciplineName.Update(discipline.DisciplineName);
-                        await _sudyService.Create(disciplineName);
-                    }
-                }
-
                 DisciplineModel newDiscipline = new DisciplineModel(semester, disciplineName, discipline);
 
                 await _sudyService.Create(newDiscipline);
+
+                return StatusCode(StatusCodes.Status200OK, newDiscipline);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [ActionName(nameof(CreateDisciplineName))]
+        [Authorize]
+        public async Task<IActionResult> CreateDisciplineName(string disciplineName)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(new { Error = ModelState });
+
+                DisciplineNameModel newDiscipline = await _sudyService.DisciplineNameRepository.GetDisciplineNameByName(disciplineName);
+
+                if (newDiscipline == null)
+                {
+                    if (!InappropriateWords.WordIsInappropriate(disciplineName))
+                    {
+                        newDiscipline = new DisciplineNameModel(disciplineName);
+                        await _sudyService.Create(newDiscipline);
+                    }
+                    else
+                        return StatusCode(StatusCodes.Status400BadRequest);
+                }
+                else
+                    return StatusCode(StatusCodes.Status400BadRequest);
 
                 return StatusCode(StatusCodes.Status200OK, newDiscipline);
             }
@@ -163,15 +187,6 @@ namespace SudyApi.Controllers
                     return StatusCode(StatusCodes.Status404NotFound);
 
                 DisciplineNameModel disciplineName = await _sudyService.DisciplineNameRepository.GetDisciplineNameById(Convert.ToInt32(discipline.DisciplineNameId));
-
-                if (disciplineName == null)
-                {
-                    if (InappropriateWords.WordIsInappropriate(discipline.DisciplineName))
-                    {
-                        disciplineName.Update(discipline.DisciplineName);
-                        await _sudyService.Create(disciplineName);
-                    }
-                }
 
                 DisciplineModel editDiscipline = await _sudyService.DisciplineRepository.GetDisciplineById(discipline.DisciplineId);
 

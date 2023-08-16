@@ -40,6 +40,7 @@ namespace SudyApi.Models
             DisciplineName = disciplineName;
             DisciplineEnd = viewModel.DisciplineEnd != null ? viewModel.DisciplineEnd.Value : semester.SemesterEnd;
             DisciplineStart = viewModel.DisciplineStart != null ? viewModel.DisciplineStart.Value : semester.SemesterStart;
+            TotalDaysToStudy = Convert.ToInt32((DisciplineEnd.ToDateTime(new TimeOnly()) - DisciplineStart.ToDateTime(new TimeOnly())).TotalDays);
             CreationDate = DateTime.Now;
         }
 
@@ -49,6 +50,7 @@ namespace SudyApi.Models
             DisciplineName = disciplineName != null ? disciplineName : DisciplineName;
             DisciplineEnd = viewModel.DisciplineEnd != null ? viewModel.DisciplineEnd.Value : DisciplineEnd;
             DisciplineStart = viewModel.DisciplineStart != null ? viewModel.DisciplineStart.Value : DisciplineStart;
+            TotalDaysToStudy = Convert.ToInt32((DisciplineEnd.ToDateTime(new TimeOnly()) - DisciplineStart.ToDateTime(new TimeOnly())).TotalDays);
             UpdateDate = DateTime.Now;
         }
     }

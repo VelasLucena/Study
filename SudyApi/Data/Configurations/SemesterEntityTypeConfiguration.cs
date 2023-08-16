@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
 using SudyApi.Models;
-using System.Reflection.Emit;
+using Newtonsoft.Json;
 
 namespace SudyApi.Data.Configurations
 {
@@ -25,8 +24,7 @@ namespace SudyApi.Data.Configurations
                 .IsRequired(false);
 
             builder.Property(e => e.ConfigSemester)
-                .HasConversion(x => JsonConvert.SerializeObject(x),
-                x => JsonConvert.DeserializeObject<ConfigSemesterModel>(x));
+                .HasConversion(x => JsonConvert.SerializeObject(x), x => JsonConvert.DeserializeObject<ConfigSemesterModel>(x));
 
             builder
                 .HasOne(x => x.Course)

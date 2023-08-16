@@ -10,12 +10,12 @@ namespace SudyApi.Utility
                 return false;
 
             string fileName = "InappropriateWords.txt";
-            string path = Path.Combine(Environment.CurrentDirectory, @"Users\victo\source\repos\Study\SudyApi\Properties\Archives\", fileName);
+            string path = Environment.CurrentDirectory + @"\Properties\Archives\" + fileName;
 
             using (StreamReader reader = File.OpenText(path))
             {
                 string contents = reader.ReadToEnd();
-                MatchCollection matches = Regex.Matches(contents, "computer", RegexOptions.IgnoreCase);
+                MatchCollection matches = Regex.Matches(contents, word.ToLower(), RegexOptions.IgnoreCase);
 
                 if (matches.Count > 0)
                     return true;

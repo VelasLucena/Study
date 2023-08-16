@@ -11,10 +11,6 @@ namespace SudyApi.Models
         [Key]
         public int UserInformationId { get; set; }
 
-        public int UserId { get; set; }
-
-        public UserModel? User { get; set; }
-
         public string? PhoneNumber { get; set; }
 
         public int? Age { get; set; }

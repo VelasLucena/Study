@@ -6,8 +6,6 @@
 
         public int DisciplineNameId { get; set; }
 
-        public string? DisciplineName { get; set; }
-
         public DateOnly? DisciplineStart { get; set; }
 
         public DateOnly? DisciplineEnd { get; set; }

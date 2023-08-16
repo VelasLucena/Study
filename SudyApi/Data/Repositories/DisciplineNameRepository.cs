@@ -24,7 +24,7 @@ namespace SudyApi.Data.Repositories
 
         #region methods
 
-        public async Task<List<DisciplineNameModel>> GetDisciplineNameByName(string name)
+        public async Task<List<DisciplineNameModel>> GetListDisciplineNameByName(string name)
         {
             return await _sudyContext.DisciplinesName
                 .Where(x => x.Name.Contains(name))
@@ -33,6 +33,13 @@ namespace SudyApi.Data.Repositories
                 .ApplyOrderBy(_dataOptions.KeyOrder, _dataOptions.Ordering)
                 .ApplyTracking(_dataOptions.IsTracking)
                 .ToListAsync();
+        }
+
+        public async Task<DisciplineNameModel> GetDisciplineNameByName(string name)
+        {
+            return await _sudyContext.DisciplinesName
+                .ApplyTracking(_dataOptions.IsTracking)
+                .SingleOrDefaultAsync(x => x.Name == name);
         }
 
         public async Task<DisciplineNameModel> GetDisciplineNameById(int disciplineNameId)

@@ -12,12 +12,6 @@ namespace SudyApi.Data.Configurations
             modelBuilder
                 .HasIndex(x => x.Email)
                 .IsUnique();
-
-            modelBuilder
-                .HasOne(x => x.UserInformation)
-                .WithOne(x => x.User)
-                .HasForeignKey<UserModel>(x => x.UserInformationId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

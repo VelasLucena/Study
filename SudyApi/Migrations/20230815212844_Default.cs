@@ -23,7 +23,7 @@ namespace SudyApi.Migrations
                 {
                     CourseId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Level = table.Column<int>(type: "int", nullable: false),
                     SemestersCount = table.Column<int>(type: "int", nullable: false)
@@ -40,7 +40,7 @@ namespace SudyApi.Migrations
                 {
                     DisciplineNameId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -55,9 +55,9 @@ namespace SudyApi.Migrations
                 {
                     institutionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AbbreviationName = table.Column<string>(type: "longtext", nullable: false)
+                    AbbreviationName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -72,7 +72,6 @@ namespace SudyApi.Migrations
                 {
                     UserInformationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(type: "int", nullable: false),
                     PhoneNumber = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Age = table.Column<int>(type: "int", nullable: true),
@@ -136,9 +135,9 @@ namespace SudyApi.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     IntitutionId = table.Column<int>(type: "int", nullable: false),
-                    ConfigSemester = table.Column<string>(type: "longtext", nullable: false)
+                    ConfigSemester = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CurrentSemester = table.Column<string>(type: "longtext", nullable: false)
+                    CurrentSemester = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     SemesterStart = table.Column<DateOnly>(type: "date", nullable: false),
                     SemesterEnd = table.Column<DateOnly>(type: "date", nullable: false),
@@ -251,7 +250,7 @@ namespace SudyApi.Migrations
                 {
                     SubjectId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DisciplineId = table.Column<int>(type: "int", nullable: false),
                     TotalModulesCount = table.Column<int>(type: "int", nullable: true),
@@ -276,7 +275,7 @@ namespace SudyApi.Migrations
                     ChapterId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ModulesCount = table.Column<int>(type: "int", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -2997,8 +2996,7 @@ namespace SudyApi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserInformationId",
                 table: "Users",
-                column: "UserInformationId",
-                unique: true);
+                column: "UserInformationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Information_Cpf",
