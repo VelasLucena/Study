@@ -47,7 +47,7 @@ namespace SudyApi.Data.Repositories
 
         public async Task<ImportantDateModel> GetImportantDateById(int importantDateId)
         {
-            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cache = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             if (_dataOptions.IsTracking == true)
                 cache = false;

@@ -1,4 +1,6 @@
-﻿namespace SudyApi.ViewModels
+﻿using SudyApi.Models;
+
+namespace SudyApi.ViewModels
 {
     public class RegisterDisciplineViewModel
     {

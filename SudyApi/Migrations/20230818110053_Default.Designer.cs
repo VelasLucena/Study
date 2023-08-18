@@ -11,7 +11,7 @@ using StudandoApi.Data.Contexts;
 namespace SudyApi.Migrations
 {
     [DbContext(typeof(SudyContext))]
-    [Migration("20230815212844_Default")]
+    [Migration("20230818110053_Default")]
     partial class Default
     {
         /// <inheritdoc />

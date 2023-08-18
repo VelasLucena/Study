@@ -1,4 +1,5 @@
 ﻿using StudandoApi.Properties.Enuns;
+using SudyApi.Models;
 using SudyApi.Properties.Attributes;
 using SudyApi.Properties.Resources;
 using System.ComponentModel.DataAnnotations;
@@ -47,5 +48,10 @@ namespace SudyApi.ViewModels
 
         [Required(ErrorMessageResourceName = nameof(MessageClient.MC0017), ErrorMessageResourceType = typeof(MessageClient))]
         public GenderType Gender { get; set; }
+
+        public static implicit operator UserModel(RegisterUserViewModel viewModel)
+        {
+            return new UserModel(viewModel);
+        }
     }
 }

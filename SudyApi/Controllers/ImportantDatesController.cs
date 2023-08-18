@@ -82,7 +82,7 @@ namespace SudyApi.Controllers
 
                 _sudyService.DataOptions.IsTracking = true;
 
-                ImportantDateModel newImportantDate = new ImportantDateModel(importanteDate);
+                ImportantDateModel newImportantDate = importanteDate;
 
                 await _sudyService.Create(newImportantDate);
 

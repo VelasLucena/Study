@@ -87,7 +87,7 @@ namespace SudyApi.Controllers
                 if(discipline == null)
                     return StatusCode(StatusCodes.Status404NotFound);
 
-                SubjectModel newSubject = new SubjectModel(subject);
+                SubjectModel newSubject = subject;
 
                 await _sudyService.Create(newSubject);
 

@@ -46,7 +46,7 @@ namespace SudyApi.Data.Repositories
 
         public async Task<UserModel> GetUserById(int userId)
         {
-            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cache = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             if (_dataOptions.IsTracking == true)
                 cache = false;

@@ -81,7 +81,7 @@ namespace StudandoApi.Controllers
 
                 _sudyService.DataOptions.IsTracking = true;
 
-                UserModel newUser = new UserModel(user);
+                UserModel newUser = user;
 
                 await _sudyService.Create(newUser);
 

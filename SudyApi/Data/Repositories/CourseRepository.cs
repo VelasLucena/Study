@@ -58,7 +58,7 @@ namespace SudyApi.Data.Repositories
 
         public async Task<CourseModel> GetCourseById(int courseId)
         {
-            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cache = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             if (_dataOptions.IsTracking == true)
                 cache = false;

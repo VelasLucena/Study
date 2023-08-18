@@ -121,8 +121,7 @@ namespace SudyApi.Migrations
                         name: "FK_Users_Users_Information_UserInformationId",
                         column: x => x.UserInformationId,
                         principalTable: "Users_Information",
-                        principalColumn: "UserInformationId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserInformationId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

@@ -82,7 +82,7 @@ namespace SudyApi.Controllers
 
                 _sudyService.DataOptions.IsTracking = true;
 
-                ChapterModel newChapter = new ChapterModel(chapter);
+                ChapterModel newChapter = chapter;
 
                 await _sudyService.Create(newChapter);
 

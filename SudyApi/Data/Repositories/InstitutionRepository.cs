@@ -44,7 +44,7 @@ namespace SudyApi.Data.Repositories
 
         public async Task<InstitutionModel> GetInstitutionById(int institutionId)
         {
-            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cache = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             if (_dataOptions.IsTracking == true)
                 cache = false;

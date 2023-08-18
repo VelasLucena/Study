@@ -49,7 +49,7 @@ namespace SudyApi.Data.Repositories
         
         async Task<SemesterModel> ISemesterRepository.GetSemesterById(int semesterId)
         {
-            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cache = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             if (_dataOptions.IsTracking == true)
                 cache = false;

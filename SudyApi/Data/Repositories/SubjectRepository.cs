@@ -45,7 +45,7 @@ namespace SudyApi.Data.Repositories
 
         public async Task<SubjectModel> GetSubjectBySubjectId(int subjectId)
         {
-            bool cache = !bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
+            bool cache = bool.Parse(AppSettings.GetKey(ConfigKeys.RedisCache));
 
             if (_dataOptions.IsTracking == true)
                 cache = false;
