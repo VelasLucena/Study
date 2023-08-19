@@ -103,7 +103,7 @@ namespace SudyApi.Controllers
         [HttpPut]
         [ActionName(nameof(EditChapters))]
         [Authorize]
-        public async Task<IActionResult> EditChapters(EditChapterViewModel chapter)
+        public async Task<IActionResult> EditChapters(EditChapterViewModel viewModel)
         {
             try
             {
@@ -112,14 +112,28 @@ namespace SudyApi.Controllers
 
                 _sudyService.DataOptions.IsTracking = true;
 
-                ChapterModel chapterOld = await _sudyService.ChapterRepository.GetChapterById(chapter.ChapterId);
+                ChapterModel chapterOld = await _sudyService.ChapterRepository.GetChapterById(viewModel.ChapterId);
+
+                DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByChapterId(chapterOld.ChapterId);
+
+                if (chapterOld.ModulesCount != viewModel.ModulesCount)
+                {
+                    discipline.TotalModulesCount -= chapterOld.ModulesCount;
+                }
 
                 if (chapterOld == null)
                     return StatusCode(StatusCodes.Status404NotFound);
 
-                chapterOld.Update(chapter);
+                chapterOld.Update(viewModel);
 
                 await _sudyService.Update(chapterOld);
+
+                if (chapterOld.ModulesCount == viewModel.ModulesCount)
+                {
+                    discipline.TotalModulesCount += chapterOld.ModulesCount;
+                }
+
+                await _sudyService.Update(discipline);
 
                 return StatusCode(StatusCodes.Status200OK, chapterOld);
             }
