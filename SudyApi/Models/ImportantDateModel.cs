@@ -29,6 +29,8 @@ namespace SudyApi.Models
         {
             ImportantDateType = viewModel.ImportantDateType;
             Date = viewModel.Date;
+            SemesterId = viewModel.SemesterId;
+            CreationDate = DateTime.Now;
 
             if(!string.IsNullOrEmpty(viewModel.Observation))
                 Observation = viewModel.Observation;

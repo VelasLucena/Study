@@ -9,7 +9,8 @@ using SudyApi.ViewModels;
 namespace SudyApi.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("api/{controller}")]
+    [Authorize]
     public class SubjectController : ControllerBase
     {
         private readonly ISudyService _sudyService;
@@ -19,10 +20,8 @@ namespace SudyApi.Controllers
             _sudyService = schoolService;
         }
 
-        [HttpGet]
-        [ActionName(nameof(GetSubjectList))]
-        [Authorize]
-        public async Task<IActionResult> GetSubjectList(int take = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(SubjectModel.SubjectId))
+        [HttpGet(nameof(List))]
+        public async Task<IActionResult> List(int take = 100, Ordering ordering = Ordering.Desc, string? attributeName = nameof(SubjectModel.SubjectId))
         {
             try
             {
@@ -44,8 +43,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetSubject))]
-        [Authorize]
         public async Task<IActionResult> GetSubject(int? subjectId, string? name)
         {
             try
@@ -71,8 +68,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpPost]
-        [ActionName(nameof(CreateSubject))]
-        [Authorize]
         public async Task<IActionResult> CreateSubject(RegisterSubjectViewModel subject)
         {
             try
@@ -100,8 +95,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpPut]
-        [ActionName(nameof(EditSubject))]
-        [Authorize]
         public async Task<IActionResult> EditSubject(EditSubjectViewModel subject)
         {
             try
@@ -129,8 +122,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpDelete]
-        [ActionName(nameof(DeleteSubject))]
-        [Authorize]
         public async Task<IActionResult> DeleteSubject(int subjectId)
         {
             try

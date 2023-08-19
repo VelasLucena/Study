@@ -9,7 +9,8 @@ using SudyApi.ViewModels;
 namespace SudyApi.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("api/{controller}")]
+    [Authorize]
     public class DisciplineController : ControllerBase
     {
         private readonly ISudyService _sudyService;
@@ -20,28 +21,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetNameDisciplineList))]
-        [Authorize]
-        public async Task<IActionResult> GetNameDisciplineList(string name)
-        {
-            try
-            {
-                List<DisciplineNameModel> disciplines = await _sudyService.DisciplineNameRepository.GetListDisciplineNameByName(name);
-
-                if (disciplines.Count == 0)
-                    return StatusCode(StatusCodes.Status404NotFound);
-
-                return StatusCode(StatusCodes.Status200OK, disciplines);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [ActionName(nameof(GetDiscipline))]
-        [Authorize]
         public async Task<IActionResult> GetDiscipline(int semesterId, int? discplineId, int? disciplineNameId)
         {
             try
@@ -66,10 +45,8 @@ namespace SudyApi.Controllers
             }
         }
 
-        [HttpGet]
-        [ActionName(nameof(GetDisciplinesList))]
-        [Authorize]
-        public async Task<IActionResult> GetDisciplinesList(string? name, int semesterId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
+        [HttpGet(nameof(List))]
+        public async Task<IActionResult> List(string? name, int semesterId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
@@ -109,8 +86,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpPost]
-        [ActionName(nameof(CreateDiscipline))]
-        [Authorize]
         public async Task<IActionResult> CreateDiscipline(RegisterDisciplineViewModel discipline)
         {
             try
@@ -139,42 +114,7 @@ namespace SudyApi.Controllers
             }
         }
 
-        [HttpPost]
-        [ActionName(nameof(CreateDisciplineName))]
-        [Authorize]
-        public async Task<IActionResult> CreateDisciplineName(string disciplineName)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(new { Error = ModelState });
-
-                DisciplineNameModel newDiscipline = await _sudyService.DisciplineNameRepository.GetDisciplineNameByName(disciplineName);
-
-                if (newDiscipline == null)
-                {
-                    if (!InappropriateWords.WordIsInappropriate(disciplineName))
-                    {
-                        newDiscipline = new DisciplineNameModel(disciplineName);
-                        await _sudyService.Create(newDiscipline);
-                    }
-                    else
-                        return StatusCode(StatusCodes.Status400BadRequest);
-                }
-                else
-                    return StatusCode(StatusCodes.Status400BadRequest);
-
-                return StatusCode(StatusCodes.Status200OK, newDiscipline);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
         [HttpPut]
-        [ActionName(nameof(EditDiscipline))]
-        [Authorize]
         public async Task<IActionResult> EditDiscipline(EditDisciplineViewModel discipline)
         {
             try
@@ -203,8 +143,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpDelete]
-        [ActionName(nameof(DeleteDiscipline))]
-        [Authorize]
         public async Task<IActionResult> DeleteDiscipline(int disciplineId)
         {
             try

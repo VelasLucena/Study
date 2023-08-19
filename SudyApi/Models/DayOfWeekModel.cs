@@ -31,9 +31,9 @@ namespace SudyApi.Models
             CreationDate = DateTime.Now;
         }
 
-        public static bool DisciplineHasPossible()
-        {
+        //public static bool DisciplineHasPossible()
+        //{
 
-        }
+        //}
     }
 }

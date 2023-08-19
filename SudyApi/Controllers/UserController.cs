@@ -9,7 +9,8 @@ using SudyApi.ViewModels;
 namespace StudandoApi.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("api/{controller}")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly ISudyService _sudyService;
@@ -19,10 +20,8 @@ namespace StudandoApi.Controllers
             _sudyService = schoolService;
         }
 
-        [HttpGet]
-        [ActionName(nameof(GetUserList))]
-        [Authorize]
-        public async Task<IActionResult> GetUserList(int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
+        [HttpGet(nameof(List))]
+        public async Task<IActionResult> List(int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
@@ -44,8 +43,6 @@ namespace StudandoApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetUser))]
-        [Authorize]
         public async Task<IActionResult> GetUser(int? userId, string? name)
         {
             try
@@ -71,7 +68,6 @@ namespace StudandoApi.Controllers
         }
 
         [HttpPost]
-        [ActionName(nameof(CreateUser))]
         public async Task<IActionResult> CreateUser(RegisterUserViewModel user)
         {
             try
@@ -94,8 +90,6 @@ namespace StudandoApi.Controllers
         }
 
         [HttpPut]
-        [ActionName(nameof(EditUser))]
-        [Authorize]
         public async Task<IActionResult> EditUser(EditUserViewModel user)
         {
             try
@@ -123,8 +117,6 @@ namespace StudandoApi.Controllers
         }
 
         [HttpDelete]
-        [ActionName(nameof(DeleteUser))]
-        [Authorize]
         public async Task<IActionResult> DeleteUser(int userId)
         {
             try

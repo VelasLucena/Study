@@ -9,19 +9,47 @@ using SudyApi.ViewModels;
 namespace SudyApi.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
-    public class ImportantDatesController : ControllerBase
+    [Route("api/{controller}")]
+    [Authorize]
+    public class ImportantDateController : ControllerBase
     {
         private readonly ISudyService _sudyService;
 
-        public ImportantDatesController(ISudyService schoolService)
+        public ImportantDateController(ISudyService schoolService)
         {
             _sudyService = schoolService;
         }
 
+        [HttpGet(nameof(List))]
+        public async Task<IActionResult> List(DateOnly? date, int? scheduleId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
+        {
+            try
+            {
+                _sudyService.DataOptions.KeyOrder = attributeName;
+                _sudyService.DataOptions.Take = take;
+                _sudyService.DataOptions.Ordering = ordering;
+
+                List<ImportantDateModel> importantDates = new List<ImportantDateModel>();
+
+                if (date != null)
+                    importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);
+                else if (scheduleId != null)
+                    importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateBySemesterId(scheduleId.Value);
+                else
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState });
+
+                if (importantDates == null)
+                    return StatusCode(StatusCodes.Status404NotFound);
+
+                return StatusCode(StatusCodes.Status200OK, importantDates);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet]
-        [ActionName(nameof(GetImportantDate))]
-        [Authorize]
         public async Task<IActionResult> GetImportantDate(int importantDateId)
         {
             try
@@ -37,52 +65,24 @@ namespace SudyApi.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-        }
-
-        [HttpGet]
-        [ActionName(nameof(GetImportantDateList))]
-        [Authorize]
-        public async Task<IActionResult> GetImportantDateList(DateOnly? date, int? scheduleId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
-        {
-            try
-            {
-                _sudyService.DataOptions.KeyOrder = attributeName;
-                _sudyService.DataOptions.Take = take;
-                _sudyService.DataOptions.Ordering = ordering;
-
-                List<ImportantDateModel> importantDates = new List<ImportantDateModel>();
-
-                if (date != null)
-                    importantDates = await _sudyService.ImportanteDateRepository.GetImportantDateByDate(date.Value);
-                else if (scheduleId != null)
-                    importantDates = await _sudyService.ImportanteDateRepository.GetAllImportantDateBySemesterId(scheduleId.Value);
-                else
-                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState } );
-
-                if (importantDates == null)
-                    return StatusCode(StatusCodes.Status404NotFound);
-
-                return StatusCode(StatusCodes.Status200OK, importantDates);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
+        }        
 
         [HttpPost]
-        [ActionName(nameof(CreateImportantDate))]
-        [Authorize]
-        public async Task<IActionResult> CreateImportantDate(RegisterImportanteDateViewModel importanteDate)
+        public async Task<IActionResult> CreateImportantDate(RegisterImportanteDateViewModel viewModel)
         {
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest(new { Error = ModelState });
+                    return StatusCode(StatusCodes.Status400BadRequest, ModelState);
 
                 _sudyService.DataOptions.IsTracking = true;
 
-                ImportantDateModel newImportantDate = importanteDate;
+                SemesterModel semester = await _sudyService.SemesterRepository.GetSemesterById(viewModel.SemesterId);
+
+                if (semester == null)
+                    return StatusCode(StatusCodes.Status400BadRequest);
+
+                ImportantDateModel newImportantDate = viewModel;
 
                 await _sudyService.Create(newImportantDate);
 
@@ -95,8 +95,6 @@ namespace SudyApi.Controllers
         }   
 
         [HttpPut]
-        [ActionName(nameof(EditImportantDate))]
-        [Authorize]
         public async Task<IActionResult> EditImportantDate(EditImportantDateViewModel importanteDate)
         {
             try
@@ -124,8 +122,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpDelete]
-        [ActionName(nameof(DeleteImportantDate))]
-        [Authorize]
         public async Task<IActionResult> DeleteImportantDate(int importantDateId)
         {
             try

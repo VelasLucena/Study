@@ -11,6 +11,8 @@ namespace SudyApi.ViewModels
 
         public string? Observation { get; set; }
 
+        public int SemesterId { get; set; }
+
         public static implicit operator ImportantDateModel(RegisterImportanteDateViewModel viewModel)
         {
             return new ImportantDateModel(viewModel);

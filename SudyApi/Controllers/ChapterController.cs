@@ -9,8 +9,9 @@ using System.Collections.Generic;
 namespace SudyApi.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
-    public class ChapterController : Controller
+    [Route("api/{controller}")]
+    [Authorize]
+    public class ChapterController : ControllerBase
     {
         private readonly ISudyService _sudyService;
 
@@ -20,8 +21,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetChapter))]
-        [Authorize]
         public async Task<IActionResult> GetChapter(int chapterId)
         {
             try
@@ -39,10 +38,8 @@ namespace SudyApi.Controllers
             }
         }
 
-        [HttpGet]
-        [ActionName(nameof(GetChapterList))]
-        [Authorize]
-        public async Task<IActionResult> GetChapterList(int? subjectId, string? name, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
+        [HttpGet(nameof(List))]
+        public async Task<IActionResult> List(int? subjectId, string? name, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
@@ -71,8 +68,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpPost]
-        [ActionName(nameof(CreateChapter))]
-        [Authorize]
         public async Task<IActionResult> CreateChapter(RegisterChapterViewModel chapter)
         {
             try
@@ -101,8 +96,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpPut]
-        [ActionName(nameof(EditChapters))]
-        [Authorize]
         public async Task<IActionResult> EditChapters(EditChapterViewModel viewModel)
         {
             try
@@ -144,8 +137,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpDelete]
-        [ActionName(nameof(DeleteChapters))]
-        [Authorize]
         public async Task<IActionResult> DeleteChapters(int chapterId)
         {
             try

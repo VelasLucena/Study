@@ -5,7 +5,10 @@ using SudyApi.Models;
 
 namespace SudyApi.Controllers
 {
-    public class ScheduleController : Controller
+    [ApiController]
+    [Route("api/{controller}")]
+    [Authorize]
+    public class ScheduleController : ControllerBase
     {
         private readonly ISudyService _sudyService;
 
@@ -16,7 +19,6 @@ namespace SudyApi.Controllers
 
         [HttpPost]
         [ActionName(nameof(CreateScheduleSemester))]
-        [Authorize]
         public async Task<IActionResult> CreateScheduleSemester(int semesterId)
         {
             try
@@ -90,17 +92,17 @@ namespace SudyApi.Controllers
 
                 Dictionary<string, DisciplineModel> planOptional = new Dictionary<string, DisciplineModel>();
 
-                foreach (var item in semester.Disciplines)
-                {
-                    if (DayOfWeekModel.DisciplineHasPossible())
-                    {
-                        if (daysRestString != string.Empty)
-                        {
-                            planOptional.Add();
-                            days.Add(new DayOfWeekModel(item, semester.ConfigSemester.HourBeginStudy));
-                        }
-                    }
-                }
+                //foreach (var item in semester.Disciplines)
+                //{
+                //    if (DayOfWeekModel.DisciplineHasPossible())
+                //    {
+                //        if (daysRestString != string.Empty)
+                //        {
+                //            planOptional.Add();
+                //            days.Add(new DayOfWeekModel(item, semester.ConfigSemester.HourBeginStudy));
+                //        }
+                //    }
+                //}
 
                 await _sudyService.Create(days);
 

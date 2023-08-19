@@ -10,7 +10,8 @@ using System.Net;
 namespace SudyApi.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("api/{controller}")]
+    [Authorize]
     public class SemesterController : ControllerBase
     {
         private readonly ISudyService _sudyService;
@@ -20,10 +21,8 @@ namespace SudyApi.Controllers
             _sudyService = schoolService;
         }
 
-        [HttpGet]
-        [ActionName(nameof(GetSemestersList))]
-        [Authorize]
-        public async Task<IActionResult> GetSemestersList(int userId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
+        [HttpGet(nameof(List))]
+        public async Task<IActionResult> List(int userId, int take = 100, Ordering ordering = Ordering.Desc, string attributeName = nameof(UserModel.UserId))
         {
             try
             {
@@ -45,8 +44,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpGet]
-        [ActionName(nameof(GetSemester))]
-        [Authorize]
         public async Task<IActionResult> GetSemester(int semesterId)
         {
             try
@@ -65,8 +62,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpPost]
-        [ActionName(nameof(CreateSemester))]
-        [Authorize]
         public async Task<IActionResult> CreateSemester(RegisterSemesterModel semester)
         {
             try
@@ -104,8 +99,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpPut]
-        [ActionName(nameof(EditSemester))]
-        [Authorize]
         public async Task<IActionResult> EditSemester(EditSemesterViewModel semester)
         {
             try
@@ -145,8 +138,6 @@ namespace SudyApi.Controllers
         }
 
         [HttpDelete]
-        [ActionName(nameof(DeleteSemester))]
-        [Authorize]
         public async Task<IActionResult> DeleteSemester(int semesterId)
         {
             try

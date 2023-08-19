@@ -4,8 +4,8 @@ using StudandoApi.Data.Interfaces;
 namespace SudyApi.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
-    public class FileController : Controller
+    [Route("api/{controller}")]
+    public class FileController : ControllerBase
     {
         private readonly ISudyService _sudyService;
 

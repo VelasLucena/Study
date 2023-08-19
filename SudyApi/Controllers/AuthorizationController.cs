@@ -9,7 +9,7 @@ using SudyApi.ViewModels;
 namespace SudyApi.Controllers
 {
     [ApiController]
-    [Route("{controller}/{action}")]
+    [Route("api/{controller}")]
     public class AuthorizationController : ControllerBase
     {
         private readonly ISudyService _sudyService;
@@ -19,8 +19,7 @@ namespace SudyApi.Controllers
             _sudyService = schoolService;
         }
 
-        [HttpPost]
-        [ActionName(nameof(Login))]
+        [HttpPost(nameof(Login))]
         public async Task<IActionResult> Login(LoginUserViewModel loginUser)
         {
             try
@@ -50,8 +49,7 @@ namespace SudyApi.Controllers
             }
         }
 
-        [HttpPost]
-        [ActionName(nameof(Logout))]
+        [HttpPost(nameof(Logout))]
         [Authorize]
         public async Task<IActionResult> Logout()
         {
@@ -69,6 +67,30 @@ namespace SudyApi.Controllers
                 await _sudyService.Update(user);
 
                 return StatusCode(StatusCodes.Status204NoContent);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost(nameof(FirstAcess))]
+        public async Task<IActionResult> FirstAcess(RegisterUserViewModel user)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return StatusCode(StatusCodes.Status400BadRequest, new { Error = ModelState });
+
+                _sudyService.DataOptions.IsTracking = true;
+
+                UserModel newUser = user;
+
+                newUser.Login();
+
+                await _sudyService.Create(newUser);
+
+                return StatusCode(StatusCodes.Status200OK, newUser);
             }
             catch (Exception ex)
             {
