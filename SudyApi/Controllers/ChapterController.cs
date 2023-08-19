@@ -86,6 +86,12 @@ namespace SudyApi.Controllers
 
                 await _sudyService.Create(newChapter);
 
+                DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByChapterId(newChapter.ChapterId);
+
+                discipline.TotalModulesCount += newChapter.ModulesCount;
+
+                await _sudyService.Update(discipline);
+
                 return StatusCode(StatusCodes.Status200OK, newChapter);
             }
             catch (Exception ex)
@@ -139,6 +145,12 @@ namespace SudyApi.Controllers
 
                 if (chapterOld == null)
                     return StatusCode(StatusCodes.Status404NotFound);
+
+                DisciplineModel discipline = await _sudyService.DisciplineRepository.GetDisciplineByChapterId(chapterOld.ChapterId);
+
+                discipline.TotalModulesCount -= chapterOld.ModulesCount;
+
+                await _sudyService.Update(discipline);
 
                 await _sudyService.Delete(chapterOld);
 

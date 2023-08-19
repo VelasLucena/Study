@@ -1,4 +1,6 @@
-namespace SudyApiTests
+using SudyApi.ViewModels;
+
+namespace SudyApiTests.Authorization
 {
     [TestClass]
     public class AuthorizationTest
@@ -6,6 +8,7 @@ namespace SudyApiTests
         [TestMethod]
         public void LoginTest()
         {
+            LoginUserViewModel viewModel = new LoginUserViewModel();
         }
     }
 }

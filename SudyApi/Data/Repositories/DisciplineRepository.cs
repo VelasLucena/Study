@@ -7,6 +7,8 @@ using SudyApi.Data.Services;
 using SudyApi.Models;
 using SudyApi.Properties.Enuns;
 using SudyApi.Utility;
+using System.Linq.Expressions;
+using System.Net;
 
 namespace SudyApi.Data.Repositories
 {
@@ -95,6 +97,20 @@ namespace SudyApi.Data.Repositories
                 .Include(x => x.DisciplineName)
                 .Include(x => x.Semester)
                 .ToListAsync();
+        }
+
+        public async Task<DisciplineModel> GetDisciplineByChapterId(int chapterId)
+        {
+            Expression<Func<DisciplineModel, bool>> expressionFilter = 
+                x => x.DisciplineId == x.Subjects.FirstOrDefault(
+                    y => y.SubjectId == y.Chapters.FirstOrDefault(
+                        z => z.ChapterId == chapterId).SubjectId).DisciplineId;
+
+            return await _sudyContext.Disciplines
+                .ApplyTracking(_dataOptions.IsTracking)
+                .Include(x => x.DisciplineName)
+                .Include(x => x.Semester)
+                .SingleOrDefaultAsync(expressionFilter);
         }
 
         #endregion

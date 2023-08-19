@@ -10,7 +10,7 @@ namespace SudyApi.Models
         [Key]
         public int ChapterId { get; set; }
 
-        public int SubjectId { get; set; } = 0;
+        public int SubjectId { get; set; }
 
         public SubjectModel? Subject { get; set; }
 
@@ -35,9 +35,9 @@ namespace SudyApi.Models
 
         public void Update(EditChapterViewModel viewModel)
         {
-            //Name = viewModel.Name != null ? viewModel.Name : Name;
-            //ModulesCount = viewModel.ModulesCount != null ? viewModel.ModulesCount : ModulesCount;
-            //UpdateDate = DateTime.Now;
+            Name = viewModel.Name != null ? viewModel.Name : Name;
+            ModulesCount = viewModel.ModulesCount != null ? viewModel.ModulesCount.Value : ModulesCount;
+            UpdateDate = DateTime.Now;
         }
     }
 }
