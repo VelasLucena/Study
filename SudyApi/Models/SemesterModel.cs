@@ -70,28 +70,23 @@ namespace SudyApi.Models
                 return false;
 
             int daysForStudyCount = Convert.ToInt32((
-                semester.SemesterStart
-                .ToDateTime(TimeOnly.MinValue).Date 
-                - 
                 semester.SemesterEnd
+                .ToDateTime(TimeOnly.MinValue).Date
+                -
+                semester.SemesterStart
                 .ToDateTime(TimeOnly.MinValue).Date)
                 .TotalDays);
-            int totalModulesCount = 0;         
-
-            foreach(DisciplineModel discipline in semester.Disciplines)
-            {
-                foreach(SubjectModel subject in discipline.Subjects)
-                {
-                    foreach(ChapterModel chapter in subject.Chapters)
-                    {
-                        totalModulesCount = totalModulesCount + chapter.ModulesCount;
-                    }
-                }
-            }
 
             int modulesCountHasPossible = daysForStudyCount * semester.ConfigSemester.HoursForStudy.Value;
 
-            if (modulesCountHasPossible < totalModulesCount)
+            int totalModulesSemesterCount = 0;
+
+            foreach(var item in semester.Disciplines)
+            {
+                totalModulesSemesterCount += item.TotalModulesCount;
+            }
+
+            if (modulesCountHasPossible < totalModulesSemesterCount)
                 return false;
             else
                 return true;

@@ -38,7 +38,6 @@ namespace SudyApi.Data.Repositories
                 .Include(x => x.User)
                 .Include(x => x.Course)
                 .Include(x => x.Institution)
-                .Include(x => x.User.UserInformation)
                 .Where(x => x.User.UserId == userId)
                 .Take(_dataOptions.Take)
                 .Skip(_dataOptions.Skip)
@@ -56,9 +55,12 @@ namespace SudyApi.Data.Repositories
 
             if (!cache) return await _sudyContext.Semesters
                     .Include(x => x.User)
-                    .Include(x => x.User.UserInformation)
                     .Include(x => x.Course)
                     .Include(x => x.Institution)
+                    .Include(x => x.Disciplines)
+                    .ThenInclude(y => y.Subjects)
+                    .ThenInclude(z => z.Chapters)
+                    .Include(x => x.ImportantDates)
                     .SingleOrDefaultAsync(x => x.SemesterId == semesterId);
 
             string resultCache = await _cachingService.Get(nameof(SemesterModel) + semesterId);
@@ -68,9 +70,12 @@ namespace SudyApi.Data.Repositories
 
             SemesterModel? semester = await _sudyContext.Semesters
                     .Include(x => x.User)
-                    .Include(x => x.User.UserInformation)
                     .Include(x => x.Course)
                     .Include(x => x.Institution)
+                    .Include(x => x.Disciplines)
+                    .ThenInclude(y => y.Subjects)
+                    .ThenInclude(z => z.Chapters)
+                    .Include(x => x.ImportantDates)
                     .ApplyTracking(_dataOptions.IsTracking)
                     .SingleOrDefaultAsync(x => x.SemesterId == semesterId);
 

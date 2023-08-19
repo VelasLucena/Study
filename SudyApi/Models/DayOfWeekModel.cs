@@ -22,12 +22,18 @@ namespace SudyApi.Models
 
         public DayOfWeekModel(){ }
 
-        public DayOfWeekModel(KeyValuePair<string, DisciplineModel> studyPlan, int hourBeginStudy)
+        public DayOfWeekModel(KeyValuePair<string, DisciplineModel> studyPlan, TimeOnly hourBeginStudy)
         {
             Discipline = studyPlan.Value;
             DisciplineId = studyPlan.Value.DisciplineId;
             DayOfWeekType = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), studyPlan.Key);
-            Hour = TimeOnly.Parse(hourBeginStudy.ToString());
+            Hour = hourBeginStudy;
+            CreationDate = DateTime.Now;
+        }
+
+        public static bool DisciplineHasPossible()
+        {
+
         }
     }
 }

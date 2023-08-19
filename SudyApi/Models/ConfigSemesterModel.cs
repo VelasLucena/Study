@@ -8,7 +8,7 @@ namespace SudyApi.Models
 
         public string? DaysForStudy { get; set; }
             
-        public int HourBeginStudy { get; set; }
+        public TimeOnly HourBeginStudy { get; set; }
 
         public DateTime CreationDate { get; set; }
 
@@ -20,6 +20,7 @@ namespace SudyApi.Models
         {
             HoursForStudy = viewModel.HoursForStudy;
             DaysForStudy = viewModel.DaysForStudy;
+            HourBeginStudy = TimeOnly.Parse(new TimeSpan(viewModel.HourForStudy, 0, 0).ToString());
             CreationDate = DateTime.Now;
         }
 
