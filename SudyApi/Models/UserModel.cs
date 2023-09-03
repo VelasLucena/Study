@@ -75,15 +75,6 @@ namespace SudyApi.Models
             UserInformation.Update(viewModel);
         }
 
-        public static IEnumerable<Claim> GetClaims(UserModel user)
-        {
-            var result = new List<Claim>
-            {
-                new(nameof(ClaimSudyType.UserId), user.UserId.ToString())
-            };
-            return result;
-        }
-
         #endregion
     }
 }

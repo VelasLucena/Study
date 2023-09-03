@@ -38,6 +38,8 @@ builder.Services.AddJwt();
 
 builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+builder.Services.AddCors();
+
 JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 {
     Formatting = Formatting.Indented,
@@ -46,6 +48,8 @@ JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 };
 
 var app = builder.Build();
+
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseAllElasticApm(builder.Configuration);
 
